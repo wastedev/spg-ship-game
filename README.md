@@ -1,3 +1,4 @@
 # spg-ship-game
-Start local env: yarn dev \n
+Start local env: yarn dev
+
 Build for prod: yarn build

@@ -1,0 +1,42 @@
+{
+  "name": "spg-ship-game",
+  "version": "1.0.0",
+  "description": "Игра - заправка СПГ",
+  "main": "index.ts",
+  "author": "wastedev",
+  "license": "MIT",
+  "scripts": {
+    "dev": "NODE_ENV=development webpack serve",
+    "build": "NODE_ENV=production webpack --progress"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "phaser": "^3.55.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "@types/lodash": "^4.14.191",
+    "@types/node": "^18.11.17",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
+    "babel-loader": "^9.1.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.3",
+    "eslint": "^8.30.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "html-loader": "^4.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "json-loader": "^0.5.7",
+    "prettier": "^2.8.1",
+    "style-loader": "^3.3.1",
+    "terser-webpack-plugin": "^5.3.6",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  }
+}

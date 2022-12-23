@@ -21,11 +21,22 @@ export class PreloadScene extends Scene {
 
     // LOAD BACKGROUND ASSETS
     this.load.image('background-icebergs-top', 'img/backgrounds/background-icebergs-top.png');
+    this.load.image('background-side', 'img/backgrounds/background-side.png');
 
     // LOAD ICEBERGS ASSETS
     this.load.image('iceberg-1', 'img/entities/icebergs/iceberg-1.png');
     this.load.image('iceberg-2', 'img/entities/icebergs/iceberg-2.png');
     this.load.image('iceberg-3', 'img/entities/icebergs/iceberg-3.png');
+
+    //LOAD BAR ASSETS
+    this.load.image('bar', 'img/entities/images/bar.png');
+    this.load.image('bar-cursor', 'img/entities/images/barCursor.png');
+
+    //LOAD ROCKET ANIMATION ASSETS
+    this.load.spritesheet('rocketSpr', 'img/entities/images/rocketAnimation.png', {
+      frameWidth: 1000,
+      frameHeight: 1300,
+    });
 
     // LOAD SOUNDS ASSETS
     this.load.audio('background', 'sounds/background.wav');
@@ -42,7 +53,7 @@ export class PreloadScene extends Scene {
 
     this.backgroundSound.play(musicConfig);
 
-    this.scene.start('top-scene');
+    this.scene.start('side-scene');
     this.scene.start('ui-scene');
   }
 }

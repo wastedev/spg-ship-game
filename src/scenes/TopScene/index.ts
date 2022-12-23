@@ -1,11 +1,11 @@
-import { Scene, GameObjects, Physics } from 'phaser';
-import { Player } from '../../entities';
+import { Scene, GameObjects } from 'phaser';
+import { Enemy, Player } from '../../entities';
 
 export class TopScene extends Scene {
   private player!: GameObjects.Sprite;
   private station!: GameObjects.Sprite;
 
-  private icebergs!: any[];
+  private icebergs!: Enemy[];
 
   private backgroundIcebergs!: GameObjects.Image;
 
@@ -31,6 +31,7 @@ export class TopScene extends Scene {
     );
     this.backgroundIcebergs.displayWidth = window.game.scale.width + 20;
     this.backgroundIcebergs.displayHeight = window.game.scale.height;
+    this.backgroundIcebergs.setDepth(-1);
 
     // CREATE STATION SPRITE
     this.station = this.add.sprite(
@@ -42,23 +43,26 @@ export class TopScene extends Scene {
 
     // INITIALIZE ENEMIES SPRITES
     this.initEnemies();
-    this.physics.add.overlap(this.player, this.icebergs, () => console.log('END'));
+  }
+
+  update(): void {
+    this.player.update();
   }
 
   initEnemies(): void {
     this.icebergs = new Array(7);
 
-    for (let i = 1; i < 4; i++) {
-      var tempSprite = this.physics.add.image(
-        i > 2 ? 750 * i - 390 * i : i === 2 ? 750 : 500,
-        200 + Math.floor(Math.random() * (window.game.scale.height - 400)),
-        `iceberg-${Math.floor(Math.random() * 3) + 1}`,
+    for (let i = 1; i <= Math.floor(window.innerWidth / window.innerHeight) + 1; i++) {
+      this.icebergs.push(
+        new Enemy(
+          this,
+          window.game.scale.width / 8 + (window.game.scale.width / 4) * (i / 1.5),
+          window.game.scale.height / 4 + Math.floor(Math.random() * (window.game.scale.height / 2)),
+          `iceberg-${Math.floor(Math.random() * 3) + 1}`,
+        ),
       );
-      tempSprite.rotation = Math.PI / 2;
-      tempSprite.scale = 0.5;
-      tempSprite.setCircle(tempSprite.height / 2 + 20, -30, -30);
-
-      this.icebergs.push(tempSprite);
     }
+
+    this.physics.add.overlap(this.player, this.icebergs, () => console.log('END'));
   }
 }

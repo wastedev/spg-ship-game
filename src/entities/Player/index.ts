@@ -6,6 +6,7 @@ export class Player extends Physics.Arcade.Sprite {
   private keyS!: Input.Keyboard.Key;
   private keyUp!: Input.Keyboard.Key;
   private keyDown!: Input.Keyboard.Key;
+  public duration!: string;
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number) {
     super(scene, x, y, texture, frame);
@@ -22,17 +23,8 @@ export class Player extends Physics.Arcade.Sprite {
     this.getBody().setCollideWorldBounds(true);
   }
 
-  updateByTarget(duration: string): void {
-    switch (duration) {
-      case 'down':
-        this.getBody().velocity.y = 40;
-        this.rotation = (1 / 6) * Math.PI;
-        break;
-      case 'up':
-        this.getBody().velocity.y = -40;
-        this.rotation = -(1 / 6) * Math.PI;
-        break;
-    }
+  updateByTarget(_duration: string): void {
+    this.duration = _duration;
   }
 
   update(): void {
@@ -60,6 +52,20 @@ export class Player extends Physics.Arcade.Sprite {
     }
 
     this.getBody().setVelocityX(50);
+
+    switch (this.duration) {
+      case 'down':
+        this.getBody().velocity.y = 40;
+        this.rotation = (1 / 6) * Math.PI;
+        break;
+      case 'up':
+        this.getBody().velocity.y = -40;
+        this.rotation = -(1 / 6) * Math.PI;
+        break;
+      case 'none':
+        this.getBody().velocity.y = 0;
+        break;
+    }
   }
 
   protected getBody(): Physics.Arcade.Body {

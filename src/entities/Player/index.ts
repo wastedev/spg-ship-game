@@ -6,6 +6,7 @@ export class Player extends Phaser.Physics.Matter.Image {
   private keyS!: Input.Keyboard.Key;
   private keyUp!: Input.Keyboard.Key;
   private keyDown!: Input.Keyboard.Key;
+  public duration!: string;
 
   constructor(
     world: Phaser.Physics.Matter.World,
@@ -28,17 +29,8 @@ export class Player extends Phaser.Physics.Matter.Image {
     world.scene.add.existing(this);
   }
 
-  updateByTarget(duration: string): void {
-    switch (duration) {
-      case 'down':
-        this.getBody().velocity.y = 40;
-        this.rotation = (1 / 6) * Math.PI;
-        break;
-      case 'up':
-        this.getBody().velocity.y = -40;
-        this.rotation = -(1 / 6) * Math.PI;
-        break;
-    }
+  updateByTarget(_duration: string): void {
+    this.duration = _duration;
   }
 
   update(): void {
@@ -70,9 +62,7 @@ export class Player extends Phaser.Physics.Matter.Image {
       }
     }
 
-    this.setVelocityX(0.76);
-
-    if (!this.keyW?.isDown && !this.keyS?.isDown && !this.keyUp?.isDown && !this.keyDown?.isDown) {
+   if (!this.keyW?.isDown && !this.keyS?.isDown && !this.keyUp?.isDown && !this.keyDown?.isDown) {
       if (this.angle === 0) {
         return;
       } else {
@@ -83,5 +73,25 @@ export class Player extends Phaser.Physics.Matter.Image {
         }
       }
     }
+
+    switch (this.duration) {
+      case 'down':
+              this.setVelocityY(0.32);
+      if (this.angle <= 32) {
+        this.setAngle(this.angle + 0.16);
+      }
+        break;
+      case 'up':
+      this.setVelocityY(-0.32);
+      if (this.angle >= -32) {
+        this.setAngle(this.angle - 0.16);
+      }
+        break;
+      case 'none':
+              this.setVelocityY(0);
+        break;
+    }
+    
+        this.setVelocityX(0.76);
   }
 }

@@ -3,8 +3,8 @@ import { Player } from 'src/entities';
 import { TopScene } from '../TopScene';
 
 export class UiScene extends Scene {
-  private leftButton!: GameObjects.Sprite;
-  private rightButton!: GameObjects.Sprite;
+  private leftButton!: GameObjects.Image;
+  private rightButton!: GameObjects.Image;
 
   constructor() {
     super('ui-scene');
@@ -14,50 +14,49 @@ export class UiScene extends Scene {
   }
   create(): void {
     this.scene.swapPosition('ui-scene', 'top-scene');
-    this.leftButton = this.physics.add
-      .sprite(
+    this.leftButton = this.add
+      .image(
         window.game.scale.width / 2 - window.game.scale.width / 4,
         window.game.scale.height / 2 + window.game.scale.height / 3,
         'leftButtonMove',
       )
+      .setScrollFactor(0)
       .setInteractive()
       .on('pointerdown', () => {
         const player: any = this.getPlayer().player;
         player.updateByTarget('up');
       })
-      .on('pointerover', () => {
+      .on('pointerup', () => {
         const player: any = this.getPlayer().player;
-        player.updateByTarget('up');
+        player.updateByTarget('none');
       })
-      .on('pointerup', () => {})
-      .on('pointerout', () => {});
-    // this.leftButton.on(Phaser.Input.Events.POINTER_OVER, () => {
-    //   const player: any = this.getPlayer().player;
-    //   console.log(player);
-    //   player.updateByTarget('up');
-    // });
-    // .on(Phaser.Input.Events.POINTER_UP, () => {
-    //   this.leftButton.removeListener(Phaser.Input.Events.POINTER_OVER);
-    // })
-    // .on(Phaser.Input.Events.POINTER_OUT, () => {
-    //   this.leftButton.removeListener(Phaser.Input.Events.POINTER_OVER);
-    // });
+      .on('pointerout', () => {
+        const player: any = this.getPlayer().player;
+        player.updateByTarget('none');
+      });
     this.leftButton.scale = 0.5;
 
-    this.rightButton = this.add.sprite(
-      window.game.scale.width / 2 + window.game.scale.width / 4,
-      window.game.scale.height / 2 + window.game.scale.height / 3,
-      'rightButtonMove',
-    );
-    this.rightButton.scale = 0.5;
-    this.rightButton
+    this.rightButton = this.add
+      .image(
+        window.game.scale.width / 2 + window.game.scale.width / 4,
+        window.game.scale.height / 2 + window.game.scale.height / 3,
+        'rightButtonMove',
+      )
+      .setScrollFactor(0)
       .setInteractive()
-      .on(Phaser.Input.Events.GAMEOBJECT_OVER, () => {
-        console.log('right');
+      .on('pointerdown', () => {
+        const player: any = this.getPlayer().player;
+        player.updateByTarget('down');
       })
-      .on(Phaser.Input.Events.GAMEOBJECT_OUT, () => {
-        console.log('rightout');
+      .on('pointerup', () => {
+        const player: any = this.getPlayer().player;
+        player.updateByTarget('none');
+      })
+      .on('pointerout', () => {
+        const player: any = this.getPlayer().player;
+        player.updateByTarget('none');
       });
+    this.rightButton.scale = 0.5;
   }
 
   update(): void {}

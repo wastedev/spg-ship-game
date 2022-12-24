@@ -1,20 +1,17 @@
-import { Physics } from 'phaser';
+export class Enemy extends Phaser.Physics.Matter.Image {
+  constructor(
+    world: Phaser.Physics.Matter.World,
+    x: number,
+    y: number,
+    texture: string,
+    frame?: string | number,
+  ) {
+    super(world, x, y, texture, frame);
 
-export class Enemy extends Physics.Arcade.Sprite {
-  constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number) {
-    super(scene, x, y, texture, frame);
+    this.setScale(0.5);
+    this.setCircle((this.height * this.scale) / 2 - 20);
+    this.setAngle(90);
 
-    scene.add.existing(this);
-    scene.physics.add.existing(this);
-
-    this.rotation = Math.PI / 2;
-    this.scale = 0.5;
-    this.setCircle(this.height / 2 - 20, -30, -30);
-
-    this.getBody().setCollideWorldBounds(true);
-  }
-
-  protected getBody(): Physics.Arcade.Body {
-    return this.body as Physics.Arcade.Body;
+    world.scene.add.existing(this);
   }
 }

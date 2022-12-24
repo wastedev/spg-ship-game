@@ -2,7 +2,7 @@ import { Scene, GameObjects } from 'phaser';
 import { Enemy, Player } from '../../entities';
 
 export class TopScene extends Scene {
-  private player!: GameObjects.Sprite;
+  public player!: GameObjects.Sprite;
   private station!: GameObjects.Sprite;
 
   private icebergs!: Enemy[];

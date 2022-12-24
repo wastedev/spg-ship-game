@@ -32,6 +32,10 @@ export class PreloadScene extends Scene {
     this.load.image('bar', 'img/entities/images/bar.png');
     this.load.image('bar-cursor', 'img/entities/images/barCursor.png');
 
+    //LOAD UI
+    this.load.image('leftButtonMove', 'img/entities/ui/leftButtonMove.png');
+    this.load.image('rightButtonMove', 'img/entities/ui/rightButtonMove.png');
+
     //LOAD ROCKET ANIMATION ASSETS
     this.load.spritesheet('rocketSpr', 'img/entities/images/rocketAnimation.png', {
       frameWidth: 1000,
@@ -53,7 +57,7 @@ export class PreloadScene extends Scene {
 
     this.backgroundSound.play(musicConfig);
 
-    this.scene.start('side-scene');
+    this.scene.start('top-scene');
     this.scene.start('ui-scene');
   }
 }

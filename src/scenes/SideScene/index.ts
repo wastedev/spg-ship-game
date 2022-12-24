@@ -7,7 +7,7 @@ export class SideScene extends Scene {
   private bar!: GameObjects.Image;
   private barCursor!: GameObjects.Sprite;
   private keySpace!: Input.Keyboard.Key;
-  private rocket!: GameObjects.Sprite;
+  private rocket!: any;
   constructor() {
     super('side-scene');
   }
@@ -48,27 +48,6 @@ export class SideScene extends Scene {
 
   pointerMovement(): void {
     if (this.keySpace.isDown) {
-      if (this.barCursor.x >= this.bar.x + 40) {
-        console.log('success');
-        this.rocket = this.add.sprite(
-          window.game.scale.width / 2,
-          window.game.scale.height / 2,
-          'rocketSpr',
-        );
-        this.rocket.scale = 0.5;
-        this.anims.create({
-          key: 'rocketConnect',
-          frameRate: 15,
-          frames: this.anims.generateFrameNumbers('rocketSpr', {
-            start: 0,
-            end: 7,
-          }),
-          repeat: -1,
-        });
-        this.rocket.play('rocketConnect');
-      } else {
-        console.log('fail');
-      }
     }
     if (this.barCursor.x <= this.bar.x - 120) {
       this.barCursor.body.velocity.x = 500;

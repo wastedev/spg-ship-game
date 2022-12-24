@@ -1,5 +1,5 @@
 import { Game, Types } from 'phaser';
-import { PreloadScene, TopScene, UiScene } from './scenes';
+import { PreloadScene, TopScene, UiScene, SideScene } from './scenes';
 import { debouncedResize } from './utils';
 
 const gameConfig: Types.Core.GameConfig = {
@@ -28,7 +28,7 @@ const gameConfig: Types.Core.GameConfig = {
   },
   canvasStyle: `display: block; width: 100%; height: 100%;`,
   autoFocus: true,
-  scene: [PreloadScene, UiScene, TopScene],
+  scene: [PreloadScene, UiScene, TopScene, SideScene],
 };
 
 window.sizeChanged = debouncedResize;

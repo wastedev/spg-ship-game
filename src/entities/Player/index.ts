@@ -28,6 +28,19 @@ export class Player extends Phaser.Physics.Matter.Image {
     world.scene.add.existing(this);
   }
 
+  updateByTarget(duration: string): void {
+    switch (duration) {
+      case 'down':
+        this.getBody().velocity.y = 40;
+        this.rotation = (1 / 6) * Math.PI;
+        break;
+      case 'up':
+        this.getBody().velocity.y = -40;
+        this.rotation = -(1 / 6) * Math.PI;
+        break;
+    }
+  }
+
   update(): void {
     if (this.keyW?.isDown) {
       this.setVelocityY(-0.32);

@@ -8,20 +8,18 @@ const gameConfig: Types.Core.GameConfig = {
   parent: 'game',
   backgroundColor: '#308CBA',
   scale: {
-    mode: Phaser.Scale.ScaleModes.ENVELOP,
     width: window.innerWidth,
     height: window.innerHeight,
+    mode: Phaser.Scale.ScaleModes.ENVELOP,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   physics: {
-    default: 'arcade',
-    arcade: {
-      fps: 30,
+    default: 'matter',
+    matter: {
+      setBounds: true,
+      gravity: { y: 0 },
       debug: true,
     },
-    // matter: {
-    //   setBounds: true,
-    //   debug: true,
-    // },
   },
   callbacks: {
     postBoot: () => {

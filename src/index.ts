@@ -18,10 +18,6 @@ const gameConfig: Types.Core.GameConfig = {
       fps: 30,
       debug: true,
     },
-    // matter: {
-    //   setBounds: true,
-    //   debug: true,
-    // },
   },
   callbacks: {
     postBoot: () => {

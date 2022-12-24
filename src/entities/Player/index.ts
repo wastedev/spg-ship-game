@@ -22,6 +22,19 @@ export class Player extends Physics.Arcade.Sprite {
     this.getBody().setCollideWorldBounds(true);
   }
 
+  updateByTarget(duration: string): void {
+    switch (duration) {
+      case 'down':
+        this.getBody().velocity.y = 40;
+        this.rotation = (1 / 6) * Math.PI;
+        break;
+      case 'up':
+        this.getBody().velocity.y = -40;
+        this.rotation = -(1 / 6) * Math.PI;
+        break;
+    }
+  }
+
   update(): void {
     this.getBody().setVelocity(0);
     this.rotation = 0;

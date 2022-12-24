@@ -1,12 +1,19 @@
 import { Input } from 'phaser';
 
+export enum Duration {
+  Up = 'UP',
+  Down = 'DOWN',
+  None = 'NONE',
+}
+
 export class Player extends Phaser.Physics.Matter.Image {
+  public duration: Duration = Duration.None;
   protected health: number = 3;
+
   private keyW!: Input.Keyboard.Key;
   private keyS!: Input.Keyboard.Key;
   private keyUp!: Input.Keyboard.Key;
   private keyDown!: Input.Keyboard.Key;
-  public duration!: string;
 
   constructor(
     world: Phaser.Physics.Matter.World,
@@ -29,40 +36,62 @@ export class Player extends Phaser.Physics.Matter.Image {
     world.scene.add.existing(this);
   }
 
-  updateByTarget(_duration: string): void {
+  public updateByTarget(_duration: Duration): void {
     this.duration = _duration;
   }
 
+  private moveUp(): void {
+    this.setVelocityY(-0.32);
+    if (this.angle >= -32) {
+      this.setAngle(this.angle - 0.16);
+    }
+  }
+
+  private moveDown(): void {
+    this.setVelocityY(0.32);
+    if (this.angle <= 32) {
+      this.setAngle(this.angle + 0.16);
+    }
+  }
+
   update(): void {
-    if (this.keyW?.isDown) {
-      this.setVelocityY(-0.32);
-      if (this.angle >= -32) {
-        this.setAngle(this.angle - 0.16);
+    const movementDuration: Duration = this.duration;
+
+    if (this.keyW?.isDown || this.keyS?.isDown || this.keyUp?.isDown || this.keyDown?.isDown) {
+      if (this.keyW?.isDown) {
+        this.moveUp();
+      }
+
+      if (this.keyS?.isDown) {
+        this.moveDown();
+      }
+
+      if (this.keyUp?.isDown) {
+        this.moveUp();
+      }
+
+      if (this.keyDown?.isDown) {
+        this.moveDown();
+      }
+    } else {
+      if (movementDuration === Duration.Up) {
+        this.moveUp();
+      }
+
+      if (movementDuration === Duration.Down) {
+        this.moveDown();
       }
     }
 
-    if (this.keyS?.isDown) {
-      this.setVelocityY(0.32);
-      if (this.angle <= 32) {
-        this.setAngle(this.angle + 0.16);
-      }
-    }
+    this.setVelocityX(0.76);
 
-    if (this.keyUp?.isDown) {
-      this.setVelocityY(-0.32);
-      if (this.angle >= -32) {
-        this.setAngle(this.angle - 0.16);
-      }
-    }
-
-    if (this.keyDown?.isDown) {
-      this.setVelocityY(0.32);
-      if (this.angle <= 32) {
-        this.setAngle(this.angle + 0.16);
-      }
-    }
-
-   if (!this.keyW?.isDown && !this.keyS?.isDown && !this.keyUp?.isDown && !this.keyDown?.isDown) {
+    if (
+      !this.keyW?.isDown &&
+      !this.keyS?.isDown &&
+      !this.keyUp?.isDown &&
+      !this.keyDown?.isDown &&
+      movementDuration === Duration.None
+    ) {
       if (this.angle === 0) {
         return;
       } else {
@@ -73,25 +102,5 @@ export class Player extends Phaser.Physics.Matter.Image {
         }
       }
     }
-
-    switch (this.duration) {
-      case 'down':
-              this.setVelocityY(0.32);
-      if (this.angle <= 32) {
-        this.setAngle(this.angle + 0.16);
-      }
-        break;
-      case 'up':
-      this.setVelocityY(-0.32);
-      if (this.angle >= -32) {
-        this.setAngle(this.angle - 0.16);
-      }
-        break;
-      case 'none':
-              this.setVelocityY(0);
-        break;
-    }
-    
-        this.setVelocityX(0.76);
   }
 }

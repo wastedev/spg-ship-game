@@ -2,7 +2,7 @@ import { Scene, GameObjects } from 'phaser';
 import { Enemy, Player } from '../../entities';
 
 export class TopScene extends Scene {
-  private player!: Player;
+  public player!: Player;
   private station!: Phaser.Physics.Matter.Image;
 
   private icebergs!: Enemy[];
@@ -50,23 +50,7 @@ export class TopScene extends Scene {
 
     // INITIALIZE ENEMIES SPRITES
     this.initEnemies();
-    // this.initInvisibleHitboxes();
-
-    this.topBarrier = this.matter.add.rectangle(
-      window.game.scale.width / 2,
-      0 + window.game.scale.height / 6 / 2,
-      window.game.scale.width,
-      window.game.scale.height / 6,
-    );
-    this.topBarrier.isStatic = true;
-
-    this.bottomBarrier = this.matter.add.rectangle(
-      window.game.scale.width / 2,
-      window.game.scale.height - window.game.scale.height / 6 / 2,
-      window.game.scale.width,
-      window.game.scale.height / 6,
-    );
-    this.bottomBarrier.isStatic = true;
+    this.initInvisibleHitboxes();
   }
 
   update(): void {
@@ -88,5 +72,21 @@ export class TopScene extends Scene {
     }
   }
 
-  initInvisibleHitboxes() {}
+  initInvisibleHitboxes() {
+    this.topBarrier = this.matter.add.rectangle(
+      window.game.scale.width / 2,
+      0 + window.game.scale.height / 6 / 2,
+      window.game.scale.width,
+      window.game.scale.height / 6,
+    );
+    this.topBarrier.isStatic = true;
+
+    this.bottomBarrier = this.matter.add.rectangle(
+      window.game.scale.width / 2,
+      window.game.scale.height - window.game.scale.height / 6 / 2,
+      window.game.scale.width,
+      window.game.scale.height / 6,
+    );
+    this.bottomBarrier.isStatic = true;
+  }
 }

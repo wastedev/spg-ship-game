@@ -4,7 +4,7 @@ import { debouncedResize } from './utils';
 
 const gameConfig: Types.Core.GameConfig = {
   title: 'Игра - загрузка СПГ',
-  type: Phaser.AUTO,
+  type: Phaser.CANVAS,
   parent: 'game',
   backgroundColor: '#308CBA',
   scale: {

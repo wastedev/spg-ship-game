@@ -5,13 +5,23 @@ import { TopScene } from '../TopScene';
 export class UiScene extends Scene {
   private leftButton!: GameObjects.Image;
   private rightButton!: GameObjects.Image;
+  private oilScore!: GameObjects.Image;
+  private scoreText!: GameObjects.Text;
+  private oil!: number;
 
   constructor() {
     super('ui-scene');
   }
 
   create(): void {
-    this.scene.swapPosition('ui-scene', 'top-scene');
+    // this.scene.swapPosition('ui-scene', 'top-scene');
+    this.oil = 0;
+    this.oilScore = this.add.image(window.game.scale.width - 70, 40, 'oilScore');
+    this.oilScore.scale = 0.5;
+    this.scoreText = this.add.text(window.game.scale.width - 75, 25, this.oil.toString(), {
+      font: '25px Bold Courier',
+      color: '#0F6894',
+    });
 
     this.leftButton = this.add
       .image(
@@ -58,6 +68,10 @@ export class UiScene extends Scene {
     this.rightButton.scale = 0.5;
   }
 
+  protected sideSceneChange(): void {
+    this.leftButton.destroy();
+    this.rightButton.destroy();
+  }
   update(): void {}
 
   protected getPlayer(): TopScene {

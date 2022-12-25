@@ -35,6 +35,8 @@ export class PreloadScene extends Scene {
     // LOAD UI
     this.load.image('leftButtonMove', 'img/entities/ui/leftButtonMove.png');
     this.load.image('rightButtonMove', 'img/entities/ui/rightButtonMove.png');
+    this.load.image('shotButton', 'img/entities/ui/shotButton.png');
+    this.load.image('oilScore', 'img/entities/images/oilScore.png');
 
     //LOAD ROCKET ANIMATION ASSETS
     this.load.image('rocket', 'img/entities/images/rocket.png');

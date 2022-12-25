@@ -1,4 +1,4 @@
-import { Scene, GameObjects, Input } from 'phaser';
+import { Scene, GameObjects, Input, Types, Sound } from 'phaser';
 
 export class SideScene extends Scene {
   private backgroundSide!: GameObjects.Image;
@@ -6,7 +6,6 @@ export class SideScene extends Scene {
   private oilStationSide!: GameObjects.Sprite;
   private bar!: GameObjects.Image;
   private barCursor!: Phaser.Physics.Matter.Sprite;
-  private keySpace!: Input.Keyboard.Key;
   private rocket!: Phaser.Physics.Matter.Image;
   private graphics!: Phaser.GameObjects.Graphics;
   private line!: Phaser.Geom.Line;
@@ -16,6 +15,10 @@ export class SideScene extends Scene {
   private health!: number;
   private points!: Phaser.Math.Vector2[];
   private rocketOnPoint!: boolean;
+  private shotButton!: GameObjects.Image;
+  private rocketSound!: Sound.BaseSound;
+  private rocketConfig!: Types.Sound.SoundConfig;
+
   constructor() {
     super('side-scene');
   }
@@ -24,7 +27,24 @@ export class SideScene extends Scene {
     return line.getPoints(3) as Phaser.Math.Vector2[];
   }
 
+  shot(): void {
+    if (this.health != 0) {
+      console.log('сработало' + this.health);
+      if (this.barCursor.x >= this.bar.x + 40) {
+        this.t = 0;
+        this.barCursor.setVelocityX(0);
+      } else {
+        --this.health;
+      }
+    }
+  }
+
   create(): void {
+    this.rocketSound = this.sound.add('rocket');
+    this.rocketConfig = {
+      volume: 0.3,
+      loop: false,
+    };
     this.health = 3;
     this.rocketOnPoint = false;
     this.duration = 1500;
@@ -59,8 +79,6 @@ export class SideScene extends Scene {
     this.barCursor.setScale(0.5);
     this.barCursor.setVelocityX(10);
 
-    this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
     this.rocket = this.matter.add.image(
       this.oilStationSide.x + this.oilStationSide.x / 10,
       this.oilStationSide.y + this.oilStationSide.y / 5,
@@ -70,7 +88,6 @@ export class SideScene extends Scene {
     this.rocket.setFriction(0);
     this.rocket.setFrictionAir(0);
     this.rocket.setBounce(0);
-    // this.rocket.setVisible(false);
 
     this.graphics = this.add.graphics();
     this.line = new Phaser.Geom.Line(
@@ -88,19 +105,21 @@ export class SideScene extends Scene {
     this.curve.draw(this.graphics, 64);
 
     this.t = -1;
+
+    this.shotButton = this.add
+      .image(this.bar.x + 200, this.bar.y, 'shotButton')
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerup', () => {
+        this.rocketSound.play(this.rocketConfig);
+
+        this.shot();
+        this.shotButton.removeAllListeners();
+      });
+    this.shotButton.scale = 0.35;
   }
 
-  pointerMovement(): void {
-    if (this.health != 0) {
-      if (this.keySpace.isDown) {
-        console.log('сработало' + this.health);
-        if (this.barCursor.x >= this.bar.x + 40) {
-          this.t = 0;
-        } else {
-          --this.health;
-        }
-      }
-    }
+  pointerMove(): void {
     if (this.barCursor.x <= this.bar.x - 120) {
       this.barCursor.setVelocityX(8);
     } else if (this.barCursor.x >= this.bar.x + 120) {
@@ -109,7 +128,7 @@ export class SideScene extends Scene {
   }
 
   update(time: any, delta: any): void {
-    this.pointerMovement();
+    this.pointerMove();
     if (this.t === -1) {
       return;
     }

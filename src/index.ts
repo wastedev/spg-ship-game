@@ -4,7 +4,7 @@ import { debouncedResize } from './utils';
 
 const gameConfig: Types.Core.GameConfig = {
   title: 'Игра - загрузка СПГ',
-  type: Phaser.AUTO,
+  type: Phaser.CANVAS,
   parent: 'game',
   backgroundColor: '#308CBA',
   scale: {
@@ -12,6 +12,13 @@ const gameConfig: Types.Core.GameConfig = {
     height: window.innerHeight,
     mode: Phaser.Scale.ScaleModes.ENVELOP,
     autoCenter: Phaser.Scale.CENTER_BOTH,
+  },
+  fps: {
+    min: 58,
+    target: 60,
+    smoothStep: true,
+    forceSetTimeOut: true,
+    panicMax: 64,
   },
   physics: {
     default: 'matter',

@@ -1,4 +1,7 @@
 import { Scene, GameObjects, Input, Types, Sound } from 'phaser';
+import { Player } from 'src/entities';
+import { TopScene } from '../TopScene';
+import { UiScene } from '../UiScene';
 
 export class SideScene extends Scene {
   private backgroundSide!: GameObjects.Image;
@@ -12,7 +15,7 @@ export class SideScene extends Scene {
   private t!: number;
   private duration!: number;
   private curve!: Phaser.Curves.Spline;
-  private health!: number;
+  private sidePlayerHealth!: number;
   private points!: Phaser.Math.Vector2[];
   private rocketOnPoint!: boolean;
   private shotButton!: GameObjects.Image;
@@ -28,24 +31,37 @@ export class SideScene extends Scene {
   }
 
   shot(): void {
-    if (this.health != 0) {
-      console.log('сработало' + this.health);
+    if (this.sidePlayerHealth != 0) {
       if (this.barCursor.x >= this.bar.x + 40) {
+        this.rocketSound.play(this.rocketConfig);
         this.t = 0;
         this.barCursor.setVelocityX(0);
+        this.shotButton.removeAllListeners();
       } else {
-        --this.health;
+        console.log('-1 hp');
+        --this.sidePlayerHealth;
+        console.log(this.sidePlayerHealth);
+      }
+      if (this.sidePlayerHealth == 0) {
+        console.log('GAME OVER');
+        this.barCursor.setVelocityX(0);
+        this.shotButton.removeAllListeners();
       }
     }
   }
 
+  protected getUI(): UiScene {
+    return this.scene.get('ui-scene') as UiScene;
+  }
+
   create(): void {
+    this.sidePlayerHealth = 3;
     this.rocketSound = this.sound.add('rocket');
     this.rocketConfig = {
       volume: 0.3,
       loop: false,
     };
-    this.health = 3;
+
     this.rocketOnPoint = false;
     this.duration = 1500;
     this.backgroundSide = this.add.image(
@@ -111,10 +127,7 @@ export class SideScene extends Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {
-        this.rocketSound.play(this.rocketConfig);
-
         this.shot();
-        this.shotButton.removeAllListeners();
       });
     this.shotButton.scale = 0.35;
   }
@@ -128,6 +141,8 @@ export class SideScene extends Scene {
   }
 
   update(time: any, delta: any): void {
+    const ui = this.getUI();
+    ui.setHealth(this.sidePlayerHealth);
     this.pointerMove();
     if (this.t === -1) {
       return;

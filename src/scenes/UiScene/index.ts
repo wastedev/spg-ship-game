@@ -6,9 +6,11 @@ export class UiScene extends Scene {
   private leftButton!: GameObjects.Image;
   private rightButton!: GameObjects.Image;
   private oilScore!: GameObjects.Image;
-  private scoreText!: GameObjects.Text;
+  public scoreText!: GameObjects.Text;
   private oil!: number;
-
+  private healthScore!: GameObjects.Image;
+  private healthText!: GameObjects.Text;
+  private health!: number;
   constructor() {
     super('ui-scene');
   }
@@ -16,12 +18,19 @@ export class UiScene extends Scene {
   create(): void {
     // this.scene.swapPosition('ui-scene', 'top-scene');
     this.oil = 0;
+    this.health = 3;
     this.oilScore = this.add.image(window.game.scale.width - 70, 40, 'oilScore');
     this.oilScore.scale = 0.5;
     this.scoreText = this.add.text(window.game.scale.width - 75, 25, this.oil.toString(), {
       font: '25px Bold Courier',
       color: '#0F6894',
     });
+    this.healthScore = this.add.image(70, 40, 'healthScore');
+    this.healthText = this.add.text(75, 25, this.health.toString(), {
+      font: '25px Bold Courier',
+      color: '#0F6894',
+    });
+    this.healthScore.setScale(0.5);
 
     this.leftButton = this.add
       .image(
@@ -68,11 +77,18 @@ export class UiScene extends Scene {
     this.rightButton.scale = 0.5;
   }
 
+  public setHealth(value: number): void {
+    this.health = value;
+  }
+
   protected sideSceneChange(): void {
     this.leftButton.destroy();
     this.rightButton.destroy();
   }
-  update(): void {}
+
+  update(): void {
+    this.healthText.setText(this.health.toString());
+  }
 
   protected getPlayer(): TopScene {
     return this.scene.get('top-scene') as TopScene;

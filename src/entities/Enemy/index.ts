@@ -10,7 +10,8 @@ export class Enemy extends Phaser.Physics.Matter.Image {
 
     this.setScale(0.5);
     this.setCircle((this.height * this.scale) / 2 - 20);
-    this.setAngle(90);
+    this.setAngle(Math.floor(Math.random() * 180) + 1);
+    this.setStatic(true);
 
     world.scene.add.existing(this);
   }

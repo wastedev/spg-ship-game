@@ -1,13 +1,15 @@
 import { Input } from 'phaser';
+import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED } from '../../constants';
+import { Enemy } from '../Enemy';
 
-export enum Duration {
+export enum Direction {
   Up = 'UP',
   Down = 'DOWN',
   None = 'NONE',
 }
 
 export class Player extends Phaser.Physics.Matter.Image {
-  public duration: Duration = Duration.None;
+  public direction: Direction = Direction.None;
   protected health: number = 3;
 
   private keyW!: Input.Keyboard.Key;
@@ -31,31 +33,61 @@ export class Player extends Phaser.Physics.Matter.Image {
     this.keyDown = this.world.scene.input.keyboard.addKey(40);
 
     this.setScale(0.26);
+    this.setOrigin(0, 0.5);
     this.setRectangle(this.width * this.scale - 32, this.height * this.scale - 32);
 
-    world.scene.add.existing(this);
+    this.setOnCollide((collideData: Phaser.Types.Physics.Matter.MatterCollisionData) => {
+      const { bodyA, bodyB } = collideData;
+
+      if (!bodyB.gameObject) return;
+
+      if (bodyB.gameObject instanceof Enemy) {
+        this.getDamage();
+
+        this.setTint(0xff0000);
+        setTimeout(() => {
+          bodyA.gameObject.setTint(0xffffff);
+        }, 123);
+
+        bodyB.gameObject.destroy();
+      }
+
+      if (bodyB.gameObject instanceof Phaser.Physics.Matter.Image) {
+        console.log('GAME_OVER');
+      }
+    });
+
+    this.world.scene.add.existing(this);
   }
 
-  public updateByTarget(_duration: Duration): void {
-    this.duration = _duration;
+  public updateByTarget(_duration: Direction): void {
+    this.direction = _duration;
   }
 
   private moveUp(): void {
-    this.setVelocityY(-0.32);
+    this.setVelocityY(-GAME_SPEEDS[MOVEMENT_SPEED]);
     if (this.angle >= -32) {
-      this.setAngle(this.angle - 0.16);
+      this.setAngle(this.angle - GAME_SPEEDS[ROTATION_SPEED]);
     }
   }
 
   private moveDown(): void {
-    this.setVelocityY(0.32);
+    this.setVelocityY(GAME_SPEEDS[MOVEMENT_SPEED]);
     if (this.angle <= 32) {
-      this.setAngle(this.angle + 0.16);
+      this.setAngle(this.angle + GAME_SPEEDS[ROTATION_SPEED]);
+    }
+  }
+
+  public getDamage(): void {
+    if (this.health > 1) {
+      --this.health;
+    } else {
+      console.log('GAME_OVER');
     }
   }
 
   update(): void {
-    const movementDuration: Duration = this.duration;
+    const movementDuration: Direction = this.direction;
 
     if (this.keyW?.isDown || this.keyS?.isDown || this.keyUp?.isDown || this.keyDown?.isDown) {
       if (this.keyW?.isDown) {
@@ -74,31 +106,31 @@ export class Player extends Phaser.Physics.Matter.Image {
         this.moveDown();
       }
     } else {
-      if (movementDuration === Duration.Up) {
+      if (movementDuration === Direction.Up) {
         this.moveUp();
       }
 
-      if (movementDuration === Duration.Down) {
+      if (movementDuration === Direction.Down) {
         this.moveDown();
       }
     }
 
-    this.setVelocityX(0.76);
+    this.setVelocityX(GAME_SPEEDS[MOVEMENT_SPEED]);
 
     if (
       !this.keyW?.isDown &&
       !this.keyS?.isDown &&
       !this.keyUp?.isDown &&
       !this.keyDown?.isDown &&
-      movementDuration === Duration.None
+      movementDuration === Direction.None
     ) {
       if (this.angle === 0) {
         return;
       } else {
         if (this.angle < 0) {
-          this.setAngle(this.angle + 0.16);
+          this.setAngle(this.angle + GAME_SPEEDS[ROTATION_SPEED]);
         } else {
-          this.setAngle(this.angle - 0.16);
+          this.setAngle(this.angle - GAME_SPEEDS[ROTATION_SPEED]);
         }
       }
     }

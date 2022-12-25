@@ -1,4 +1,4 @@
-import { Duration, Player } from './../../entities/Player';
+import { Direction, Player } from './../../entities/Player';
 import { GameObjects, Scene } from 'phaser';
 import { TopScene } from '../TopScene';
 
@@ -23,15 +23,15 @@ export class UiScene extends Scene {
       .setInteractive()
       .on('pointerdown', () => {
         const player: Player = this.getPlayer().player;
-        player.updateByTarget(Duration.Up);
+        player.updateByTarget(Direction.Up);
       })
       .on('pointerup', () => {
         const player: Player = this.getPlayer().player;
-        player.updateByTarget(Duration.None);
+        player.updateByTarget(Direction.None);
       })
       .on('pointerout', () => {
         const player: Player = this.getPlayer().player;
-        player.updateByTarget(Duration.None);
+        player.updateByTarget(Direction.None);
       });
     this.leftButton.scale = 0.5;
 
@@ -45,15 +45,15 @@ export class UiScene extends Scene {
       .setInteractive()
       .on('pointerdown', () => {
         const player: Player = this.getPlayer().player;
-        player.updateByTarget(Duration.Down);
+        player.updateByTarget(Direction.Down);
       })
       .on('pointerup', () => {
         const player: Player = this.getPlayer().player;
-        player.updateByTarget(Duration.None);
+        player.updateByTarget(Direction.None);
       })
       .on('pointerout', () => {
         const player: Player = this.getPlayer().player;
-        player.updateByTarget(Duration.None);
+        player.updateByTarget(Direction.None);
       });
     this.rightButton.scale = 0.5;
   }

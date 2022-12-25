@@ -16,9 +16,9 @@ const gameConfig: Types.Core.GameConfig = {
   fps: {
     min: 58,
     target: 60,
+    panicMax: 64,
     smoothStep: true,
     forceSetTimeOut: true,
-    panicMax: 64,
   },
   physics: {
     default: 'matter',

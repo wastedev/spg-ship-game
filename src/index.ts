@@ -35,7 +35,7 @@ const gameConfig: Types.Core.GameConfig = {
   },
   canvasStyle: `display: block; width: 100%; height: 100%;`,
   autoFocus: true,
-  scene: [PreloadScene, UiScene, TopScene, SideScene],
+  scene: [PreloadScene, TopScene, SideScene, UiScene],
 };
 
 window.sizeChanged = debouncedResize;

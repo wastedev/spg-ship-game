@@ -28,19 +28,23 @@ export class PreloadScene extends Scene {
     this.load.image('iceberg-2', 'img/entities/icebergs/iceberg-2.png');
     this.load.image('iceberg-3', 'img/entities/icebergs/iceberg-3.png');
 
-    //LOAD BAR ASSETS
+    // LOAD BAR ASSETS
     this.load.image('bar', 'img/entities/images/bar.png');
     this.load.image('bar-cursor', 'img/entities/images/barCursor.png');
 
-    //LOAD UI
+    // LOAD UI
     this.load.image('leftButtonMove', 'img/entities/ui/leftButtonMove.png');
     this.load.image('rightButtonMove', 'img/entities/ui/rightButtonMove.png');
 
-    //LOAD ROCKET ANIMATION ASSETS
+    // LOAD ROCKET ANIMATION ASSETS
     this.load.spritesheet('rocketSpr', 'img/entities/images/rocketAnimation.png', {
       frameWidth: 1000,
       frameHeight: 1300,
     });
+
+    // LOAD GOAL ZONES
+    this.load.image('goal-zone', 'img/entities/station/goal-zone.png');
+    this.load.image('goal-distance', 'img/entities/station/goal-distance.png');
 
     // LOAD SOUNDS ASSETS
     this.load.audio('background', 'sounds/background.wav');

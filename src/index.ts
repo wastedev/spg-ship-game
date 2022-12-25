@@ -13,6 +13,13 @@ const gameConfig: Types.Core.GameConfig = {
     mode: Phaser.Scale.ScaleModes.ENVELOP,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
+  fps: {
+    min: 58,
+    target: 60,
+    panicMax: 64,
+    smoothStep: true,
+    forceSetTimeOut: true,
+  },
   physics: {
     default: 'matter',
     matter: {

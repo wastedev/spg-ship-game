@@ -64,7 +64,7 @@ export class PreloadScene extends Scene {
 
     this.backgroundSound.play(musicConfig);
 
-    this.scene.start('side-scene');
+    this.scene.start('top-scene');
     this.scene.start('ui-scene');
   }
 }

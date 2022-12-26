@@ -3429,6 +3429,11 @@ pkg-dir@^4.1.0, pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
+porthole-proxy@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/porthole-proxy/-/porthole-proxy-0.0.1.tgz#f84c6e3214e7aa21d7373658ff39811ac775737a"
+  integrity sha512-2ODllXqyd6UsO5Oj0a0EzzaZAW0+bbcH7Cd+9npQedsbBslNymBfDl/BxLnPNuC8pqdgBV8Q/LbGapvuUB4E2w==
+
 postcss-modules-extract-imports@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/postcss-modules-extract-imports/-/postcss-modules-extract-imports-3.0.0.tgz"

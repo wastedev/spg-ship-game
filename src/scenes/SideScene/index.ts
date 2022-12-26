@@ -42,8 +42,13 @@ export class SideScene extends Scene {
         --this.sidePlayerHealth;
         console.log(this.sidePlayerHealth);
       }
-      if (this.sidePlayerHealth == 0) {
-        console.log('GAME OVER');
+      if (this.sidePlayerHealth === 0) {
+        window.windowProxy.post('finishGame3', {
+          win: false,
+          lose: true,
+          crashCount: 1,
+          aimTries: 3,
+        });
         this.barCursor.setVelocityX(0);
         this.shotButton.removeAllListeners();
       }

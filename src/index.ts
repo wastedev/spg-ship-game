@@ -1,4 +1,6 @@
+// @ts-ignore
 import { Game, Types } from 'phaser';
+import * as Porthole from 'porthole-proxy';
 import { PreloadScene, TopScene, UiScene, SideScene } from './scenes';
 import { debouncedResize } from './utils';
 
@@ -41,6 +43,16 @@ const gameConfig: Types.Core.GameConfig = {
 window.sizeChanged = debouncedResize;
 window.onresize = () => window.sizeChanged();
 
-if (window) {
-  window.game = new Game(gameConfig);
-}
+// TEMP GAME INIT BEFORE porthole-proxy implementation
+window.game = new Game(gameConfig);
+
+window.onload = function () {
+  window.windowProxy = new Porthole.WindowProxy(
+    'https://ferretvideo.com/projects/north/proxy/proxyGame3.html',
+  );
+  window.windowProxy.addEventListener(function (event: any) {
+    if (typeof event.data['startGame3'] !== undefined) {
+      window.game = new Game(gameConfig);
+    }
+  });
+};

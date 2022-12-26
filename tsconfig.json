@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "target": "es5",
     "allowJs": true,
+    "checkJs": false,
     "baseUrl": "."
   },
   "include": ["./index.d.ts", "**/*.ts", "**/*.d.ts"],

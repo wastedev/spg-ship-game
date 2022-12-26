@@ -54,7 +54,12 @@ export class Player extends Phaser.Physics.Matter.Image {
       }
 
       if (bodyB.gameObject instanceof Phaser.Physics.Matter.Image) {
-        console.log('GAME_OVER');
+        window.windowProxy.post('finishGame3', {
+          win: false,
+          lose: true,
+          crashCount: 1,
+          aimTries: 1,
+        });
       }
     });
 
@@ -87,7 +92,12 @@ export class Player extends Phaser.Physics.Matter.Image {
     if (this.health > 1) {
       --this.health;
     } else {
-      console.log('GAME_OVER');
+      window.windowProxy.post('finishGame3', {
+        win: false,
+        lose: true,
+        crashCount: 1,
+        aimTries: 1,
+      });
     }
   }
 

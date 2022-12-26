@@ -1,5 +1,5 @@
 import { Direction, Player } from './../../entities/Player';
-import { GameObjects, Scene, Time } from 'phaser';
+import { GameObjects, Scene } from 'phaser';
 import { TopScene } from '../TopScene';
 
 export class UiScene extends Scene {
@@ -94,6 +94,15 @@ export class UiScene extends Scene {
       delay: 500,
       callback: () => {
         this.oil += 10;
+
+        if (this.oil === 80) {
+          window.windowProxy.post('finishGame3', {
+            win: true,
+            lose: false,
+            crashCount: 1,
+            aimTries: 3 - this.health,
+          });
+        }
       },
       callbackScope: this,
       repeat: 7,

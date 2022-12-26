@@ -1,7 +1,7 @@
-import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED } from './../../constants';
+import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED } from '../../constants';
 import { Scene, GameObjects } from 'phaser';
 import { Enemy, Player } from '../../entities';
-import { UiScene } from '../UiScene';
+import { UiScene } from '..';
 
 export class TopScene extends Scene {
   public player!: Player;

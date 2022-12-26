@@ -27,7 +27,6 @@ const gameConfig: Types.Core.GameConfig = {
     matter: {
       setBounds: true,
       gravity: { y: 0 },
-      debug: true,
     },
   },
   callbacks: {

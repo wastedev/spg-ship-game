@@ -15,6 +15,7 @@ export class TopScene extends Scene {
 
   private goalStage!: number;
   private goalStageRectangle!: Phaser.Physics.Matter.Sprite;
+  private goalStageMessage!: Phaser.Physics.Matter.Sprite;
 
   constructor() {
     super('top-scene');
@@ -147,6 +148,15 @@ export class TopScene extends Scene {
         this.goalStageRectangle.setDisplaySize(250, 100);
         this.goalStageRectangle.setSensor(true);
 
+        this.goalStageMessage = this.matter.add.sprite(
+          window.game.scale.width - window.game.scale.width / 4,
+          window.game.scale.height / 2 - 50,
+          'goal-1000',
+        );
+        this.goalStageMessage.setScale(0.3);
+        this.goalStageMessage.setStatic(true);
+        this.goalStageMessage.setSensor(true);
+
         --this.goalStage;
 
         GAME_SPEEDS[MOVEMENT_SPEED] = 0.18;
@@ -158,6 +168,9 @@ export class TopScene extends Scene {
         this.goalStageRectangle.setX(this.goalStageRectangle.x + 20);
         this.goalStageRectangle.setDisplaySize(220, 70);
 
+        this.goalStageMessage.setTexture('goal-500');
+        this.goalStageMessage.setX(this.goalStageMessage.x + 20);
+
         --this.goalStage;
 
         break;
@@ -165,6 +178,9 @@ export class TopScene extends Scene {
       case 80:
         this.goalStageRectangle.setX(this.goalStageRectangle.x + 30);
         this.goalStageRectangle.setDisplaySize(200, 50);
+
+        this.goalStageMessage.setTexture('goal-80');
+        this.goalStageMessage.setX(this.goalStageMessage.x + 30);
 
         --this.goalStage;
         break;

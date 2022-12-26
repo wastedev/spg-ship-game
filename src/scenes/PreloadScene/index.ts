@@ -53,6 +53,10 @@ export class PreloadScene extends Scene {
     this.load.image('goal-zone', 'img/entities/station/goal-zone.png');
     this.load.image('goal-distance', 'img/entities/station/goal-distance.png');
 
+    this.load.image('goal-1000', 'img/entities/images/1000meter.png');
+    this.load.image('goal-500', 'img/entities/images/500meter.png');
+    this.load.image('goal-80', 'img/entities/images/80meter.png');
+
     // LOAD SOUNDS ASSETS
     this.load.audio('background', 'sounds/background.wav');
     this.load.audio('rocket', 'sounds/rocket.mp3');

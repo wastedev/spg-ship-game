@@ -96,12 +96,13 @@ export class UiScene extends Scene {
         this.oil += 10;
 
         if (this.oil === 80) {
-          window.windowProxy.post('finishGame3', {
-            win: true,
-            lose: false,
-            crashCount: 1,
-            aimTries: 3 - this.health,
-          });
+          console.log('GAME_OVER');
+          // window.windowProxy.post('finishGame3', {
+          //   win: true,
+          //   lose: false,
+          //   crashCount: 1,
+          //   aimTries: 3 - this.health,
+          // });
         }
       },
       callbackScope: this,

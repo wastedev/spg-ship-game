@@ -1,22 +1,25 @@
 import { Direction, Player } from './../../entities/Player';
-import { GameObjects, Scene } from 'phaser';
+import { GameObjects, Scene, Time } from 'phaser';
 import { TopScene } from '../TopScene';
 
 export class UiScene extends Scene {
   private leftButton!: GameObjects.Image;
   private rightButton!: GameObjects.Image;
+  private loadOilButton!: GameObjects.Image;
   private oilScore!: GameObjects.Image;
   public scoreText!: GameObjects.Text;
   private oil!: number;
   private healthScore!: GameObjects.Image;
   private healthText!: GameObjects.Text;
   private health!: number;
+  private loadTimer!: any;
   constructor() {
     super('ui-scene');
   }
 
   create(): void {
     // this.scene.swapPosition('ui-scene', 'top-scene');
+    this.loadTimer = 0;
     this.oil = 0;
     this.health = 3;
     this.oilScore = this.add.image(window.game.scale.width - 70, 40, 'oilScore');
@@ -31,6 +34,15 @@ export class UiScene extends Scene {
       color: '#0F6894',
     });
     this.healthScore.setScale(0.5);
+
+    this.loadOilButton = this.add.image(
+      window.game.scale.width / 2,
+      window.game.scale.height / 2,
+      'oilLoad',
+    );
+
+    this.loadOilButton.visible = false;
+    this.loadOilButton.setScale(0.6);
 
     this.leftButton = this.add
       .image(
@@ -77,17 +89,37 @@ export class UiScene extends Scene {
     this.rightButton.scale = 0.5;
   }
 
+  public oilLoading(): void {
+    this.time.addEvent({
+      delay: 500,
+      callback: () => {
+        this.oil += 10;
+      },
+      callbackScope: this,
+      repeat: 7,
+    });
+    this.loadOilButton.visible = false;
+  }
+
+  public activateLoadButton(): void {
+    this.loadOilButton.visible = true;
+    this.loadOilButton.setInteractive().on('pointerup', () => {
+      this.oilLoading();
+    });
+  }
+
   public setHealth(value: number): void {
     this.health = value;
   }
 
-  protected sideSceneChange(): void {
+  public sideSceneChange(): void {
     this.leftButton.destroy();
     this.rightButton.destroy();
   }
 
   update(): void {
     this.healthText.setText(this.health.toString());
+    this.scoreText.setText(this.oil.toString());
   }
 
   protected getPlayer(): TopScene {

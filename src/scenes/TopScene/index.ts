@@ -1,6 +1,7 @@
 import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED } from './../../constants';
 import { Scene, GameObjects } from 'phaser';
 import { Enemy, Player } from '../../entities';
+import { UiScene } from '../UiScene';
 
 export class TopScene extends Scene {
   public player!: Player;
@@ -19,7 +20,13 @@ export class TopScene extends Scene {
     super('top-scene');
   }
 
+  protected getUI(): UiScene {
+    return this.scene.get('ui-scene') as UiScene;
+  }
+
   create(): void {
+    //UI CHANGES
+
     // CREATE PLAYER SPRITE
     this.player = new Player(
       this.matter.world,
@@ -85,6 +92,8 @@ export class TopScene extends Scene {
 
   update(): void {
     this.player.update();
+    const ui = this.getUI();
+    ui.setHealth(this.player.getHealth());
 
     if (this.goalZone.body) {
       if (
@@ -122,6 +131,8 @@ export class TopScene extends Scene {
         (this.player.y >= this.goalStageRectangle?.y - 30 ||
           this.player.y <= this.goalStageRectangle?.y + 30)
       ) {
+        const ui = this.getUI();
+        ui.sideSceneChange();
         this.scene.start('side-scene');
       }
     }

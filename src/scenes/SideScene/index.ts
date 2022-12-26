@@ -166,6 +166,8 @@ export class SideScene extends Scene {
           window.game.scale.height / 2 - 60,
           'station-side-connected',
         );
+        const ui = this.getUI();
+        ui.activateLoadButton();
       }
     }
   }

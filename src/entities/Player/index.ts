@@ -1,6 +1,7 @@
 import { Input } from 'phaser';
 import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED } from '../../constants';
 import { Enemy } from '../Enemy';
+import { UiScene } from 'src/scenes';
 
 export enum Direction {
   Up = 'UP',
@@ -58,6 +59,10 @@ export class Player extends Phaser.Physics.Matter.Image {
     });
 
     this.world.scene.add.existing(this);
+  }
+
+  public getHealth(): number {
+    return this.health;
   }
 
   public updateByTarget(_duration: Direction): void {

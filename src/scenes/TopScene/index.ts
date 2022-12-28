@@ -55,6 +55,7 @@ export class TopScene extends Scene {
       { isStatic: true },
     );
     this.station.scale = window.game.scale.height / window.game.scale.width;
+    this.station.visible = false;
     this.station.setRectangle(
       (this.station.width / 2) * this.station.scale - 20,
       window.game.scale.height,
@@ -101,8 +102,9 @@ export class TopScene extends Scene {
         this.player.x >= this.goalZone?.x - 50 &&
         (this.player.y >= this.goalZone?.y - 30 || this.player.y <= this.goalZone?.y + 30)
       ) {
-        this.goalStage = 1000;
         this.goalZone.destroy();
+        this.scene.start('docking-scene');
+        this.scene.stop();
       }
     }
 

@@ -1,4 +1,5 @@
 import { Scene, Types } from 'phaser';
+import { threadId } from 'worker_threads';
 
 export class PreloadScene extends Scene {
   private backgroundSound!: any;
@@ -23,6 +24,7 @@ export class PreloadScene extends Scene {
     this.load.image('background-icebergs-top', 'img/backgrounds/background-icebergs-top.png');
     this.load.image('background-side', 'img/backgrounds/background-side.png');
     this.load.image('background-banner', 'img/backgrounds/bannerBackground.png');
+    this.load.image('background-docking', 'img/backgrounds/background-docking.png');
 
     // LOAD ICEBERGS ASSETS
     this.load.image('iceberg-1', 'img/entities/icebergs/iceberg-1.png');

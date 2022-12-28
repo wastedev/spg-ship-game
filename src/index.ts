@@ -1,7 +1,7 @@
 // @ts-ignore
 import { Game, Types } from 'phaser';
 import * as Porthole from 'porthole-proxy';
-import { PreloadScene, TopScene, UiScene, SideScene } from './scenes';
+import { PreloadScene, TopScene, UiScene, SideScene, DockingScene } from './scenes';
 import { BannerScene } from './scenes/BannerScene';
 import { debouncedResize } from './utils';
 
@@ -29,13 +29,14 @@ const gameConfig: Types.Core.GameConfig = {
   physics: {
     default: 'matter',
     matter: {
+      debug: true,
       setBounds: true,
       gravity: { y: 0 },
     },
   },
   canvasStyle: `display: block; width: 100%; height: 100%;`,
   autoFocus: true,
-  scene: [PreloadScene, BannerScene, TopScene, SideScene, UiScene],
+  scene: [PreloadScene, BannerScene, TopScene, DockingScene, SideScene, UiScene],
 };
 
 // window.sizeChanged = debouncedResize;

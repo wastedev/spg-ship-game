@@ -1,6 +1,7 @@
 import { Direction, Player } from './../../entities/Player';
 import { GameObjects, Scene } from 'phaser';
 import { TopScene } from '../TopScene';
+import { DockingScene } from '../DockingScene';
 
 export class UiScene extends Scene {
   private leftButton!: GameObjects.Image;
@@ -132,7 +133,13 @@ export class UiScene extends Scene {
     this.scoreText.setText(this.oil.toString());
   }
 
-  protected getPlayer(): TopScene {
-    return this.scene.get('top-scene') as TopScene;
+  protected getPlayer(): TopScene | DockingScene {
+    const topScene = this.scene.get('top-scene');
+
+    if (topScene.scene.isActive()) {
+      return topScene as TopScene;
+    } else {
+      return this.scene.get('docking-scene') as DockingScene;
+    }
   }
 }

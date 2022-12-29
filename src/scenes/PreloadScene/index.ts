@@ -46,10 +46,6 @@ export class PreloadScene extends Scene {
 
     //LOAD ROCKET ANIMATION ASSETS
     this.load.image('rocket', 'img/entities/images/rocket.png');
-    this.load.spritesheet('rocketSpr', 'img/entities/images/rocketAnimation.png', {
-      frameWidth: 1000,
-      frameHeight: 1300,
-    });
 
     // LOAD GOAL ZONES
     this.load.image('goal-zone', 'img/entities/station/goal-zone.png');

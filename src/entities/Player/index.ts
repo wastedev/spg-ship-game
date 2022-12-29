@@ -1,7 +1,7 @@
 import { Input } from 'phaser';
 import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED } from '../../constants';
 import { Enemy } from '../Enemy';
-import { UiScene } from 'src/scenes';
+import { FIRST_SCENE, SCENE_HEALTH } from '../../helpers';
 
 export enum Direction {
   Up = 'UP',
@@ -47,7 +47,7 @@ export class Player extends Phaser.Physics.Matter.Image {
 
         this.setTint(0xff0000);
         setTimeout(() => {
-          bodyA.gameObject.setTint(0xffffff);
+          this.setTint(0xffffff);
         }, 123);
 
         bodyB.gameObject.destroy();
@@ -55,12 +55,12 @@ export class Player extends Phaser.Physics.Matter.Image {
 
       if (bodyB.gameObject instanceof Phaser.Physics.Matter.Image) {
         console.log('GAME_OVER');
-        // window.windowProxy.post('finishGame3', {
-        //   win: false,
-        //   lose: true,
-        //   crashCount: 1,
-        //   aimTries: 1,
-        // });
+        window.windowProxy.post('finishGame3', {
+          win: false,
+          lose: true,
+          crashCount: 3 - this.health,
+          aimTries: 0,
+        });
       }
     });
 
@@ -92,14 +92,18 @@ export class Player extends Phaser.Physics.Matter.Image {
   public getDamage(): void {
     if (this.health > 1) {
       --this.health;
+      --SCENE_HEALTH[FIRST_SCENE];
     } else {
+      --this.health;
+      --SCENE_HEALTH[FIRST_SCENE];
+
       console.log('GAME_OVER');
-      // window.windowProxy.post('finishGame3', {
-      //   win: false,
-      //   lose: true,
-      //   crashCount: 1,
-      //   aimTries: 1,
-      // });
+      window.windowProxy.post('finishGame3', {
+        win: false,
+        lose: true,
+        crashCount: 3 - this.health,
+        aimTries: 0,
+      });
     }
   }
 

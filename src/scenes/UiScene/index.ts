@@ -2,6 +2,7 @@ import { Direction, Player } from './../../entities/Player';
 import { GameObjects, Scene } from 'phaser';
 import { TopScene } from '../TopScene';
 import { DockingScene } from '../DockingScene';
+import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers';
 
 export class UiScene extends Scene {
   private leftButton!: GameObjects.Image;
@@ -98,12 +99,13 @@ export class UiScene extends Scene {
 
         if (this.oil === 80) {
           console.log('GAME_OVER');
-          // window.windowProxy.post('finishGame3', {
-          //   win: true,
-          //   lose: false,
-          //   crashCount: 1,
-          //   aimTries: 3 - this.health,
-          // });
+
+          window.windowProxy.post('finishGame3', {
+            win: true,
+            lose: false,
+            crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+            aimTries: 3 - SCENE_HEALTH[SECOND_SCENE],
+          });
         }
       },
       callbackScope: this,

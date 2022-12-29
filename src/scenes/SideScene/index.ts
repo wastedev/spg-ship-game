@@ -1,6 +1,5 @@
-import { Scene, GameObjects, Input, Types, Sound } from 'phaser';
-import { Player } from 'src/entities';
-import { TopScene } from '../TopScene';
+import { Scene, GameObjects, Types, Sound } from 'phaser';
+import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers';
 import { UiScene } from '../UiScene';
 
 export class SideScene extends Scene {
@@ -38,18 +37,19 @@ export class SideScene extends Scene {
         this.barCursor.setVelocityX(0);
         this.shotButton.removeAllListeners();
       } else {
-        console.log('-1 hp');
         --this.sidePlayerHealth;
-        console.log(this.sidePlayerHealth);
+        --SCENE_HEALTH[SECOND_SCENE];
       }
       if (this.sidePlayerHealth === 0) {
         console.log('GAME_OVER');
-        // window.windowProxy.post('finishGame3', {
-        //   win: false,
-        //   lose: true,
-        //   crashCount: 1,
-        //   aimTries: 3,
-        // });
+
+        window.windowProxy.post('finishGame3', {
+          win: false,
+          lose: true,
+          crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+          aimTries: 3 - SCENE_HEALTH[SECOND_SCENE],
+        });
+
         this.barCursor.setVelocityX(0);
         this.shotButton.removeAllListeners();
       }

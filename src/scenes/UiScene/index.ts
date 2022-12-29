@@ -66,7 +66,7 @@ export class UiScene extends Scene {
         const player: Player = this.getPlayer().player;
         player.updateByTarget(Direction.None);
       });
-    this.leftButton.scale = 0.5;
+    this.leftButton.setScale(0.7);
 
     this.rightButton = this.add
       .image(
@@ -88,7 +88,7 @@ export class UiScene extends Scene {
         const player: Player = this.getPlayer().player;
         player.updateByTarget(Direction.None);
       });
-    this.rightButton.scale = 0.5;
+    this.rightButton.setScale(0.7);
   }
 
   public oilLoading(): void {

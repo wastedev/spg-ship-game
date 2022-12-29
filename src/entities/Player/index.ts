@@ -110,30 +110,20 @@ export class Player extends Phaser.Physics.Matter.Image {
   update(): void {
     const movementDuration: Direction = this.direction;
 
-    if (this.keyW?.isDown || this.keyS?.isDown || this.keyUp?.isDown || this.keyDown?.isDown) {
-      if (this.keyW?.isDown) {
-        this.moveUp();
-      }
-
-      if (this.keyS?.isDown) {
-        this.moveDown();
-      }
-
-      if (this.keyUp?.isDown) {
-        this.moveUp();
-      }
-
-      if (this.keyDown?.isDown) {
-        this.moveDown();
-      }
+    if (this.keyW?.isDown) {
+      this.moveUp();
+    } else if (this.keyS?.isDown) {
+      this.moveDown();
+    } else if (this.keyUp?.isDown) {
+      this.moveUp();
+    } else if (this.keyDown?.isDown) {
+      this.moveDown();
+    } else if (movementDuration === Direction.Up) {
+      this.moveUp();
+    } else if (movementDuration === Direction.Down) {
+      this.moveDown();
     } else {
-      if (movementDuration === Direction.Up) {
-        this.moveUp();
-      }
-
-      if (movementDuration === Direction.Down) {
-        this.moveDown();
-      }
+      this.setVelocityY(GAME_SPEEDS[ROTATION_SPEED]);
     }
 
     this.setVelocityX(GAME_SPEEDS[MOVEMENT_SPEED]);

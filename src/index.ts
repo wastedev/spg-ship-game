@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Game, Types } from 'phaser';
+import { Game, Scene, Types } from 'phaser';
 import * as Porthole from 'porthole-proxy';
 import { PreloadScene, TopScene, UiScene, SideScene, DockingScene } from './scenes';
 import { BannerScene } from './scenes/BannerScene';
@@ -50,11 +50,23 @@ window.onload = function () {
     'https://ferretvideo.com/projects/north/proxy/proxyGame3.html',
   );
 
-  window.windowProxy.addEventListener(function (event: any) {
-    if (typeof event.data['startGame3'] !== undefined) {
-      if (window.game.isRunning) return;
+  window.game = new Game(gameConfig);
 
-      window.game = new Game(gameConfig);
-    }
-  });
+  // window.windowProxy.addEventListener(function (event: any) {
+  //   if (typeof event.data['startGame3'] !== undefined) {
+  //     if (window.game.isRunning) {
+  //       const scenes: Scene[] = window.game.scene.getScenes();
+
+  //       scenes.forEach((scene: Scene) => {
+  //         scene.scene.stop();
+  //       });
+
+  //       window.game.scene.getScene('banner-scene').scene.start();
+
+  //       return;
+  //     }
+
+  //     window.game = new Game(gameConfig);
+  //   }
+  // });
 };

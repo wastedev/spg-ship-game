@@ -79,10 +79,10 @@ export class DockingScene extends Scene {
           this.player.y <= this.goalStageRectangle?.y + 30)
       ) {
         const ui = this.getUI();
-        ui.sideSceneChange();
         GAME_SPEEDS[MOVEMENT_SPEED] = 0;
         GAME_SPEEDS[ROTATION_SPEED] = 0;
         setTimeout(() => {
+          ui.sideSceneChange();
           this.scene.start('side-scene');
         }, 2000);
       }

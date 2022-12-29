@@ -47,20 +47,20 @@ export class TopScene extends Scene {
     this.backgroundIcebergs.setDepth(-1);
 
     // CREATE STATION SPRITE
-    this.station = this.matter.add.image(
-      window.game.scale.width - 100,
-      window.game.scale.height / 2 + 10,
-      'station-top',
-      undefined,
-      { isStatic: true },
-    );
-    this.station.scale = window.game.scale.height / window.game.scale.width;
-    this.station.visible = false;
-    this.station.setRectangle(
-      (this.station.width / 2) * this.station.scale - 20,
-      window.game.scale.height,
-    );
-    this.station.setStatic(true);
+    // this.station = this.matter.add.image(
+    //   window.game.scale.width - 100,
+    //   window.game.scale.height / 2 + 10,
+    //   'station-top',
+    //   undefined,
+    //   { isStatic: true },
+    // );
+    // this.station.scale = window.game.scale.height / window.game.scale.width;
+    // this.station.visible = false;
+    // this.station.setRectangle(
+    //   (this.station.width / 2) * this.station.scale - 20,
+    //   window.game.scale.height,
+    // );
+    // this.station.setStatic(true);
 
     // INITIALIZE ENEMIES SPRITES
     this.initEnemies();
@@ -68,7 +68,7 @@ export class TopScene extends Scene {
 
     // CREATE GOAL ZONE
     this.goalZone = this.matter.add.sprite(
-      window.game.scale.width - window.game.scale.width / 4,
+      window.game.scale.width - window.game.scale.width / 10,
       window.game.scale.height / 2,
       'goal-zone',
     );
@@ -79,8 +79,8 @@ export class TopScene extends Scene {
     this.goalZone.setDepth(-1);
 
     this.goalZone.setOnCollide(() => {
-      GAME_SPEEDS[MOVEMENT_SPEED] = 0.39;
-      GAME_SPEEDS[ROTATION_SPEED] = 0.16;
+      // GAME_SPEEDS[MOVEMENT_SPEED] = 0.39;
+      // GAME_SPEEDS[ROTATION_SPEED] = 0.16;
 
       this.cameras.main.pan(this.player.x, this.player.y, 1500);
       this.cameras.main.zoomTo(1.5, 1500);
@@ -192,7 +192,7 @@ export class TopScene extends Scene {
   initEnemies(): void {
     this.icebergs = new Array(7);
 
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= 4; i++) {
       this.icebergs.push(
         new Enemy(
           this.matter.world,

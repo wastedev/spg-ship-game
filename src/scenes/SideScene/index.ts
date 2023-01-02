@@ -43,11 +43,13 @@ export class SideScene extends Scene {
       if (this.sidePlayerHealth === 0) {
         console.log('GAME_OVER');
 
-        window.windowProxy.post('finishGame3', {
-          win: false,
-          lose: true,
-          crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
-          aimTries: 3 - SCENE_HEALTH[SECOND_SCENE],
+        window.windowProxy.post({
+          finishGame3: JSON.stringify({
+            win: false,
+            lose: true,
+            crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+            aimTries: 3 - SCENE_HEALTH[SECOND_SCENE],
+          }),
         });
 
         this.barCursor.setVelocityX(0);

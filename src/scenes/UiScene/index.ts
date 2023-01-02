@@ -100,11 +100,13 @@ export class UiScene extends Scene {
         if (this.oil === 80) {
           console.log('GAME_OVER');
 
-          window.windowProxy.post('finishGame3', {
-            win: true,
-            lose: false,
-            crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
-            aimTries: 3 - SCENE_HEALTH[SECOND_SCENE],
+          window.windowProxy.post({
+            finishGame3: JSON.stringify({
+              win: true,
+              lose: false,
+              crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+              aimTries: 3 - SCENE_HEALTH[SECOND_SCENE],
+            }),
           });
         }
       },

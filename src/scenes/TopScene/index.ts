@@ -8,7 +8,7 @@ export class TopScene extends Scene {
   private station!: Phaser.Physics.Matter.Image;
   private goalZone!: Phaser.Physics.Matter.Sprite;
 
-  private icebergs!: Enemy[];
+  private icebergs: Enemy[] = [];
   private topBarrier!: MatterJS.BodyType;
   private bottomBarrier!: MatterJS.BodyType;
   private backgroundIcebergs!: GameObjects.Image;
@@ -61,22 +61,25 @@ export class TopScene extends Scene {
     this.goalZone.setOnCollide(() => {
       // GAME_SPEEDS[MOVEMENT_SPEED] = 0.39;
       // GAME_SPEEDS[ROTATION_SPEED] = 0.16;
-
-      this.cameras.main.pan(this.player.x, this.player.y, 1500);
-      this.cameras.main.zoomTo(1.5, 1500);
+      // this.cameras.main.pan(this.player.x, this.player.y, 1500);
+      // this.cameras.main.zoomTo(1.5, 1500);
     });
 
     // CREATE CAMERA
-    this.cameras.main.setBounds(0, 0, window.game.scale.width, window.game.scale.height);
-    this.cameras.main.setZoom(1);
-    this.cameras.main.centerOn(0, 0);
+    // this.cameras.main.setBounds(0, 0, window.game.scale.width, window.game.scale.height);
+    // this.cameras.main.setZoom(1);
+    // this.cameras.main.centerOn(0, 0);
   }
 
   update(): void {
     this.player.update();
+
     const ui = this.getUI();
     ui.setHealth(this.player.getHealth());
 
+    if (this.icebergs.every((iceberg) => iceberg instanceof Enemy)) {
+      this.icebergs.forEach((item) => item.update());
+    }
     if (this.goalZone.body) {
       if (
         this.player.x >= this.goalZone?.x - 50 &&
@@ -89,8 +92,6 @@ export class TopScene extends Scene {
   }
 
   initEnemies(): void {
-    this.icebergs = new Array(7);
-
     for (let i = 1; i <= 5; i++) {
       this.icebergs.push(
         new Enemy(

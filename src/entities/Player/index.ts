@@ -50,7 +50,7 @@ export class Player extends Phaser.Physics.Matter.Image {
           this.setTint(0xffffff);
         }, 123);
 
-        bodyB.gameObject.destroy();
+        bodyB.gameObject.visible = false;
       }
 
       if (bodyB.gameObject instanceof Phaser.Physics.Matter.Image) {

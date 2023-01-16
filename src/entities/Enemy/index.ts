@@ -1,4 +1,4 @@
-export class Enemy extends Phaser.Physics.Matter.Image {
+export class Enemy extends Phaser.Physics.Matter.Sprite {
   shaking!: number;
   yPos!: number;
   constructor(
@@ -9,15 +9,13 @@ export class Enemy extends Phaser.Physics.Matter.Image {
     frame?: string | number,
   ) {
     super(world, x, y, texture, frame);
-    this.setScale(0.5);
+    this.setScale(1);
     this.setCircle((this.height * this.scale) / 2 - 20);
     this.setAngle(90);
-    // this.setStatic(true);
 
     this.shaking = Math.random();
     this.yPos = this.body.position.y;
     this.setVelocityY(this.shaking);
-
     world.scene.add.existing(this);
   }
 

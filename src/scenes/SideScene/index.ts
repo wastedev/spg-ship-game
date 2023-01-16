@@ -20,6 +20,8 @@ export class SideScene extends Scene {
   private shotButton!: GameObjects.Image;
   private rocketSound!: Sound.BaseSound;
   private rocketConfig!: Types.Sound.SoundConfig;
+  private popUpInfo!: GameObjects.Image;
+  private continueButton!: GameObjects.Image;
 
   constructor() {
     super('side-scene');
@@ -58,11 +60,33 @@ export class SideScene extends Scene {
     }
   }
 
+  loadPopup(): void {
+    this.popUpInfo = this.add.image(
+      window.game.scale.width / 2,
+      window.game.scale.height / 2,
+      'hookInfoPopup',
+    );
+    this.popUpInfo.scale = 0.7;
+    this.continueButton = this.add
+      .image(this.popUpInfo.x, this.popUpInfo.y + this.popUpInfo.y / 3, 'continueButton')
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerup', () => {
+        this.popUpInfo.destroy();
+        this.continueButton.destroy();
+        this.barCursor.setVelocityX(8);
+        this.playerSide.visible = true;
+        this.playerSide.setDepth(1);
+      });
+    this.continueButton.setScale(0.5);
+  }
+
   protected getUI(): UiScene {
     return this.scene.get('ui-scene') as UiScene;
   }
 
   create(): void {
+    this.loadPopup();
     this.sidePlayerHealth = 3;
     this.rocketSound = this.sound.add('rocket');
     this.rocketConfig = {
@@ -86,8 +110,9 @@ export class SideScene extends Scene {
       window.game.scale.height / 2 + 100,
       'player-side',
     );
+    this.playerSide.visible = false;
     this.playerSide.scale = 1;
-    this.playerSide.setDepth(1);
+    this.playerSide.setDepth(0);
 
     this.oilStationSide = this.add.sprite(
       window.game.scale.width / 10,
@@ -95,13 +120,13 @@ export class SideScene extends Scene {
       'station-side',
     );
     this.oilStationSide.scale = 1;
+    this.oilStationSide.setDepth(-1);
 
     this.bar = this.add.image(window.game.scale.width / 2, window.game.scale.height / 10, 'bar');
     this.bar.scale = 0.5;
 
     this.barCursor = this.matter.add.sprite(this.bar.x, this.bar.y - 35, 'bar-cursor');
     this.barCursor.setScale(0.5);
-    this.barCursor.setVelocityX(10);
 
     this.rocket = this.matter.add.image(
       this.oilStationSide.x + this.oilStationSide.x / 10,

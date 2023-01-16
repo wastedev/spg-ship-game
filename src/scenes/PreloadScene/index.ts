@@ -31,6 +31,20 @@ export class PreloadScene extends Scene {
     this.load.image('iceberg-2', 'img/entities/icebergs/iceberg-2.png');
     this.load.image('iceberg-3', 'img/entities/icebergs/iceberg-3.png');
 
+    // LOAD ICEBERG ANIMATIONS
+    this.load.spritesheet('sprIceberg-1', 'img/entities/icebergs/icebergAnimations1.png', {
+      frameWidth: 190,
+      frameHeight: 180,
+    });
+    this.load.spritesheet('sprIceberg-2', 'img/entities/icebergs/icebergAnimations2.png', {
+      frameWidth: 190,
+      frameHeight: 180,
+    });
+    this.load.spritesheet('sprIceberg-3', 'img/entities/icebergs/icebergAnimations3.png', {
+      frameWidth: 190,
+      frameHeight: 180,
+    });
+
     // LOAD BAR ASSETS
     this.load.image('bar', 'img/entities/images/bar.png');
     this.load.image('bar-cursor', 'img/entities/images/barCursor.png');
@@ -43,6 +57,14 @@ export class PreloadScene extends Scene {
     this.load.image('healthScore', 'img/entities/images/healthScore.png');
     this.load.image('oilLoad', 'img/entities/ui/oilLoad.png');
     this.load.image('bannerStartBtn', 'img/entities/ui/startBannerButton.png');
+
+    // LOAD POPUP THINGS
+    this.load.image('1000meters', 'img/entities/ui/1000meters.png');
+    this.load.image('500meters', 'img/entities/ui/500meters.png');
+    this.load.image('80meters', 'img/entities/ui/80meters.png');
+    this.load.image('dockingPopup', 'img/entities/ui/docking.png');
+    this.load.image('hookInfoPopup', 'img/entities/ui/hookInfo.png');
+    this.load.image('continueButton', 'img/entities/ui/continueButton.png');
 
     //LOAD ROCKET ANIMATION ASSETS
     this.load.image('rocket', 'img/entities/images/rocket.png');

@@ -2,6 +2,7 @@ import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED } from '../../constants';
 import { Scene, GameObjects } from 'phaser';
 import { Enemy, Player } from '../../entities';
 import { UiScene } from '..';
+import { timingSafeEqual } from 'crypto';
 
 export class TopScene extends Scene {
   public player!: Player;
@@ -13,6 +14,11 @@ export class TopScene extends Scene {
   private bottomBarrier!: MatterJS.BodyType;
   private backgroundIcebergs!: GameObjects.Image;
 
+  private popup!: GameObjects.Image;
+  private continueButton!: GameObjects.Image;
+  //testthings i shoud delete this after end
+  private animated!: GameObjects.Image;
+
   constructor() {
     super('top-scene');
   }
@@ -22,7 +28,30 @@ export class TopScene extends Scene {
   }
 
   create(): void {
-    //UI CHANGES
+    this.animated = this.add.image(
+      window.game.scale.width / 2,
+      window.game.scale.height / 2,
+      'sprIceberg-1',
+    );
+    //Animations
+    this.anims.create({
+      key: 'sprIceberg-1',
+      frames: this.anims.generateFrameNumbers('sprIceberg-1', { start: 0, end: 6 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: 'sprIceberg-2',
+      frames: this.anims.generateFrameNumbers('sprIceberg-2', { start: 0, end: 6 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: 'sprIceberg-3',
+      frames: this.anims.generateFrameNumbers('sprIceberg-3', { start: 0, end: 6 }),
+      frameRate: 10,
+      repeat: -1,
+    });
 
     // CREATE PLAYER SPRITE
     this.player = new Player(
@@ -58,17 +87,7 @@ export class TopScene extends Scene {
     this.goalZone.setSensor(true);
     this.goalZone.setDepth(-1);
 
-    this.goalZone.setOnCollide(() => {
-      // GAME_SPEEDS[MOVEMENT_SPEED] = 0.39;
-      // GAME_SPEEDS[ROTATION_SPEED] = 0.16;
-      // this.cameras.main.pan(this.player.x, this.player.y, 1500);
-      // this.cameras.main.zoomTo(1.5, 1500);
-    });
-
-    // CREATE CAMERA
-    // this.cameras.main.setBounds(0, 0, window.game.scale.width, window.game.scale.height);
-    // this.cameras.main.setZoom(1);
-    // this.cameras.main.centerOn(0, 0);
+    this.goalZone.setOnCollide((obj: Phaser.Types.Physics.Matter.MatterCollisionData) => {});
   }
 
   update(): void {
@@ -85,8 +104,26 @@ export class TopScene extends Scene {
         this.player.x >= this.goalZone?.x - 50 &&
         (this.player.y >= this.goalZone?.y - 30 || this.player.y <= this.goalZone?.y + 30)
       ) {
-        this.scene.start('docking-scene');
-        this.scene.stop();
+        GAME_SPEEDS[MOVEMENT_SPEED] = 0;
+        GAME_SPEEDS[ROTATION_SPEED] = 0;
+        this.popup = this.add.image(
+          window.game.scale.width / 2,
+          window.game.scale.height / 2,
+          'dockingPopup',
+        );
+        this.popup.setScale(0.7);
+        this.continueButton = this.add
+          .image(this.popup.x, this.popup.y + this.popup.y / 3, 'continueButton')
+          .setScrollFactor(0)
+          .setInteractive()
+          .on('pointerup', () => {
+            GAME_SPEEDS[MOVEMENT_SPEED] = 0.39;
+            GAME_SPEEDS[ROTATION_SPEED] = 0.16;
+            this.popup.destroy();
+            this.continueButton.destroy();
+            this.scene.start('docking-scene');
+            this.scene.stop();
+          });
       }
     }
   }
@@ -98,7 +135,7 @@ export class TopScene extends Scene {
           this.matter.world,
           (window.game.scale.width / 8) * 1.5 * (i / 1.13),
           window.game.scale.height / 4 + Math.floor(Math.random() * (window.game.scale.height / 2)),
-          `iceberg-${Math.floor(Math.random() * 3) + 1}`,
+          `sprIceberg-${Math.floor(Math.random() * 3) + 1}`,
         ),
       );
     }

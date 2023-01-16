@@ -36,6 +36,7 @@ export class Player extends Phaser.Physics.Matter.Image {
     this.setScale(0.26);
     this.setOrigin(0, 0.5);
     this.setRectangle(this.width * this.scale - 32, this.height * this.scale - 32);
+    this.setDepth(0);
 
     this.setOnCollide((collideData: Phaser.Types.Physics.Matter.MatterCollisionData) => {
       const { bodyA, bodyB } = collideData;

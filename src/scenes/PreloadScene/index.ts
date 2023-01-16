@@ -90,8 +90,10 @@ export class PreloadScene extends Scene {
       loop: true,
     };
 
-    this.backgroundSound.play(musicConfig);
+    setTimeout(() => {
+      this.backgroundSound.play(musicConfig);
 
-    this.scene.start('banner-scene');
+      this.scene.start('banner-scene');
+    }, 1000);
   }
 }

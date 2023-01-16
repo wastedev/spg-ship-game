@@ -9,7 +9,7 @@ export class BannerScene extends Scene {
 
   create(): void {
     this.bannerBackground = this.add.image(0, 0, 'background-banner');
-    this.bannerBackground.setScale(0.65);
+    this.bannerBackground.setScale(1);
     this.bannerBackground.setOrigin(0);
     this.bannerStartButton = this.add
       .image(

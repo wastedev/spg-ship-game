@@ -26,7 +26,8 @@ export class UiScene extends Scene {
     this.oilScore = this.add.image(window.game.scale.width - 70, 40, 'oilScore');
     this.oilScore.scale = 0.5;
     this.scoreText = this.add.text(window.game.scale.width - 75, 25, this.oil.toString(), {
-      font: '25px Bold ',
+      fontFamily: 'Arial',
+      fontSize: '25px',
       color: '#0F6894',
     });
     this.healthScore = this.add.image(70, 40, 'healthScore');

@@ -25,6 +25,9 @@ export class PreloadScene extends Scene {
     this.load.image('background-side', 'img/backgrounds/background-side.png');
     this.load.image('background-banner', 'img/backgrounds/bannerBackground.png');
     this.load.image('background-docking', 'img/backgrounds/background-docking.png');
+    this.load.image('banner-primary', 'img/backgrounds/banner-primary.png');
+    this.load.image('background-image', 'img/backgrounds/banner-background.png');
+    this.load.image('banner-landscape', 'img/backgrounds/banner-background-landscape.png');
 
     // LOAD ICEBERGS ASSETS
     this.load.image('iceberg-1', 'img/entities/icebergs/iceberg-1.png');

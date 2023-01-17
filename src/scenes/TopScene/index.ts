@@ -16,6 +16,7 @@ export class TopScene extends Scene {
 
   private popup!: GameObjects.Image;
   private continueButton!: GameObjects.Image;
+  private isBannerShowed: boolean = false;
   //testthings i shoud delete this after end
   private animated!: GameObjects.Image;
 
@@ -102,8 +103,10 @@ export class TopScene extends Scene {
     if (this.goalZone.body) {
       if (
         this.player.x >= this.goalZone?.x - 50 &&
-        (this.player.y >= this.goalZone?.y - 30 || this.player.y <= this.goalZone?.y + 30)
+        (this.player.y >= this.goalZone?.y - 30 || this.player.y <= this.goalZone?.y + 30) &&
+        !this.isBannerShowed
       ) {
+        this.isBannerShowed = true;
         GAME_SPEEDS[MOVEMENT_SPEED] = 0;
         GAME_SPEEDS[ROTATION_SPEED] = 0;
         this.popup = this.add.image(

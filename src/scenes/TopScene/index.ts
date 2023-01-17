@@ -17,8 +17,6 @@ export class TopScene extends Scene {
   private popup!: GameObjects.Image;
   private continueButton!: GameObjects.Image;
   private isBannerShowed: boolean = false;
-  //testthings i shoud delete this after end
-  private animated!: GameObjects.Image;
 
   constructor() {
     super('top-scene');
@@ -29,31 +27,6 @@ export class TopScene extends Scene {
   }
 
   create(): void {
-    this.animated = this.add.image(
-      window.game.scale.width / 2,
-      window.game.scale.height / 2,
-      'sprIceberg-1',
-    );
-    //Animations
-    this.anims.create({
-      key: 'sprIceberg-1',
-      frames: this.anims.generateFrameNumbers('sprIceberg-1', { start: 0, end: 6 }),
-      frameRate: 10,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: 'sprIceberg-2',
-      frames: this.anims.generateFrameNumbers('sprIceberg-2', { start: 0, end: 6 }),
-      frameRate: 10,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: 'sprIceberg-3',
-      frames: this.anims.generateFrameNumbers('sprIceberg-3', { start: 0, end: 6 }),
-      frameRate: 10,
-      repeat: -1,
-    });
-
     // CREATE PLAYER SPRITE
     this.player = new Player(
       this.matter.world,
@@ -138,7 +111,7 @@ export class TopScene extends Scene {
           this.matter.world,
           (window.game.scale.width / 8) * 1.5 * (i / 1.13),
           window.game.scale.height / 4 + Math.floor(Math.random() * (window.game.scale.height / 2)),
-          `sprIceberg-${Math.floor(Math.random() * 3) + 1}`,
+          `icebergAnimation-${Math.floor(Math.random() * 3) + 1}`,
         ),
       );
     }

@@ -23,28 +23,21 @@ export class PreloadScene extends Scene {
     // LOAD BACKGROUND ASSETS
     this.load.image('background-icebergs-top', 'img/backgrounds/background-icebergs-top.png');
     this.load.image('background-side', 'img/backgrounds/background-side.png');
-    this.load.image('background-banner', 'img/backgrounds/bannerBackground.png');
     this.load.image('background-docking', 'img/backgrounds/background-docking.png');
-    this.load.image('banner-primary', 'img/backgrounds/banner-primary.png');
     this.load.image('background-image', 'img/backgrounds/banner-background.png');
     this.load.image('banner-landscape', 'img/backgrounds/banner-background-landscape.png');
 
-    // LOAD ICEBERGS ASSETS
-    this.load.image('iceberg-1', 'img/entities/icebergs/iceberg-1.png');
-    this.load.image('iceberg-2', 'img/entities/icebergs/iceberg-2.png');
-    this.load.image('iceberg-3', 'img/entities/icebergs/iceberg-3.png');
-
-    // LOAD ICEBERG ANIMATIONS
+    // LOAD ICEBERG ANIMATIONS ASSETS
     this.load.spritesheet('sprIceberg-1', 'img/entities/icebergs/icebergAnimations1.png', {
-      frameWidth: 190,
+      frameWidth: 180,
       frameHeight: 180,
     });
     this.load.spritesheet('sprIceberg-2', 'img/entities/icebergs/icebergAnimations2.png', {
-      frameWidth: 190,
+      frameWidth: 180,
       frameHeight: 180,
     });
     this.load.spritesheet('sprIceberg-3', 'img/entities/icebergs/icebergAnimations3.png', {
-      frameWidth: 190,
+      frameWidth: 180,
       frameHeight: 180,
     });
 
@@ -61,7 +54,7 @@ export class PreloadScene extends Scene {
     this.load.image('oilLoad', 'img/entities/ui/oilLoad.png');
     this.load.image('bannerStartBtn', 'img/entities/ui/startBannerButton.png');
 
-    // LOAD POPUP THINGS
+    // LOAD POPUP ASSETS
     this.load.image('1000meters', 'img/entities/ui/1000meters.png');
     this.load.image('500meters', 'img/entities/ui/500meters.png');
     this.load.image('80meters', 'img/entities/ui/80meters.png');
@@ -69,16 +62,12 @@ export class PreloadScene extends Scene {
     this.load.image('hookInfoPopup', 'img/entities/ui/hookInfo.png');
     this.load.image('continueButton', 'img/entities/ui/continueButton.png');
 
-    //LOAD ROCKET ANIMATION ASSETS
+    //LOAD ROCKET ASSETS
     this.load.image('rocket', 'img/entities/images/rocket.png');
 
-    // LOAD GOAL ZONES
+    // LOAD GOAL ZONES ASSETS
     this.load.image('goal-zone', 'img/entities/station/goal-zone.png');
     this.load.image('goal-distance', 'img/entities/station/goal-distance.png');
-
-    this.load.image('goal-1000', 'img/entities/images/1000meter.png');
-    this.load.image('goal-500', 'img/entities/images/500meter.png');
-    this.load.image('goal-80', 'img/entities/images/80meter.png');
 
     // LOAD SOUNDS ASSETS
     this.load.audio('background', 'sounds/background.wav');

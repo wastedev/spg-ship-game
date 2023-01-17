@@ -20,19 +20,19 @@ export class UiScene extends Scene {
   }
 
   create(): void {
-    // this.scene.swapPosition('ui-scene', 'top-scene');
     this.loadTimer = 0;
     this.oil = 0;
     this.health = 3;
     this.oilScore = this.add.image(window.game.scale.width - 70, 40, 'oilScore');
     this.oilScore.scale = 0.5;
     this.scoreText = this.add.text(window.game.scale.width - 75, 25, this.oil.toString(), {
-      font: '25px Bold Courier',
+      font: '25px Bold ',
       color: '#0F6894',
     });
     this.healthScore = this.add.image(70, 40, 'healthScore');
     this.healthText = this.add.text(75, 25, this.health.toString(), {
-      font: '25px Bold Courier',
+      fontFamily: 'Arial',
+      fontSize: '25px',
       color: '#0F6894',
     });
     this.healthScore.setScale(0.5);

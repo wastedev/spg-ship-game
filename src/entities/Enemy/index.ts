@@ -9,14 +9,49 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
     frame?: string | number,
   ) {
     super(world, x, y, texture, frame);
-    this.setScale(1);
-    this.setCircle((this.height * this.scale) / 2 - 20);
-    this.setAngle(90);
 
-    this.shaking = Math.random();
-    this.yPos = this.body.position.y;
-    this.setVelocityY(this.shaking);
+    setInterval(() => this.animation(), 1000);
+
+    if (texture == 'icebergAnimation-1') {
+      this.anims.create({
+        key: 'icebergAnimation-1',
+        frames: this.anims.generateFrameNumbers('sprIceberg-1', { start: 0, end: 6 }),
+        frameRate: 7,
+        repeat: -1,
+      });
+    }
+
+    if (texture == 'icebergAnimation-2') {
+      this.anims.create({
+        key: 'icebergAnimation-2',
+        frames: this.anims.generateFrameNumbers('sprIceberg-2', { start: 0, end: 6 }),
+        frameRate: 7,
+        repeat: -1,
+      });
+    }
+
+    if (texture == 'icebergAnimation-3') {
+      this.anims.create({
+        key: 'icebergAnimation-3',
+        frames: this.anims.generateFrameNumbers('sprIceberg-3', { start: 0, end: 6 }),
+        frameRate: 7,
+        repeat: -1,
+      });
+    }
+
+    this.setCircle(75);
+    this.setSensor(true);
+    this.play(texture);
     world.scene.add.existing(this);
+  }
+
+  animation(): void {
+    if (this.body) {
+      this.shaking = Math.random();
+      const dir = Math.random();
+      if (dir >= 0.5) this.setVelocityY(-this.shaking);
+      else this.setVelocityY(this.shaking);
+    }
   }
 
   update(): void {
@@ -24,11 +59,6 @@ export class Enemy extends Phaser.Physics.Matter.Sprite {
       this.destroy();
     } else {
       if (!this.body.gameObject) return;
-      if (this.y >= this.yPos + 20) {
-        this.setVelocityY(-this.shaking);
-      } else if (this.y <= this.yPos - 20) {
-        this.setVelocityY(this.shaking);
-      }
     }
   }
 }

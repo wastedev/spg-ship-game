@@ -4,6 +4,8 @@ export class BannerScene extends Scene {
   private bannerBackground!: GameObjects.Image;
   private banner!: GameObjects.Image;
   private bannerStartButton!: GameObjects.Image;
+
+  // private animation!: GameObjects.Sprite;
   constructor() {
     super('banner-scene');
   }
@@ -30,5 +32,15 @@ export class BannerScene extends Scene {
         this.scene.start('ui-scene');
       });
     this.bannerStartButton.setScale(0.7);
+
+    ///////////
+
+    // this.animation = this.add.sprite(
+    //   window.game.scale.width / 2,
+    //   window.game.scale.height / 2,
+    //   'sprIceberg-1',
+    // );
+    // this.animation.setScale(2);
+    // this.animation.play('icebergAnimation-2');
   }
 }

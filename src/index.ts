@@ -3,7 +3,6 @@ import { Game, Scene, Types } from 'phaser';
 import * as Porthole from 'porthole-proxy';
 import { PreloadScene, TopScene, UiScene, SideScene, DockingScene } from './scenes';
 import { BannerScene } from './scenes/BannerScene';
-// import { debouncedResize } from './utils';
 
 const DEFAULT_WIDTH = 1920;
 const DEFAULT_HEIGHT = 1080;
@@ -29,6 +28,7 @@ const gameConfig: Types.Core.GameConfig = {
   physics: {
     default: 'matter',
     matter: {
+      debug: true,
       setBounds: true,
       gravity: { y: 0 },
     },

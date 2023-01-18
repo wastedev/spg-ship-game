@@ -71,7 +71,7 @@ export class PreloadScene extends Scene {
     this.load.image('goal-distance', 'img/entities/station/goal-distance.png');
 
     // LOAD SOUNDS ASSETS
-    this.load.audio('background', 'sounds/background.wav');
+    this.load.audio('background', 'sounds/background.mp3');
     this.load.audio('rocket', 'sounds/rocket.mp3');
   }
 

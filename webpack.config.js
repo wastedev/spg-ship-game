@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const babelOptions = {
   presets: [
@@ -25,8 +26,10 @@ const config = {
   entry: './index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    chunkFilename: '[name].[chunkhash].chunk.js',
+    filename: '[name].[chunkhash].js',
   },
+  target: 'web',
   module: {
     rules: [
       {
@@ -67,25 +70,11 @@ const config = {
         extractComments: false,
         terserOptions: {
           mangle: true,
+          compress: true,
+          toplevel: true,
           output: {
             comments: false,
           },
-        },
-        sideEffects: true,
-        splitChunks: {
-          cacheGroups: {
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: (module) => {
-                const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-
-                return `npm.${packageName.replace('@', '')}`;
-              },
-            },
-          },
-          chunks: 'all',
-          maxInitialRequests: 10,
-          minSize: 0,
         },
       }),
     ],
@@ -110,6 +99,12 @@ const config = {
       filename: 'index.html',
       inlineSource: '.(js|css)$',
       minify: true,
+    }),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      minRatio: 0.8,
+      threshold: 10240,
+      test: /\.js$|\.ts|\.css$|\.html$$/,
     }),
   ],
   // devServer: {

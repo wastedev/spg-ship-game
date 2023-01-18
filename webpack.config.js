@@ -63,11 +63,29 @@ const config = {
     minimize: true,
     minimizer: [
       new TerserPlugin({
+        parallel: true,
         extractComments: false,
         terserOptions: {
+          mangle: true,
           output: {
             comments: false,
           },
+        },
+        sideEffects: true,
+        splitChunks: {
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: (module) => {
+                const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
+                return `npm.${packageName.replace('@', '')}`;
+              },
+            },
+          },
+          chunks: 'all',
+          maxInitialRequests: 10,
+          minSize: 0,
         },
       }),
     ],
@@ -85,7 +103,8 @@ const config = {
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/index.html'),
-      inject: true,
+      inject: 'head',
+      scriptLoading: 'defer',
       title: 'Игра - загрузка СПГ',
       appMountId: 'app',
       filename: 'index.html',

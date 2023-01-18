@@ -73,9 +73,6 @@ export class PreloadScene extends Scene {
     // LOAD SOUNDS ASSETS
     this.load.audio('background', 'sounds/background.wav');
     this.load.audio('rocket', 'sounds/rocket.mp3');
-
-    //LOAD HTML
-    this.load.html('spinner', 'index.html');
   }
 
   create(): void {

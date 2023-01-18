@@ -3,6 +3,7 @@ import { threadId } from 'worker_threads';
 
 export class PreloadScene extends Scene {
   private backgroundSound!: any;
+  // private loader!: any;
 
   constructor() {
     super('preload-scene');
@@ -72,20 +73,30 @@ export class PreloadScene extends Scene {
     // LOAD SOUNDS ASSETS
     this.load.audio('background', 'sounds/background.wav');
     this.load.audio('rocket', 'sounds/rocket.mp3');
+
+    //LOAD HTML
+    this.load.html('spinner', 'index.html');
   }
 
   create(): void {
     this.backgroundSound = this.sound.add('background');
-
     const musicConfig: Types.Sound.SoundConfig = {
       volume: 0.5,
       loop: true,
     };
 
+    var loader = this.add.dom(500, 500).createFromCache('spinner');
+
+    // loader.setPerspective(800);
+    // var element = this.add.dom(400, 600).createFromCache('nameform');
+
+    console.log('test');
+    // this.loader.setPerspective(800);
+
     setTimeout(() => {
       this.backgroundSound.play(musicConfig);
 
       this.scene.start('banner-scene');
-    }, 1000);
+    }, 0);
   }
 }

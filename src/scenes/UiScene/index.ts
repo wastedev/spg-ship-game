@@ -14,13 +14,11 @@ export class UiScene extends Scene {
   private healthScore!: GameObjects.Image;
   private healthText!: GameObjects.Text;
   private health!: number;
-  private loadTimer!: any;
   constructor() {
     super('ui-scene');
   }
 
   create(): void {
-    this.loadTimer = 0;
     this.oil = 0;
     this.health = 3;
     this.oilScore = this.add.image(window.game.scale.width - 70, 40, 'oilScore');

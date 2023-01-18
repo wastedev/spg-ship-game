@@ -6,7 +6,6 @@ import { timingSafeEqual } from 'crypto';
 
 export class TopScene extends Scene {
   public player!: Player;
-  private station!: Phaser.Physics.Matter.Image;
   private goalZone!: Phaser.Physics.Matter.Sprite;
 
   private icebergs: Enemy[] = [];

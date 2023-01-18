@@ -1,7 +1,7 @@
 // @ts-ignore
 import { Game, Scene, Types } from 'phaser';
 import * as Porthole from 'porthole-proxy';
-import { PreloadScene, TopScene, UiScene, SideScene, DockingScene } from './scenes';
+import { LoaderScene, PreloadScene, TopScene, UiScene, SideScene, DockingScene } from './scenes';
 import { BannerScene } from './scenes/BannerScene';
 
 const DEFAULT_WIDTH = 1920;
@@ -34,7 +34,7 @@ const gameConfig: Types.Core.GameConfig = {
   },
   canvasStyle: `display: block; width: 100%; height: 100%;`,
   autoFocus: true,
-  scene: [PreloadScene, BannerScene, TopScene, DockingScene, SideScene, UiScene],
+  scene: [LoaderScene, PreloadScene, BannerScene, TopScene, DockingScene, SideScene, UiScene],
 };
 
 // window.sizeChanged = debouncedResize;

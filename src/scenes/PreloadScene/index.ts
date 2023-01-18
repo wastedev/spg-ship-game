@@ -85,13 +85,10 @@ export class PreloadScene extends Scene {
       loop: true,
     };
 
-    var loader = this.add.dom(500, 500).createFromCache('spinner');
-
-    // loader.setPerspective(800);
-    // var element = this.add.dom(400, 600).createFromCache('nameform');
-
-    console.log('test');
-    // this.loader.setPerspective(800);
+    const loader = document.getElementById('ferretVideoWaitlay');
+    if (loader) {
+      loader.style.display = 'none';
+    }
 
     setTimeout(() => {
       this.backgroundSound.play(musicConfig);

@@ -73,7 +73,7 @@ const config = {
     ],
   },
   plugins: [
-    ...(!isProd ? [new webpack.HotModuleReplacementPlugin()] : []),
+    // ...(!isProd ? [new webpack.HotModuleReplacementPlugin()] : []),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
@@ -93,12 +93,12 @@ const config = {
       minify: true,
     }),
   ],
-  devServer: {
-    historyApiFallback: true,
-    open: true,
-    compress: true,
-    hot: true,
-    port: 8080,
-  },
+  // devServer: {
+  //   historyApiFallback: true,
+  //   open: true,
+  //   compress: true,
+  //   hot: true,
+  //   port: 8080,
+  // },
 };
 module.exports = config;

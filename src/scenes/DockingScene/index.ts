@@ -98,7 +98,7 @@ export class DockingScene extends Scene {
         (this.player.y >= this.goalStageRectangle?.y - 30 ||
           this.player.y <= this.goalStageRectangle?.y + 30)
       ) {
-        this.areaHitboxes(800);
+        this.areaHitboxes(815);
         this.goalStage = 80;
       }
     }

@@ -28,6 +28,7 @@ const gameConfig: Types.Core.GameConfig = {
   physics: {
     default: 'matter',
     matter: {
+      debug: true,
       setBounds: true,
       gravity: { y: 0 },
     },
@@ -35,7 +36,7 @@ const gameConfig: Types.Core.GameConfig = {
   canvasStyle: `display: block; width: 100%; height: 100%;`,
   autoFocus: true,
   loader: { async: true },
-  scene: [PreloadScene, BannerScene, TopScene, DockingScene, SideScene, UiScene],
+  scene: [PreloadScene, TopScene, BannerScene, DockingScene, SideScene, UiScene],
 };
 
 // window.sizeChanged = debouncedResize;

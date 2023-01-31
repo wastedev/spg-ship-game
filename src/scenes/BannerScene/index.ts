@@ -5,7 +5,6 @@ export class BannerScene extends Scene {
   private banner!: GameObjects.Image;
   private bannerStartButton!: GameObjects.Image;
 
-  // private animation!: GameObjects.Sprite;
   constructor() {
     super('banner-scene');
   }

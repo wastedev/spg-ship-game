@@ -65,7 +65,6 @@ export class TopScene extends Scene {
 
   update(): void {
     this.player.update();
-
     const ui = this.getUI();
     ui.setHealth(this.player.getHealth());
 
@@ -114,6 +113,10 @@ export class TopScene extends Scene {
         ),
       );
     }
+  }
+
+  logging() {
+    console.log('crush');
   }
 
   initInvisibleHitboxes() {

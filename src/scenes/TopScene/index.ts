@@ -103,11 +103,11 @@ export class TopScene extends Scene {
   }
 
   initEnemies(): void {
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 6; i++) {
       this.icebergs.push(
         new Enemy(
           this.matter.world,
-          (window.game.scale.width / 8) * 1.5 * (i / 1.13),
+          (window.game.scale.width / 9) * 1.3 * (i / 1.1),
           window.game.scale.height / 4 + Math.floor(Math.random() * (window.game.scale.height / 2)),
           `icebergAnimation-${Math.floor(Math.random() * 3) + 1}`,
         ),
@@ -122,7 +122,7 @@ export class TopScene extends Scene {
   initInvisibleHitboxes() {
     this.topBarrier = this.matter.add.rectangle(
       window.game.scale.width / 2,
-      0 + window.game.scale.height / 6 / 2,
+      window.game.scale.height / 6 / 2,
       window.game.scale.width,
       window.game.scale.height / 6,
     );

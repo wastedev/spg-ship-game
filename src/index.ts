@@ -36,7 +36,7 @@ const gameConfig: Types.Core.GameConfig = {
   canvasStyle: `display: block; width: 100%; height: 100%;`,
   autoFocus: true,
   loader: { async: true },
-  scene: [PreloadScene, TopScene, BannerScene, DockingScene, SideScene, UiScene],
+  scene: [PreloadScene, BannerScene, TopScene, DockingScene, SideScene, UiScene],
 };
 
 // window.sizeChanged = debouncedResize;
@@ -44,7 +44,6 @@ const gameConfig: Types.Core.GameConfig = {
 
 // TEMP GAME INIT BEFORE porthole-proxy implementation
 // window.game = new Game(gameConfig);
-
 window.onload = function () {
   window.windowProxy = new Porthole.WindowProxy(
     'https://ferretvideo.com/projects/north/proxy/proxyGame3.html',

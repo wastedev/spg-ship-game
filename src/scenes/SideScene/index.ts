@@ -195,6 +195,7 @@ export class SideScene extends Scene {
       this.createRocket();
     });
     this.input.on('pointerup', (pointer: any) => {
+      this.rocketSound.play(this.rocketConfig);
       this.rocketShot();
     });
   }

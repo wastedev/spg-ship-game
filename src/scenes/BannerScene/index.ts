@@ -27,7 +27,7 @@ export class BannerScene extends Scene {
       )
       .setInteractive()
       .on('pointerup', () => {
-        this.scene.start('side-scene');
+        this.scene.start('top-scene');
         this.scene.start('ui-scene');
       });
     this.bannerStartButton.setScale(0.7);

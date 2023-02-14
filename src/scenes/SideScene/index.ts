@@ -1,3 +1,4 @@
+import { World } from 'matter';
 import { Scene, GameObjects, Types, Sound } from 'phaser';
 import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers';
 import { UiScene } from '../UiScene';
@@ -6,22 +7,88 @@ export class SideScene extends Scene {
   private backgroundSide!: GameObjects.Image;
   private playerSide!: GameObjects.Sprite;
   private oilStationSide!: GameObjects.Sprite;
-  private bar!: GameObjects.Image;
-  private barCursor!: Phaser.Physics.Matter.Sprite;
-  private rocket!: Phaser.Physics.Matter.Image;
-  private graphics!: Phaser.GameObjects.Graphics;
-  private line!: Phaser.Geom.Line;
-  private t!: number;
-  private duration!: number;
-  private curve!: Phaser.Curves.Spline;
   private sidePlayerHealth!: number;
-  private points!: Phaser.Math.Vector2[];
-  private rocketOnPoint!: boolean;
-  private shotButton!: GameObjects.Image;
   private rocketSound!: Sound.BaseSound;
   private rocketConfig!: Types.Sound.SoundConfig;
   private popUpInfo!: GameObjects.Image;
   private continueButton!: GameObjects.Image;
+  //
+
+  private rocketBackgroundZone!: GameObjects.Image;
+  private rocketZone!: GameObjects.Image;
+  private rocketTargetZone!: GameObjects.Sprite;
+
+  //new variables for rocket shooting
+  private rocketCreated: boolean = false;
+  private rocket!: GameObjects.Sprite;
+  private rocketX!: number;
+  private rocketY!: number;
+  private oldRocketX!: number;
+  private oldRocketY!: number;
+  private shot: boolean = false;
+  private newRocket!: GameObjects.Sprite;
+  private velX!: number;
+  private velY!: number;
+  private angle!: number;
+  private g: number = 0.25;
+  private rocketAngle!: number;
+
+  //
+
+  //functions for rocket shooting
+  createRocket() {
+    this.rocketCreated = true;
+  }
+
+  rocketShot() {
+    if (!this.shot) {
+      this.shot = true;
+      this.newRocket = this.add
+        .sprite(this.rocketZone.x, this.rocketZone.y, 'rocket')
+        .setScale(0.3)
+        .setOrigin(0.5)
+        .setTint(0xffffff);
+      this.newRocket.angle = this.rocketZone.angle;
+      this.velX = -(this.input.mousePointer.x - this.rocketZone.x) / 6;
+      this.velY = -(this.input.mousePointer.y - this.rocketZone.y) / 6;
+    }
+  }
+
+  resetRocket() {
+    this.shot = false;
+    this.rocket.x = this.rocketZone.x;
+    this.rocket.y = this.rocketZone.y;
+    this.rocketX = this.oldRocketX = this.rocket.x;
+    this.rocketY = this.oldRocketY = this.rocket.y;
+  }
+
+  rocketHit(obj1: any, obj2: any) {
+    var left1 = parseInt(obj1.x);
+    var left2 = parseInt(obj2.x);
+    var top1 = parseInt(obj1.y);
+    var top2 = parseInt(obj2.y);
+    var width1 = parseInt(obj1.displayWidth);
+    var width2 = parseInt(obj2.displayWidth);
+    var height1 = parseInt(obj1.displayHeight);
+    var height2 = parseInt(obj2.displayHeight);
+    var horTest = false;
+    var verTest = false;
+    if (
+      (left1 >= left2 && left1 <= left2 + width2) ||
+      (left2 >= left1 && left2 <= left1 + width1)
+    ) {
+      horTest = true;
+    }
+    if ((top1 >= top2 && top1 <= top2 + height2) || (top2 >= top1 && top2 <= top1 + height1)) {
+      verTest = true;
+    }
+    if (horTest && verTest) {
+      return true;
+    }
+    return false;
+  }
+
+  //
 
   constructor() {
     super('side-scene');
@@ -29,35 +96,6 @@ export class SideScene extends Scene {
 
   getLinePoints(line: any): Phaser.Math.Vector2[] {
     return line.getPoints(3) as Phaser.Math.Vector2[];
-  }
-
-  shot(): void {
-    if (this.sidePlayerHealth != 0) {
-      if (this.barCursor.x >= this.bar.x + 40) {
-        this.rocketSound.play(this.rocketConfig);
-        this.t = 0;
-        this.barCursor.setVelocityX(0);
-        this.shotButton.removeAllListeners();
-      } else {
-        --this.sidePlayerHealth;
-        --SCENE_HEALTH[SECOND_SCENE];
-      }
-      if (this.sidePlayerHealth === 0) {
-        console.log('GAME_OVER');
-
-        window.windowProxy.post({
-          finishGame3: JSON.stringify({
-            win: false,
-            lose: true,
-            crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
-            aimTries: 3 - SCENE_HEALTH[SECOND_SCENE],
-          }),
-        });
-
-        this.barCursor.setVelocityX(0);
-        this.shotButton.removeAllListeners();
-      }
-    }
   }
 
   loadPopup(): void {
@@ -74,9 +112,10 @@ export class SideScene extends Scene {
       .on('pointerup', () => {
         this.popUpInfo.destroy();
         this.continueButton.destroy();
-        this.barCursor.setVelocityX(8);
         this.playerSide.visible = true;
         this.playerSide.setDepth(1);
+        this.rocketTargetZone.visible = true;
+        this.rocketTargetZone.setDepth(1);
       });
     this.continueButton.setScale(0.5);
   }
@@ -94,8 +133,6 @@ export class SideScene extends Scene {
       loop: false,
     };
 
-    this.rocketOnPoint = false;
-    this.duration = 1500;
     this.backgroundSide = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
@@ -106,13 +143,20 @@ export class SideScene extends Scene {
     this.backgroundSide.setDepth(-1);
 
     this.playerSide = this.add.sprite(
-      window.game.scale.width / 2 + window.game.scale.width / 10,
+      window.game.scale.width / 2 + window.game.scale.width / 3.5,
       window.game.scale.height / 2 + 100,
       'player-side',
     );
-    this.playerSide.visible = false;
     this.playerSide.scale = 1;
-    this.playerSide.setDepth(0);
+    this.playerSide.visible = false;
+
+    this.rocketTargetZone = this.add.sprite(
+      this.playerSide.x - 345,
+      this.playerSide.y + 30,
+      'rocket-target-zone',
+    );
+    this.rocketTargetZone.scale = 0.5;
+    this.rocketTargetZone.visible = false;
 
     this.oilStationSide = this.add.sprite(
       window.game.scale.width / 10,
@@ -122,86 +166,183 @@ export class SideScene extends Scene {
     this.oilStationSide.scale = 1;
     this.oilStationSide.setDepth(-1);
 
-    this.bar = this.add.image(window.game.scale.width / 2, window.game.scale.height / 10, 'bar');
-    this.bar.scale = 0.5;
-
-    this.barCursor = this.matter.add.sprite(this.bar.x, this.bar.y - 35, 'bar-cursor');
-    this.barCursor.setScale(0.5);
-
-    this.rocket = this.matter.add.image(
+    this.rocketBackgroundZone = this.add.image(
       this.oilStationSide.x + this.oilStationSide.x / 10,
       this.oilStationSide.y + this.oilStationSide.y / 5,
-      'rocket',
+      'rocket-background-zone',
     );
-    this.rocket.setScale(0.2);
-    this.rocket.setFriction(0);
-    this.rocket.setFrictionAir(0);
-    this.rocket.setBounce(0);
+    this.rocketBackgroundZone.scale = 0.4;
+    this.rocketBackgroundZone.active = false;
 
-    this.graphics = this.add.graphics();
-    this.line = new Phaser.Geom.Line(
-      this.rocket.x,
-      this.rocket.y,
-      this.playerSide.x - 100,
-      this.playerSide.y + 100,
+    this.rocketZone = this.add.image(
+      this.oilStationSide.x + this.oilStationSide.x / 10,
+      this.oilStationSide.y + this.oilStationSide.y / 5,
+      'rocket-zone',
     );
+    this.rocketZone.scale = 0.4;
+    this.rocketZone.active = false;
 
-    this.points = this.getLinePoints(this.line);
-    this.points[1].y = this.points[1].y - 100;
+    this.rocket = this.add
+      .sprite(this.rocketZone.x, this.rocketZone.y, 'rocket')
+      .setScale(0.3)
+      .setOrigin(0.5);
 
-    this.curve = new Phaser.Curves.Spline(this.points);
-    this.graphics.lineStyle(1, 0x00000, 0);
-    this.curve.draw(this.graphics, 64);
+    this.rocket.angle = this.rocketZone.angle;
+    this.rocketX = this.oldRocketX = this.rocket.x;
+    this.rocketY = this.oldRocketY = this.rocket.y;
 
-    this.t = -1;
-
-    this.shotButton = this.add
-      .image(this.bar.x + 200, this.bar.y, 'shotButton')
-      .setScrollFactor(0)
-      .setInteractive()
-      .on('pointerup', () => {
-        this.shot();
-      });
-    this.shotButton.scale = 0.35;
-  }
-
-  pointerMove(): void {
-    if (this.barCursor.x <= this.bar.x - 120) {
-      this.barCursor.setVelocityX(8);
-    } else if (this.barCursor.x >= this.bar.x + 120) {
-      this.barCursor.setVelocityX(-8);
-    }
+    this.input.on('pointerdown', (pointer: any) => {
+      this.createRocket();
+    });
+    this.input.on('pointerup', (pointer: any) => {
+      this.rocketShot();
+    });
   }
 
   update(time: any, delta: any): void {
     const ui = this.getUI();
     ui.setHealth(this.sidePlayerHealth);
-    this.pointerMove();
-    if (this.t === -1) {
-      return;
-    }
-    this.t += delta;
-    if (this.t >= this.duration) {
-      this.rocket.setVelocity(0, 0);
-    } else {
-      this.rocket.angle += 1;
-      var d = this.t / this.duration;
-      var p = this.curve.getPoint(d);
-      this.rocket.setPosition(p.x, p.y);
-    }
 
-    if (this.rocketOnPoint === false) {
-      if (this.rocket.x >= this.points[2].x - 5) {
-        this.rocketOnPoint = true;
-        this.oilStationSide.destroy();
-        this.oilStationSide = this.add.sprite(
-          window.game.scale.width / 5,
-          window.game.scale.height / 2 - 60,
-          'station-side-connected',
-        );
-        const ui = this.getUI();
-        ui.activateLoadButton();
+    if (!this.shot) {
+      this.rocket.setAlpha(1);
+      this.angle =
+        Math.atan2(
+          this.input.mousePointer.x - this.rocketZone.x,
+          -(this.input.mousePointer.y - this.rocketZone.y),
+        ) *
+          (180 / Math.PI) -
+        180;
+      this.rocketZone.angle = this.rocket.angle = this.angle;
+    } else {
+      this.rocket.setAlpha(0);
+
+      this.rocketX += this.velX;
+      this.rocketY += this.velY;
+      this.velY += this.g;
+      this.newRocket.x = this.rocketX;
+      this.newRocket.y = this.rocketY;
+      this.rocketAngle =
+        Math.atan2(this.rocketX - this.oldRocketX, -(this.rocketY - this.oldRocketY)) *
+        (180 / Math.PI);
+      this.newRocket.angle = this.rocketAngle;
+
+      this.oldRocketX = this.rocketX;
+      this.oldRocketY = this.rocketY;
+      if (this.newRocket.y > window.game.scale.height) {
+        this.resetRocket();
+      }
+      if (this.rocketHit(this.newRocket, this.rocketTargetZone)) {
+        console.log('попадание');
+        this.resetRocket();
       }
     }
   }
 }
+
+//from create function
+// this.bar = this.add.image(window.game.scale.width / 2, window.game.scale.height / 10, 'bar');
+// this.bar.scale = 0.5;
+
+// this.barCursor = this.matter.add.sprite(this.bar.x, this.bar.y - 35, 'bar-cursor');
+// this.barCursor.setScale(0.5);
+
+// this.graphics = this.add.graphics();//for drawing a line
+// this.line = new Phaser.Geom.Line(
+//   this.rocket.x,
+//   this.rocket.y,
+//   this.playerSide.x - 100,
+//   this.playerSide.y + 100,
+// );
+
+// this.points = this.getLinePoints(this.line);
+// this.points[1].y = this.points[1].y - 100;
+
+// this.curve = new Phaser.Curves.Spline(this.points);
+// this.graphics.lineStyle(1, 0x00000, 0);
+// this.curve.draw(this.graphics, 64);
+
+// this.pointerMove();//from update function
+
+// pointerMove(): void {//function for pointer
+//   if (this.barCursor.x <= this.bar.x - 120) {
+//     this.barCursor.setVelocityX(8);
+//   } else if (this.barCursor.x >= this.bar.x + 120) {
+//     this.barCursor.setVelocityX(-8);
+//   }
+// }
+
+// private shotButton!: GameObjects.Image;//unused variables
+
+// this.t = -1;// from rocket fly logics from create function
+
+// shot(): void { //shot button logic
+//   if (this.sidePlayerHealth != 0) {
+//     if (this.barCursor.x >= this.bar.x + 40) {
+//       this.rocketSound.play(this.rocketConfig);
+//       // this.t = 0; //from rocket fly logics
+//       this.barCursor.setVelocityX(0);
+//       this.shotButton.removeAllListeners();
+//     } else {
+//       --this.sidePlayerHealth;
+//       --SCENE_HEALTH[SECOND_SCENE];
+//     }
+//     if (this.sidePlayerHealth === 0) {
+//       console.log('GAME_OVER');
+
+//       window.windowProxy.post({
+//         finishGame3: JSON.stringify({
+//           win: false,
+//           lose: true,
+//           crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+//           aimTries: 3 - SCENE_HEALTH[SECOND_SCENE],
+//         }),
+//       });
+
+//       this.barCursor.setVelocityX(0);
+//       this.shotButton.removeAllListeners();
+//     }
+//   }
+// }
+
+// this.shotButton = this.add//shot button visual from create function
+//   .image(this.bar.x + 200, this.bar.y, 'shotButton')
+//   .setScrollFactor(0)
+//   .setInteractive()
+//   .on('pointerup', () => {
+//     this.shot();
+//   });
+// this.shotButton.scale = 0.35;
+
+// this.rocketOnPoint = false;//from create method
+// this.duration = 1500;
+
+// private t!: number; //variables
+// private duration!: number;
+// private rocketOnPoint!: boolean;
+
+// if (this.t === -1) { // rocket logic
+//   return;
+// }
+// this.t += delta;
+// if (this.t >= this.duration) {
+//   this.rocket.setVelocity(0, 0);
+// } else {
+//   this.rocket.angle += 1;
+//   var d = this.t / this.duration;
+//   var p = this.curve.getPoint(d);
+//   this.rocket.setPosition(p.x, p.y);
+// }
+
+// if (this.rocketOnPoint === false) {
+//   if (this.rocket.x >= this.points[2].x - 5) {
+//     this.rocketOnPoint = true;
+//     this.oilStationSide.destroy();
+//     this.oilStationSide = this.add.sprite(
+//       window.game.scale.width / 5,
+//       window.game.scale.height / 2 - 60,
+//       'station-side-connected',
+//     );
+//     const ui = this.getUI();
+//     ui.activateLoadButton();
+//   }
+// }

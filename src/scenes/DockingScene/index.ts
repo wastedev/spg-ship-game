@@ -49,27 +49,26 @@ export class DockingScene extends Scene {
       window.game.scale.height,
     );
     this.station.setStatic(true);
-    this.areaHitboxes(575);
   }
 
   protected getUI(): UiScene {
     return this.scene.get('ui-scene') as UiScene;
   }
 
-  areaHitboxes(height: integer) {
+  areaHitboxes(divider: number, width: number) {
     this.topBarrier = this.matter.add.rectangle(
-      window.game.scale.width / 2,
-      0 + window.game.scale.height / 6 / 2,
-      window.game.scale.width,
-      height,
+      this.goalStageRectangle.x,
+      this.goalStageRectangle.y - this.goalStageRectangle.y / divider,
+      this.goalStageRectangle.width / width,
+      window.game.scale.height / 2 - this.goalStageRectangle.y / 3,
     );
     this.topBarrier.isStatic = true;
 
     this.bottomBarrier = this.matter.add.rectangle(
-      window.game.scale.width / 2,
-      window.game.scale.height - window.game.scale.height / 6 / 2,
-      window.game.scale.width,
-      height,
+      this.goalStageRectangle.x,
+      this.goalStageRectangle.y + this.goalStageRectangle.y / divider,
+      this.goalStageRectangle.width / width,
+      window.game.scale.height / 2 - this.goalStageRectangle.y / 3,
     );
     this.bottomBarrier.isStatic = true;
   }
@@ -80,14 +79,13 @@ export class DockingScene extends Scene {
 
   update(time: number, delta: number): void {
     this.player.update();
-    this.matter.overlap(this.player, [this.bottomBarrier, this.topBarrier], this.zoneKnock);
+
     if (this.goalStage > 500) {
       if (
         this.player.x >= this.goalStageRectangle?.x - 30 &&
         (this.player.y >= this.goalStageRectangle?.y - 30 ||
           this.player.y <= this.goalStageRectangle?.y + 30)
       ) {
-        this.areaHitboxes(675);
         this.goalStage = 500;
       }
     }
@@ -98,7 +96,6 @@ export class DockingScene extends Scene {
         (this.player.y >= this.goalStageRectangle?.y - 30 ||
           this.player.y <= this.goalStageRectangle?.y + 30)
       ) {
-        this.areaHitboxes(815);
         this.goalStage = 80;
       }
     }
@@ -130,7 +127,7 @@ export class DockingScene extends Scene {
         );
         this.goalStageRectangle.setDisplaySize(500, 300);
         this.goalStageRectangle.setSensor(true);
-
+        this.areaHitboxes(1.65, 4);
         this.goalStageMessage = this.matter.add.sprite(
           window.game.scale.width / 2,
           window.game.scale.height / 2,
@@ -164,6 +161,8 @@ export class DockingScene extends Scene {
         GAME_SPEEDS[ROTATION_SPEED] = 0;
         this.goalStageRectangle.setX(window.game.scale.width / 2);
         this.goalStageRectangle.setDisplaySize(300, 200);
+
+        this.areaHitboxes(1.9, 6.5);
 
         this.goalStageMessage = this.matter.add.sprite(
           window.game.scale.width / 2,
@@ -200,6 +199,8 @@ export class DockingScene extends Scene {
         this.goalStageRectangle.setX(this.station.x - 350);
         this.goalStageRectangle.setDisplaySize(220, 50);
 
+        this.areaHitboxes(2.5, 9);
+
         this.goalStageMessage = this.matter.add.sprite(
           window.game.scale.width / 2,
           window.game.scale.height / 2,
@@ -228,5 +229,6 @@ export class DockingScene extends Scene {
         --this.goalStage;
         break;
     }
+    this.matter.overlap(this.player, [this.bottomBarrier, this.topBarrier], this.zoneKnock);
   }
 }

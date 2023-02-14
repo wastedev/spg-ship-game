@@ -65,6 +65,9 @@ export class PreloadScene extends Scene {
 
     //LOAD ROCKET ASSETS
     this.load.image('rocket', 'img/entities/images/rocket.png');
+    this.load.image('rocket-background-zone', 'img/entities/images/rocket_background_zone.png');
+    this.load.image('rocket-zone', 'img/entities/images/rocket_zone.png');
+    this.load.image('rocket-target-zone', 'img/entities/player/rocket-zone.png');
 
     // LOAD GOAL ZONES ASSETS
     this.load.image('goal-zone', 'img/entities/station/goal-zone.png');

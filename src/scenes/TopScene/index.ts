@@ -17,6 +17,9 @@ export class TopScene extends Scene {
   private continueButton!: GameObjects.Image;
   private isBannerShowed: boolean = false;
 
+  private zoneBorderTop!: MatterJS.BodyType;
+  private zoneBorderBottom!: MatterJS.BodyType;
+
   constructor() {
     super('top-scene');
   }
@@ -60,7 +63,12 @@ export class TopScene extends Scene {
     this.goalZone.setSensor(true);
     this.goalZone.setDepth(-1);
 
-    this.goalZone.setOnCollide((obj: Phaser.Types.Physics.Matter.MatterCollisionData) => {});
+    this.goalZone.setOnCollide((obj: Phaser.Types.Physics.Matter.MatterCollisionData) => {
+      this.initGoalZoneBorder();
+      setTimeout(() => {
+        this.sceneChange();
+      }, 6000);
+    });
   }
 
   update(): void {
@@ -71,35 +79,55 @@ export class TopScene extends Scene {
     if (this.icebergs.every((iceberg) => iceberg instanceof Enemy)) {
       this.icebergs.forEach((item) => item.update());
     }
-    if (this.goalZone.body) {
-      if (
-        this.player.x >= this.goalZone?.x - 50 &&
-        (this.player.y >= this.goalZone?.y - 30 || this.player.y <= this.goalZone?.y + 30) &&
-        !this.isBannerShowed
-      ) {
-        this.isBannerShowed = true;
-        GAME_SPEEDS[MOVEMENT_SPEED] = 0;
-        GAME_SPEEDS[ROTATION_SPEED] = 0;
-        this.popup = this.add.image(
-          window.game.scale.width / 2,
-          window.game.scale.height / 2,
-          'dockingPopup',
-        );
-        this.popup.setScale(0.7);
-        this.continueButton = this.add
-          .image(this.popup.x, this.popup.y + this.popup.y / 3, 'continueButton')
-          .setScrollFactor(0)
-          .setInteractive()
-          .on('pointerup', () => {
-            GAME_SPEEDS[MOVEMENT_SPEED] = 0.39;
-            GAME_SPEEDS[ROTATION_SPEED] = 0.16;
-            this.popup.destroy();
-            this.continueButton.destroy();
-            this.scene.start('docking-scene');
-            this.scene.stop();
-          });
-      }
+
+    if (this.zoneBorderBottom && this.zoneBorderTop) {
+      //demo logic for your stop in the goal zone for scene change
+      this.matter.overlap(this.player, [this.zoneBorderTop, this.zoneBorderBottom], () => {
+        console.log('gameover');
+      });
     }
+
+    if (this.player.x >= this.goalZone.x) {
+      // if you dont get the goalzone
+      console.log('gameover');
+    }
+  }
+
+  sceneChange(): void {
+    this.isBannerShowed = true;
+    GAME_SPEEDS[MOVEMENT_SPEED] = 0;
+    GAME_SPEEDS[ROTATION_SPEED] = 0;
+    this.popup = this.add.image(
+      window.game.scale.width / 2,
+      window.game.scale.height / 2,
+      'dockingPopup',
+    );
+    this.popup.setScale(0.7);
+    this.continueButton = this.add
+      .image(this.popup.x, this.popup.y + this.popup.y / 3, 'continueButton')
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerup', () => {
+        GAME_SPEEDS[MOVEMENT_SPEED] = 0.39;
+        GAME_SPEEDS[ROTATION_SPEED] = 0.16;
+        this.popup.destroy();
+        this.continueButton.destroy();
+        this.scene.start('docking-scene');
+        this.scene.stop();
+      });
+  }
+
+  initGoalZoneBorder(): void {
+    this.zoneBorderTop = this.matter.add.rectangle(this.goalZone.x, this.goalZone.y - 50, 220, 5);
+    this.zoneBorderTop.isStatic = true;
+
+    this.zoneBorderBottom = this.matter.add.rectangle(
+      this.goalZone.x,
+      this.goalZone.y + 50,
+      220,
+      5,
+    );
+    this.zoneBorderBottom.isStatic = true;
   }
 
   initEnemies(): void {
@@ -137,3 +165,13 @@ export class TopScene extends Scene {
     this.bottomBarrier.isStatic = true;
   }
 }
+
+// if (this.goalZone.body) {
+//   if (
+//     this.player.x >= this.goalZone?.x - 50 &&
+//     (this.player.y >= this.goalZone?.y - 30 || this.player.y <= this.goalZone?.y + 30) &&
+//     !this.isBannerShowed
+//   ) {
+//     this.sceneChange();
+//   }
+// }

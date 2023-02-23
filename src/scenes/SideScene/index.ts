@@ -1,3 +1,4 @@
+import { maxHeaderSize } from 'http';
 import { World } from 'matter';
 import { Scene, GameObjects, Types, Sound } from 'phaser';
 import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers';
@@ -5,35 +6,36 @@ import { UiScene } from '../UiScene';
 
 export class SideScene extends Scene {
   private backgroundSide!: GameObjects.Image;
-  private playerSide!: GameObjects.Sprite;
+  private playerSide!: Phaser.Physics.Matter.Sprite;
   private oilStationSide!: GameObjects.Sprite;
   private sidePlayerHealth!: number;
   private rocketSound!: Sound.BaseSound;
   private rocketConfig!: Types.Sound.SoundConfig;
   private popUpInfo!: GameObjects.Image;
   private continueButton!: GameObjects.Image;
+  private continueButtonClicked: boolean = false;
   //
 
   private rocketBackgroundZone!: GameObjects.Image;
   private rocketZone!: GameObjects.Image;
-  private rocketTargetZone!: GameObjects.Sprite;
+  private rocketTargetZone!: Phaser.Physics.Matter.Sprite;
 
   //new variables for rocket shooting
   private rocketCreated: boolean = false;
-  private rocket!: GameObjects.Sprite;
+  private rocket!: Phaser.Physics.Matter.Sprite;
   private rocketX!: number;
   private rocketY!: number;
   private oldRocketX!: number;
   private oldRocketY!: number;
   private shot: boolean = false;
-  private newRocket!: GameObjects.Sprite;
+  private newRocket!: Phaser.Physics.Matter.Sprite;
   private velX!: number;
   private velY!: number;
   private angle!: number;
   private g: number = 0.25;
   private rocketAngle!: number;
-
-  //
+  private rocketShotAttempt: number = 3;
+  private pointerDown: boolean = false;
 
   //functions for rocket shooting
   createRocket() {
@@ -43,51 +45,32 @@ export class SideScene extends Scene {
   rocketShot() {
     if (!this.shot) {
       this.shot = true;
-      this.newRocket = this.add
+      this.newRocket = this.matter.add
         .sprite(this.rocketZone.x, this.rocketZone.y, 'rocket')
         .setScale(0.3)
         .setOrigin(0.5)
         .setTint(0xffffff);
       this.newRocket.angle = this.rocketZone.angle;
-      this.velX = -(this.input.mousePointer.x - this.rocketZone.x) / 6;
-      this.velY = -(this.input.mousePointer.y - this.rocketZone.y) / 6;
+      this.velX = -(this.input.activePointer.x - this.rocketZone.x) / 6;
+      this.velY = -(this.input.activePointer.y - this.rocketZone.y) / 6;
     }
   }
 
   resetRocket() {
-    this.shot = false;
-    this.rocket.x = this.rocketZone.x;
-    this.rocket.y = this.rocketZone.y;
-    this.rocketX = this.oldRocketX = this.rocket.x;
-    this.rocketY = this.oldRocketY = this.rocket.y;
+    if (this.rocketShotAttempt != 1) {
+      --this.rocketShotAttempt;
+      this.shot = false;
+      this.rocket.x = this.rocketZone.x;
+      this.rocket.y = this.rocketZone.y;
+      this.rocketX = this.oldRocketX = this.rocket.x;
+      this.rocketY = this.oldRocketY = this.rocket.y;
+      this.pointerDown = false;
+    } else {
+      const ui = this.getUI();
+      ui.setHealth(0);
+      console.log('porthole lose');
+    }
   }
-
-  rocketHit(obj1: any, obj2: any) {
-    var left1 = parseInt(obj1.x);
-    var left2 = parseInt(obj2.x);
-    var top1 = parseInt(obj1.y);
-    var top2 = parseInt(obj2.y);
-    var width1 = parseInt(obj1.displayWidth);
-    var width2 = parseInt(obj2.displayWidth);
-    var height1 = parseInt(obj1.displayHeight);
-    var height2 = parseInt(obj2.displayHeight);
-    var horTest = false;
-    var verTest = false;
-    if (
-      (left1 >= left2 && left1 <= left2 + width2) ||
-      (left2 >= left1 && left2 <= left1 + width1)
-    ) {
-      horTest = true;
-    }
-    if ((top1 >= top2 && top1 <= top2 + height2) || (top2 >= top1 && top2 <= top1 + height1)) {
-      verTest = true;
-    }
-    if (horTest && verTest) {
-      return true;
-    }
-    return false;
-  }
-
   //
 
   constructor() {
@@ -116,6 +99,7 @@ export class SideScene extends Scene {
         this.playerSide.setDepth(1);
         this.rocketTargetZone.visible = true;
         this.rocketTargetZone.setDepth(1);
+        this.continueButtonClicked = true;
       });
     this.continueButton.setScale(0.5);
   }
@@ -126,7 +110,6 @@ export class SideScene extends Scene {
 
   create(): void {
     this.loadPopup();
-    this.sidePlayerHealth = 3;
     this.rocketSound = this.sound.add('rocket');
     this.rocketConfig = {
       volume: 0.3,
@@ -142,21 +125,25 @@ export class SideScene extends Scene {
     this.backgroundSide.displayHeight = window.game.scale.height;
     this.backgroundSide.setDepth(-1);
 
-    this.playerSide = this.add.sprite(
+    this.playerSide = this.matter.add.sprite(
       window.game.scale.width / 2 + window.game.scale.width / 3.5,
       window.game.scale.height / 2 + 100,
       'player-side',
     );
     this.playerSide.scale = 1;
     this.playerSide.visible = false;
+    this.playerSide.setRectangle(0.001, 0.001);
+    this.playerSide.setStatic(true);
 
-    this.rocketTargetZone = this.add.sprite(
+    this.rocketTargetZone = this.matter.add.sprite(
       this.playerSide.x - 345,
       this.playerSide.y + 30,
       'rocket-target-zone',
     );
     this.rocketTargetZone.scale = 0.5;
     this.rocketTargetZone.visible = false;
+    this.rocketTargetZone.setRectangle(100, 10);
+    this.rocketTargetZone.setStatic(true);
 
     this.oilStationSide = this.add.sprite(
       window.game.scale.width / 10,
@@ -182,7 +169,7 @@ export class SideScene extends Scene {
     this.rocketZone.scale = 0.4;
     this.rocketZone.active = false;
 
-    this.rocket = this.add
+    this.rocket = this.matter.add
       .sprite(this.rocketZone.x, this.rocketZone.y, 'rocket')
       .setScale(0.3)
       .setOrigin(0.5);
@@ -190,30 +177,50 @@ export class SideScene extends Scene {
     this.rocket.angle = this.rocketZone.angle;
     this.rocketX = this.oldRocketX = this.rocket.x;
     this.rocketY = this.oldRocketY = this.rocket.y;
+  }
 
-    this.input.on('pointerdown', (pointer: any) => {
-      this.createRocket();
-    });
-    this.input.on('pointerup', (pointer: any) => {
-      this.rocketSound.play(this.rocketConfig);
-      this.rocketShot();
-    });
+  rocketHitZone(): void {
+    console.log('maybe i put this code there');
+  }
+
+  rocketEventSettings(): void {
+    if (this.continueButtonClicked) {
+      this.continueButtonClicked = false;
+
+      console.log('event created');
+
+      this.input.on('pointerdown', (pointer: any) => {
+        console.log('down');
+        this.pointerDown = true;
+        this.createRocket();
+      });
+      this.input.on('pointerup', (pointer: any) => {
+        console.log('up');
+        if (!this.shot) {
+          this.rocketSound.play(this.rocketConfig);
+        }
+        this.rocketShot();
+      });
+    }
   }
 
   update(time: any, delta: any): void {
+    this.rocketEventSettings();
     const ui = this.getUI();
-    ui.setHealth(this.sidePlayerHealth);
+    ui.setHealth(this.rocketShotAttempt);
 
     if (!this.shot) {
-      this.rocket.setAlpha(1);
-      this.angle =
-        Math.atan2(
-          this.input.mousePointer.x - this.rocketZone.x,
-          -(this.input.mousePointer.y - this.rocketZone.y),
-        ) *
-          (180 / Math.PI) -
-        180;
-      this.rocketZone.angle = this.rocket.angle = this.angle;
+      if (this.pointerDown) {
+        this.rocket.setAlpha(1);
+        this.angle =
+          Math.atan2(
+            this.input.mousePointer.x - this.rocketZone.x,
+            -(this.input.mousePointer.y - this.rocketZone.y),
+          ) *
+            (180 / Math.PI) -
+          180;
+        this.rocketZone.angle = this.rocket.angle = this.angle;
+      }
     } else {
       this.rocket.setAlpha(0);
 
@@ -226,14 +233,24 @@ export class SideScene extends Scene {
         Math.atan2(this.rocketX - this.oldRocketX, -(this.rocketY - this.oldRocketY)) *
         (180 / Math.PI);
       this.newRocket.angle = this.rocketAngle;
+      this.newRocket.setDepth(1);
+
+      if (this.newRocket) {
+        this.matter.overlap(this.rocketTargetZone, [this.newRocket], () => {
+          console.log('win');
+          this.resetRocket();
+        });
+      }
 
       this.oldRocketX = this.rocketX;
       this.oldRocketY = this.rocketY;
-      if (this.newRocket.y > window.game.scale.height) {
+      if (this.newRocket.y > window.game.scale.height + 50) {
         this.resetRocket();
       }
-      if (this.rocketHit(this.newRocket, this.rocketTargetZone)) {
-        console.log('попадание');
+      if (this.newRocket.x <= -50) {
+        this.resetRocket();
+      }
+      if (this.newRocket.x >= window.game.scale.width + 50) {
         this.resetRocket();
       }
     }

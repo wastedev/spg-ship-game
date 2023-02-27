@@ -169,7 +169,7 @@ export class SideScene extends Scene {
     );
     this.rocketTargetZone.scale = 0.5;
     this.rocketTargetZone.visible = false;
-    this.rocketTargetZone.setRectangle(100, 10);
+    this.rocketTargetZone.setRectangle(110, 15);
     this.rocketTargetZone.setStatic(true);
 
     this.oilStationSide = this.add.sprite(
@@ -206,23 +206,15 @@ export class SideScene extends Scene {
     this.rocketY = this.oldRocketY = this.rocket.y;
   }
 
-  rocketHitZone(): void {
-    console.log('maybe i put this code there');
-  }
-
   rocketEventSettings(): void {
     if (this.continueButtonClicked) {
       this.continueButtonClicked = false;
 
-      console.log('event created');
-
       this.input.on('pointerdown', (pointer: any) => {
-        console.log('down');
         this.pointerDown = true;
         this.createRocket();
       });
       this.input.on('pointerup', (pointer: any) => {
-        console.log('up');
         if (!this.shot) {
           this.rocketSound.play(this.rocketConfig);
         }
@@ -264,6 +256,7 @@ export class SideScene extends Scene {
 
       if (this.newRocket) {
         this.matter.overlap(this.rocketTargetZone, [this.newRocket], () => {
+          console.log('overlapped');
           this.resetRocket();
           ui.oilLoading();
         });

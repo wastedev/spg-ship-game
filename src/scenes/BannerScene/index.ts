@@ -4,6 +4,7 @@ export class BannerScene extends Scene {
   private bannerBackground!: GameObjects.Image;
   private banner!: GameObjects.Image;
   private bannerStartButton!: GameObjects.Image;
+  private bannerText!: GameObjects.Image;
 
   constructor() {
     super('banner-scene');
@@ -16,13 +17,19 @@ export class BannerScene extends Scene {
     this.banner = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
-      'banner-landscape',
+      'banner-image',
+    );
+
+    this.bannerText = this.add.image(
+      this.game.scale.width / 2 - 220,
+      this.game.scale.height / 2 - 80,
+      'banner-text',
     );
 
     this.bannerStartButton = this.add
       .image(
-        this.banner.x - this.banner.x / 1.5,
-        window.game.scale.height / 3 + window.game.scale.height / 2.7,
+        this.game.scale.width / 2 - 610,
+        window.game.scale.height / 3 + window.game.scale.height / 3,
         'bannerStartBtn',
       )
       .setInteractive()
@@ -30,7 +37,7 @@ export class BannerScene extends Scene {
         this.scene.start('side-scene');
         this.scene.start('ui-scene');
       });
-    this.bannerStartButton.setScale(0.7);
+    this.bannerStartButton.setScale(1);
 
     ///////////
 

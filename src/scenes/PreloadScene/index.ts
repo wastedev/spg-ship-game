@@ -25,7 +25,8 @@ export class PreloadScene extends Scene {
     this.load.image('background-icebergs-top', 'img/backgrounds/background-icebergs-top.png');
     this.load.image('background-side', 'img/backgrounds/background-side.png');
     this.load.image('background-docking', 'img/backgrounds/background-docking.png');
-    this.load.image('background-image', 'img/backgrounds/banner-background.png');
+    this.load.image('banner-image', 'img/backgrounds/banner-background.png');
+    this.load.image('banner-text', 'img/backgrounds/background-text.svg');
     this.load.image('banner-landscape', 'img/backgrounds/banner-background-landscape.png');
 
     // LOAD ICEBERG ANIMATIONS ASSETS
@@ -56,12 +57,16 @@ export class PreloadScene extends Scene {
     this.load.image('bannerStartBtn', 'img/entities/ui/startBannerButton.png');
 
     // LOAD POPUP ASSETS
-    this.load.image('1000meters', 'img/entities/ui/1000meters.png');
-    this.load.image('500meters', 'img/entities/ui/500meters.png');
-    this.load.image('80meters', 'img/entities/ui/80meters.png');
+    this.load.image('docking-info', 'img/entities/ui/info.jpg');
+    this.load.image('1000meters', 'img/entities/ui/1000meters.jpg');
+    this.load.image('500meters', 'img/entities/ui/500meters.jpg');
+    this.load.image('80meters', 'img/entities/ui/80meters.jpg');
+    this.load.image('crossButton', 'img/entities/ui/closeButton.svg');
+    this.load.image('continueButton', 'img/entities/ui/continueButton.svg');
+    this.load.image('topscenePopup', 'img/entities/ui/1scenepopup.jpg');
+    //////new
     this.load.image('dockingPopup', 'img/entities/ui/docking.png');
     this.load.image('hookInfoPopup', 'img/entities/ui/hookInfo.png');
-    this.load.image('continueButton', 'img/entities/ui/continueButton.png');
 
     //LOAD ROCKET ASSETS
     this.load.image('rocket', 'img/entities/images/rocket.png');

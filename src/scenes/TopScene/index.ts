@@ -50,6 +50,7 @@ export class TopScene extends Scene {
       .on('pointerup', () => {
         this.goalStageMessage.destroy();
         this.continueButton.destroy();
+        this.closeButton.destroy();
         this.gameStarted = true;
         this.initEnemies();
         GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;

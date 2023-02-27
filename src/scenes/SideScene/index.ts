@@ -50,6 +50,7 @@ export class SideScene extends Scene {
         .setScale(0.3)
         .setOrigin(0.5)
         .setTint(0xffffff);
+      this.newRocket.setBounce(0);
       this.newRocket.angle = this.rocketZone.angle;
       this.velX = -(this.input.activePointer.x - this.rocketZone.x) / 6;
       this.velY = -(this.input.activePointer.y - this.rocketZone.y) / 6;
@@ -68,7 +69,14 @@ export class SideScene extends Scene {
     } else {
       const ui = this.getUI();
       ui.setHealth(0);
-      console.log('porthole lose');
+      window.windowProxy.post({
+        finishGame3: JSON.stringify({
+          win: false,
+          lose: true,
+          crashCount: 3,
+          aimTries: 3,
+        }),
+      });
     }
   }
   //
@@ -85,11 +93,11 @@ export class SideScene extends Scene {
     this.popUpInfo = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
-      'hookInfoPopup',
+      '80meters',
     );
-    this.popUpInfo.scale = 0.7;
+    this.popUpInfo.scale = 0.8;
     this.continueButton = this.add
-      .image(this.popUpInfo.x, this.popUpInfo.y + this.popUpInfo.y / 3, 'continueButton')
+      .image(this.popUpInfo.x, this.popUpInfo.y + this.popUpInfo.y / 5, 'continueButton')
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {
@@ -99,9 +107,10 @@ export class SideScene extends Scene {
         this.playerSide.setDepth(1);
         this.rocketTargetZone.visible = true;
         this.rocketTargetZone.setDepth(1);
+        this.rocketTargetZone.setBounce(0);
         this.continueButtonClicked = true;
       });
-    this.continueButton.setScale(0.5);
+    this.continueButton.setScale(1);
   }
 
   protected getUI(): UiScene {
@@ -237,8 +246,8 @@ export class SideScene extends Scene {
 
       if (this.newRocket) {
         this.matter.overlap(this.rocketTargetZone, [this.newRocket], () => {
-          console.log('win');
           this.resetRocket();
+          ui.oilLoading();
         });
       }
 

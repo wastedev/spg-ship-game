@@ -16,6 +16,7 @@ export class DockingScene extends Scene {
   private goalStageRectangle!: Phaser.Physics.Matter.Sprite;
   private goalStageMessage!: Phaser.Physics.Matter.Sprite;
   private continueButton!: GameObjects.Image;
+  private closeButton!: GameObjects.Image;
   constructor() {
     super('docking-scene');
   }
@@ -74,7 +75,14 @@ export class DockingScene extends Scene {
   }
 
   zoneKnock() {
-    console.log('GAME_OVER');
+    window.windowProxy.post({
+      finishGame3: JSON.stringify({
+        win: false,
+        lose: true,
+        crashCount: 3,
+        aimTries: 3,
+      }),
+    });
   }
 
   update(time: number, delta: number): void {
@@ -118,8 +126,6 @@ export class DockingScene extends Scene {
 
     switch (this.goalStage) {
       case 1000:
-        GAME_SPEEDS[MOVEMENT_SPEED] = 0;
-        GAME_SPEEDS[ROTATION_SPEED] = 0;
         this.goalStageRectangle = this.matter.add.sprite(
           window.game.scale.width / 5,
           window.game.scale.height / 2,
@@ -128,30 +134,6 @@ export class DockingScene extends Scene {
         this.goalStageRectangle.setDisplaySize(500, 300);
         this.goalStageRectangle.setSensor(true);
         this.areaHitboxes(1.65, 4);
-        this.goalStageMessage = this.matter.add.sprite(
-          window.game.scale.width / 2,
-          window.game.scale.height / 2,
-          '1000meters',
-        );
-        this.goalStageMessage.setScale(0.7);
-        this.goalStageMessage.setStatic(true);
-        this.goalStageMessage.setSensor(true);
-        this.continueButton = this.add
-          .image(
-            this.goalStageMessage.x,
-            this.goalStageMessage.y + this.goalStageMessage.y / 3,
-            'continueButton',
-          )
-          .setScrollFactor(0)
-          .setInteractive()
-          .on('pointerup', () => {
-            this.goalStageMessage.destroy();
-            this.continueButton.destroy();
-            GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
-            GAME_SPEEDS[ROTATION_SPEED] = 0.32;
-          });
-        this.continueButton.setScale(0.5);
-        this.continueButton.setZ(2);
         --this.goalStage;
 
         break;
@@ -167,7 +149,7 @@ export class DockingScene extends Scene {
         this.goalStageMessage = this.matter.add.sprite(
           window.game.scale.width / 2,
           window.game.scale.height / 2,
-          '500meters',
+          '1000meters',
         );
         this.goalStageMessage.setScale(0.7);
         this.goalStageMessage.setStatic(true);
@@ -175,7 +157,7 @@ export class DockingScene extends Scene {
         this.continueButton = this.add
           .image(
             this.goalStageMessage.x,
-            this.goalStageMessage.y + this.goalStageMessage.y / 3,
+            this.goalStageMessage.y + this.goalStageMessage.y / 5,
             'continueButton',
           )
           .setScrollFactor(0)
@@ -186,7 +168,7 @@ export class DockingScene extends Scene {
             GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
             GAME_SPEEDS[ROTATION_SPEED] = 0.32;
           });
-        this.continueButton.setScale(0.5);
+        this.continueButton.setScale(1);
         this.continueButton.setZ(2);
 
         --this.goalStage;
@@ -204,7 +186,7 @@ export class DockingScene extends Scene {
         this.goalStageMessage = this.matter.add.sprite(
           window.game.scale.width / 2,
           window.game.scale.height / 2,
-          '80meters',
+          '500meters',
         );
         this.goalStageMessage.setScale(0.7);
         this.goalStageMessage.setStatic(true);
@@ -212,7 +194,7 @@ export class DockingScene extends Scene {
         this.continueButton = this.add
           .image(
             this.goalStageMessage.x,
-            this.goalStageMessage.y + this.goalStageMessage.y / 3,
+            this.goalStageMessage.y + this.goalStageMessage.y / 5,
             'continueButton',
           )
           .setScrollFactor(0)
@@ -223,7 +205,7 @@ export class DockingScene extends Scene {
             GAME_SPEEDS[MOVEMENT_SPEED] = 0.5;
             GAME_SPEEDS[ROTATION_SPEED] = 0.16;
           });
-        this.continueButton.setScale(0.5);
+        this.continueButton.setScale(1);
         this.continueButton.setZ(2);
 
         --this.goalStage;

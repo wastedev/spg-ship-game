@@ -56,6 +56,10 @@ export class PreloadScene extends Scene {
     this.load.image('oilLoad', 'img/entities/ui/oilLoad.png');
     this.load.image('bannerStartBtn', 'img/entities/ui/startBannerButton.png');
 
+    //end
+    this.load.image('endBtn', 'img/entities/ui/endGameBtn.svg');
+    this.load.image('endPopup', 'img/entities/ui/endGamePopup.jpg');
+
     // LOAD POPUP ASSETS
     this.load.image('docking-info', 'img/entities/ui/info.jpg');
     this.load.image('1000meters', 'img/entities/ui/1000meters.jpg');

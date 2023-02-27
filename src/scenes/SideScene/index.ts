@@ -225,7 +225,6 @@ export class SideScene extends Scene {
             this.rocketSound.play(this.rocketConfig);
           }
           this.rocketShot();
-          this.createRocket();
           this.rocket.setAlpha(1);
         }
       });

@@ -27,6 +27,8 @@ export class DockingScene extends Scene {
   }
 
   create() {
+    GAME_SPEEDS[MOVEMENT_SPEED] = 0.8;
+    GAME_SPEEDS[ROTATION_SPEED] = 0.35;
     this.background = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,

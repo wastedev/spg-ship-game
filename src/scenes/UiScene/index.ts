@@ -14,6 +14,9 @@ export class UiScene extends Scene {
   private healthScore!: GameObjects.Image;
   private healthText!: GameObjects.Text;
   private health!: number;
+
+  private endGamePopup!: GameObjects.Image;
+  private endGameBtn!: GameObjects.Image;
   constructor() {
     super('ui-scene');
   }
@@ -90,23 +93,39 @@ export class UiScene extends Scene {
     this.rightButton.setScale(0.7);
   }
 
+  protected endGameEvent(): void {
+    console.log('GAME_OVER');
+
+    this.endGamePopup = this.add.image(
+      window.game.scale.width / 2,
+      window.game.scale.height / 2,
+      'endPopup',
+    );
+
+    this.endGameBtn = this.add
+      .image(this.endGamePopup.x, this.endGamePopup.y - 30, 'endBtn')
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerup', () => {
+        console.log('game was ended');
+        window.windowProxy.post({
+          finishGame3: JSON.stringify({
+            win: true,
+            lose: false,
+            crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+            aimTries: 3 - SCENE_HEALTH[SECOND_SCENE],
+          }),
+        });
+      });
+  }
+
   public oilLoading(): void {
     this.time.addEvent({
       delay: 500,
       callback: () => {
         this.oil += 10;
-
         if (this.oil === 80) {
-          console.log('GAME_OVER');
-
-          window.windowProxy.post({
-            finishGame3: JSON.stringify({
-              win: true,
-              lose: false,
-              crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
-              aimTries: 3 - SCENE_HEALTH[SECOND_SCENE],
-            }),
-          });
+          this.endGameEvent();
         }
       },
       callbackScope: this,

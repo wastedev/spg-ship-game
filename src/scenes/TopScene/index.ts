@@ -13,9 +13,6 @@ export class TopScene extends Scene {
   private bottomBarrier!: MatterJS.BodyType;
   private backgroundIcebergs!: GameObjects.Image;
 
-  private zoneBorderTop!: MatterJS.BodyType;
-  private zoneBorderBottom!: MatterJS.BodyType;
-
   private goalStageMessage!: Phaser.Physics.Matter.Sprite;
   private continueButton!: GameObjects.Image;
   private closeButton!: GameObjects.Image;
@@ -66,6 +63,8 @@ export class TopScene extends Scene {
         this.goalStageMessage.destroy();
         this.continueButton.destroy();
         this.closeButton.destroy();
+        this.gameStarted = true;
+        this.initEnemies();
         GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
         GAME_SPEEDS[ROTATION_SPEED] = 0.32;
       });
@@ -77,12 +76,7 @@ export class TopScene extends Scene {
     this.initTarget();
     // CREATE PLAYER SPRITE
 
-    this.player = new Player(
-      this.matter.world,
-      window.game.scale.width / 10,
-      window.game.scale.height / 2,
-      'player-top',
-    );
+    this.player = new Player(this.matter.world, 100, window.game.scale.height / 2, 'player-top');
 
     // CREATE BACKGROUND SPRITE
     this.backgroundIcebergs = this.add.sprite(
@@ -110,10 +104,36 @@ export class TopScene extends Scene {
     this.goalZone.setDepth(-1);
 
     this.goalZone.setOnCollide((obj: Phaser.Types.Physics.Matter.MatterCollisionData) => {
-      this.initGoalZoneBorder();
+      let timeCounter = 0;
+      console.log('iminside');
+      this.time.addEvent({
+        delay: 1000,
+        callback: () => {
+          console.log('ивент');
+          GAME_SPEEDS[MOVEMENT_SPEED] -= 0.126;
+          GAME_SPEEDS[ROTATION_SPEED] -= 0.053;
+          timeCounter++;
+          console.log(GAME_SPEEDS[MOVEMENT_SPEED], GAME_SPEEDS[ROTATION_SPEED]);
+        },
+        repeat: 5,
+        callbackScope: this,
+      });
+
+      setTimeout(() => {
+        this.goalZone.visible = false;
+      }, 7000);
+      setTimeout(() => {
+        this.goalZone.visible = true;
+      }, 8000);
+      setTimeout(() => {
+        this.goalZone.visible = false;
+      }, 9000);
+      setTimeout(() => {
+        this.goalZone.visible = true;
+      }, 10000);
       setTimeout(() => {
         this.sceneChange();
-      }, 6000);
+      }, 11000);
     });
   }
 
@@ -126,20 +146,6 @@ export class TopScene extends Scene {
       if (this.icebergs.every((iceberg) => iceberg instanceof Enemy)) {
         this.icebergs.forEach((item) => item.update());
       }
-    }
-
-    if (this.zoneBorderBottom && this.zoneBorderTop) {
-      //demo logic for your stop in the goal zone for scene change
-      this.matter.overlap(this.player, [this.zoneBorderTop, this.zoneBorderBottom], () => {
-        window.windowProxy.post({
-          finishGame3: JSON.stringify({
-            win: false,
-            lose: true,
-            crashCount: 3,
-            aimTries: 0,
-          }),
-        });
-      });
     }
 
     if (this.player.x >= this.goalZone.x) {
@@ -158,19 +164,6 @@ export class TopScene extends Scene {
   sceneChange(): void {
     this.scene.start('docking-scene');
     this.scene.stop();
-  }
-
-  initGoalZoneBorder(): void {
-    this.zoneBorderTop = this.matter.add.rectangle(this.goalZone.x, this.goalZone.y - 50, 220, 5);
-    this.zoneBorderTop.isStatic = true;
-
-    this.zoneBorderBottom = this.matter.add.rectangle(
-      this.goalZone.x,
-      this.goalZone.y + 50,
-      220,
-      5,
-    );
-    this.zoneBorderBottom.isStatic = true;
   }
 
   initEnemies(): void {

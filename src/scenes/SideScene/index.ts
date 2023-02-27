@@ -38,6 +38,8 @@ export class SideScene extends Scene {
   private pointerDown: boolean = false;
   private closeButton!: GameObjects.Image;
 
+  private gameStatus: boolean = true;
+
   //functions for rocket shooting
   createRocket() {
     this.rocketCreated = true;
@@ -67,6 +69,7 @@ export class SideScene extends Scene {
       this.rocketX = this.oldRocketX = this.rocket.x;
       this.rocketY = this.oldRocketY = this.rocket.y;
       this.pointerDown = false;
+      this.createRocket();
     } else {
       const ui = this.getUI();
       ui.setHealth(0);
@@ -211,14 +214,19 @@ export class SideScene extends Scene {
       this.continueButtonClicked = false;
 
       this.input.on('pointerdown', (pointer: any) => {
-        this.pointerDown = true;
-        this.createRocket();
+        if (this.gameStatus) {
+          this.pointerDown = true;
+          this.createRocket();
+        }
       });
       this.input.on('pointerup', (pointer: any) => {
-        if (!this.shot) {
-          this.rocketSound.play(this.rocketConfig);
+        if (this.gameStatus) {
+          if (!this.shot) {
+            this.rocketSound.play(this.rocketConfig);
+          }
+          this.rocketShot();
+          this.rocket.setAlpha(1);
         }
-        this.rocketShot();
       });
     }
   }
@@ -241,7 +249,7 @@ export class SideScene extends Scene {
         this.rocketZone.angle = this.rocket.angle = this.angle;
       }
     } else {
-      this.rocket.setAlpha(0);
+      this.rocket.setAlpha(1);
 
       this.rocketX += this.velX;
       this.rocketY += this.velY;
@@ -256,7 +264,7 @@ export class SideScene extends Scene {
 
       if (this.newRocket) {
         this.matter.overlap(this.rocketTargetZone, [this.newRocket], () => {
-          console.log('overlapped');
+          this.gameStatus = false;
           this.resetRocket();
           ui.oilLoading();
         });

@@ -107,7 +107,6 @@ export class UiScene extends Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {
-        console.log('game was ended');
         window.windowProxy.post({
           finishGame3: JSON.stringify({
             win: true,
@@ -134,12 +133,12 @@ export class UiScene extends Scene {
     this.loadOilButton.visible = false;
   }
 
-  public activateLoadButton(): void {
-    this.loadOilButton.visible = true;
-    this.loadOilButton.setInteractive().on('pointerup', () => {
-      this.oilLoading();
-    });
-  }
+  // public activateLoadButton(): void {
+  //   this.loadOilButton.visible = true;
+  //   this.loadOilButton.setInteractive().on('pointerup', () => {
+  //     this.oilLoading();
+  //   });
+  // }
 
   public setHealth(value: number): void {
     this.health = value;

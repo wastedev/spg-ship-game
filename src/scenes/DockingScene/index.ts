@@ -220,6 +220,7 @@ export class DockingScene extends Scene {
           .on('pointerup', () => {
             this.goalStageMessage.destroy();
             this.continueButton.destroy();
+            this.closeButton.destroy();
             GAME_SPEEDS[MOVEMENT_SPEED] = 0.5;
             GAME_SPEEDS[ROTATION_SPEED] = 0.16;
           });

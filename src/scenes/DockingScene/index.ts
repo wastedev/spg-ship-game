@@ -2,6 +2,7 @@ import { GameObjects, Scene } from 'phaser';
 import { Player } from '../../entities/Player';
 import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED } from '../../constants';
 import { UiScene } from '../UiScene';
+import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers';
 import { IncomingMessage } from 'http';
 
 export class DockingScene extends Scene {
@@ -83,8 +84,8 @@ export class DockingScene extends Scene {
       finishGame3: JSON.stringify({
         win: false,
         lose: true,
-        crashCount: 3,
-        aimTries: 3,
+        crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+        aimTries: 0,
       }),
     });
   }

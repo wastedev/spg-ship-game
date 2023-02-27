@@ -135,7 +135,7 @@ export class TopScene extends Scene {
             win: false,
             lose: true,
             crashCount: 3,
-            aimTries: 3,
+            aimTries: 0,
           }),
         });
       });
@@ -148,7 +148,7 @@ export class TopScene extends Scene {
           win: false,
           lose: true,
           crashCount: 3,
-          aimTries: 3,
+          aimTries: 0,
         }),
       });
     }

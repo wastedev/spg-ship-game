@@ -18,6 +18,7 @@ export class DockingScene extends Scene {
   private goalStageMessage!: Phaser.Physics.Matter.Sprite;
   private continueButton!: GameObjects.Image;
   private closeButton!: GameObjects.Image;
+  private popupBG!: GameObjects.Image;
 
   private gameEndPopup!: GameObjects.Image;
   private gameEndBtn!: GameObjects.Image;
@@ -57,6 +58,13 @@ export class DockingScene extends Scene {
       window.game.scale.height,
     );
     this.station.setStatic(true);
+    this.popupBG = this.add.image(
+      window.game.scale.width / 2,
+      window.game.scale.height / 2,
+      'popupBg',
+    );
+    this.popupBG.setAlpha(0.7);
+    this.popupBG.visible = false;
   }
 
   protected getUI(): UiScene {
@@ -82,6 +90,7 @@ export class DockingScene extends Scene {
   }
 
   zoneKnock() {
+    console.log('GAME_OVER');
     window.windowProxy.post({
       finishGame3: JSON.stringify({
         win: false,
@@ -92,9 +101,35 @@ export class DockingScene extends Scene {
     });
   }
 
-  update(time: number, delta: number): void {
-    this.player.update();
+  zonePing(pingDelay: number, state: number): void {
+    setTimeout(() => {
+      this.goalStageRectangle.visible = false;
+    }, pingDelay);
+    setTimeout(() => {
+      this.goalStageRectangle.visible = true;
+    }, pingDelay + 1000);
+    setTimeout(() => {
+      this.goalStageRectangle.visible = false;
+    }, pingDelay + 2000);
+    setTimeout(() => {
+      this.goalStageRectangle.visible = true;
+    }, pingDelay + 3000);
+    setTimeout(() => {
+      if (state === 500) {
+        this.goalStageRectangle.setX(window.game.scale.width / 2);
+        this.goalStageRectangle.setDisplaySize(300, 200);
+        this.areaHitboxes(1.9, 6.5);
+      } else if (state === 80) {
+        this.goalStageRectangle.setX(this.station.x - 350);
+        this.goalStageRectangle.setDisplaySize(220, 50);
+        this.areaHitboxes(2.5, 9);
+      }
+      GAME_SPEEDS[MOVEMENT_SPEED] = 0.8;
+      GAME_SPEEDS[ROTATION_SPEED] = 0.35;
+    }, pingDelay + 4000);
+  }
 
+  zonesStaging(): void {
     if (this.goalStage > 500) {
       if (
         this.player.x >= this.goalStageRectangle?.x - 30 &&
@@ -114,20 +149,18 @@ export class DockingScene extends Scene {
         this.goalStage = 80;
       }
     }
-
-    if (this.goalStage < 80) {
-      if (
-        this.player.x >= this.goalStageRectangle?.x + 20 &&
-        (this.player.y >= this.goalStageRectangle?.y - 30 ||
-          this.player.y <= this.goalStageRectangle?.y + 30)
-      ) {
+    if (this.goalStage === 79) {
+      if (this.player.x >= this.station.x - 350) {
         const ui = this.getUI();
         GAME_SPEEDS[MOVEMENT_SPEED] = 0;
         GAME_SPEEDS[ROTATION_SPEED] = 0;
+        this.zonePing(1000, 0);
         setTimeout(() => {
           ui.sideSceneChange();
+          this.scene.stop();
           this.scene.start('side-scene');
-        }, 2000);
+        }, 5000);
+        this.goalStage--;
       }
     }
 
@@ -142,17 +175,12 @@ export class DockingScene extends Scene {
         this.goalStageRectangle.setSensor(true);
         this.areaHitboxes(1.65, 4);
         --this.goalStage;
-
         break;
 
       case 500:
         GAME_SPEEDS[MOVEMENT_SPEED] = 0;
         GAME_SPEEDS[ROTATION_SPEED] = 0;
-        this.goalStageRectangle.setX(window.game.scale.width / 2);
-        this.goalStageRectangle.setDisplaySize(300, 200);
-
-        this.areaHitboxes(1.9, 6.5);
-
+        this.popupBG.visible = true;
         this.goalStageMessage = this.matter.add.sprite(
           window.game.scale.width / 2,
           window.game.scale.height / 2,
@@ -161,8 +189,6 @@ export class DockingScene extends Scene {
         this.goalStageMessage.setScale(0.7);
         this.goalStageMessage.setStatic(true);
         this.goalStageMessage.setSensor(true);
-        console.log(this.goalStageMessage.width);
-        console.log(this.goalStageMessage.height);
         this.continueButton = this.add
           .image(
             this.goalStageMessage.x,
@@ -175,8 +201,8 @@ export class DockingScene extends Scene {
             this.goalStageMessage.destroy();
             this.continueButton.destroy();
             this.closeButton.destroy();
-            GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
-            GAME_SPEEDS[ROTATION_SPEED] = 0.32;
+            this.zonePing(1000, 500);
+            this.popupBG.visible = false;
           });
         this.continueButton.setScale(1);
         this.continueButton.setZ(2);
@@ -188,26 +214,21 @@ export class DockingScene extends Scene {
             this.goalStageMessage.destroy();
             this.continueButton.destroy();
             this.closeButton.destroy();
-            GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
-            GAME_SPEEDS[ROTATION_SPEED] = 0.32;
+            this.zonePing(1000, 500);
+            this.popupBG.visible = false;
           });
         --this.goalStage;
-
         break;
 
       case 80:
         GAME_SPEEDS[MOVEMENT_SPEED] = 0;
         GAME_SPEEDS[ROTATION_SPEED] = 0;
-        this.goalStageRectangle.setX(this.station.x - 350);
-        this.goalStageRectangle.setDisplaySize(220, 50);
-
-        this.areaHitboxes(2.5, 9);
-
         this.goalStageMessage = this.matter.add.sprite(
           window.game.scale.width / 2,
           window.game.scale.height / 2,
           '500meters',
         );
+        this.popupBG.visible = true;
         this.goalStageMessage.setScale(0.7);
         this.goalStageMessage.setStatic(true);
         this.goalStageMessage.setSensor(true);
@@ -223,8 +244,8 @@ export class DockingScene extends Scene {
             this.goalStageMessage.destroy();
             this.continueButton.destroy();
             this.closeButton.destroy();
-            GAME_SPEEDS[MOVEMENT_SPEED] = 0.5;
-            GAME_SPEEDS[ROTATION_SPEED] = 0.16;
+            this.zonePing(1000, 80);
+            this.popupBG.visible = false;
           });
         this.continueButton.setScale(1);
         this.continueButton.setZ(2);
@@ -236,13 +257,17 @@ export class DockingScene extends Scene {
             this.goalStageMessage.destroy();
             this.continueButton.destroy();
             this.closeButton.destroy();
-            GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
-            GAME_SPEEDS[ROTATION_SPEED] = 0.32;
+            this.zonePing(1000, 80);
+            this.popupBG.visible = false;
           });
-
         --this.goalStage;
         break;
     }
+  }
+
+  update(time: number, delta: number): void {
+    this.player.update();
+    this.zonesStaging();
     this.matter.overlap(this.player, [this.bottomBarrier, this.topBarrier], this.zoneKnock);
   }
 }

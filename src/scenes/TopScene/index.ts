@@ -18,6 +18,7 @@ export class TopScene extends Scene {
   private closeButton!: GameObjects.Image;
 
   private gameStarted: boolean = false;
+  private popupBG!: GameObjects.Image;
 
   constructor() {
     super('top-scene');
@@ -52,6 +53,7 @@ export class TopScene extends Scene {
         this.initEnemies();
         GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
         GAME_SPEEDS[ROTATION_SPEED] = 0.32;
+        this.popupBG.visible = false;
       });
     this.continueButton.setScale(1);
     this.continueButton.setZ(2);
@@ -67,12 +69,21 @@ export class TopScene extends Scene {
         this.initEnemies();
         GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
         GAME_SPEEDS[ROTATION_SPEED] = 0.32;
+        this.popupBG.visible = false;
       });
+    this.popupBG.visible = true;
   }
 
   create(): void {
     GAME_SPEEDS[MOVEMENT_SPEED] = 0;
     GAME_SPEEDS[ROTATION_SPEED] = 0;
+    this.popupBG = this.add.image(
+      window.game.scale.width / 2,
+      window.game.scale.height / 2,
+      'popupBg',
+    );
+    this.popupBG.visible = false;
+    this.popupBG.setAlpha(0.7);
     this.initTarget();
     // CREATE PLAYER SPRITE
 
@@ -104,15 +115,11 @@ export class TopScene extends Scene {
     this.goalZone.setDepth(-1);
 
     this.goalZone.setOnCollide((obj: Phaser.Types.Physics.Matter.MatterCollisionData) => {
-      let timeCounter = 0;
-      console.log('iminside');
       this.time.addEvent({
         delay: 1000,
         callback: () => {
-          console.log('ивент');
           GAME_SPEEDS[MOVEMENT_SPEED] -= 0.126;
           GAME_SPEEDS[ROTATION_SPEED] -= 0.053;
-          timeCounter++;
           console.log(GAME_SPEEDS[MOVEMENT_SPEED], GAME_SPEEDS[ROTATION_SPEED]);
         },
         repeat: 5,
@@ -132,6 +139,7 @@ export class TopScene extends Scene {
         this.goalZone.visible = true;
       }, 10000);
       setTimeout(() => {
+        this.scene.stop();
         this.sceneChange();
       }, 11000);
     });

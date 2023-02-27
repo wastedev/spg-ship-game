@@ -14,6 +14,7 @@ export class UiScene extends Scene {
   private healthScore!: GameObjects.Image;
   private healthText!: GameObjects.Text;
   private health!: number;
+  private popupBG!: GameObjects.Image;
 
   private endGamePopup!: GameObjects.Image;
   private endGameBtn!: GameObjects.Image;
@@ -22,6 +23,13 @@ export class UiScene extends Scene {
   }
 
   create(): void {
+    this.popupBG = this.add.image(
+      window.game.scale.width / 2,
+      window.game.scale.height / 2,
+      'popupBg',
+    );
+    this.popupBG.visible = false;
+    this.popupBG.setAlpha(0.7);
     this.oil = 0;
     this.health = 3;
     this.oilScore = this.add.image(window.game.scale.width - 70, 40, 'oilScore');
@@ -95,7 +103,7 @@ export class UiScene extends Scene {
 
   protected endGameEvent(): void {
     console.log('GAME_OVER');
-
+    this.popupBG.visible = true;
     this.endGamePopup = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,

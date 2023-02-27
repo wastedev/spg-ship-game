@@ -36,6 +36,7 @@ export class SideScene extends Scene {
   private rocketAngle!: number;
   private rocketShotAttempt: number = 3;
   private pointerDown: boolean = false;
+  private closeButton!: GameObjects.Image;
 
   //functions for rocket shooting
   createRocket() {
@@ -103,6 +104,23 @@ export class SideScene extends Scene {
       .on('pointerup', () => {
         this.popUpInfo.destroy();
         this.continueButton.destroy();
+        this.closeButton.destroy();
+        this.playerSide.visible = true;
+        this.playerSide.setDepth(1);
+        this.rocketTargetZone.visible = true;
+        this.rocketTargetZone.setDepth(1);
+        this.rocketTargetZone.setBounce(0);
+        this.continueButtonClicked = true;
+      });
+
+    this.closeButton = this.add
+      .image(this.game.scale.width / 2 + 420, this.game.scale.height / 2 - 190, 'crossButton')
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerup', () => {
+        this.popUpInfo.destroy();
+        this.continueButton.destroy();
+        this.closeButton.destroy();
         this.playerSide.visible = true;
         this.playerSide.setDepth(1);
         this.rocketTargetZone.visible = true;

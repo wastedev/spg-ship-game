@@ -55,9 +55,19 @@ export class TopScene extends Scene {
         GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
         GAME_SPEEDS[ROTATION_SPEED] = 0.32;
       });
-
     this.continueButton.setScale(1);
     this.continueButton.setZ(2);
+    this.closeButton = this.add
+      .image(this.game.scale.width / 2 + 420, this.game.scale.height / 2 - 190, 'crossButton')
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerup', () => {
+        this.goalStageMessage.destroy();
+        this.continueButton.destroy();
+        this.closeButton.destroy();
+        GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
+        GAME_SPEEDS[ROTATION_SPEED] = 0.32;
+      });
   }
 
   create(): void {
@@ -125,7 +135,7 @@ export class TopScene extends Scene {
             win: false,
             lose: true,
             crashCount: 3,
-            aimTries: 3,
+            aimTries: 0,
           }),
         });
       });
@@ -138,7 +148,7 @@ export class TopScene extends Scene {
           win: false,
           lose: true,
           crashCount: 3,
-          aimTries: 3,
+          aimTries: 0,
         }),
       });
     }

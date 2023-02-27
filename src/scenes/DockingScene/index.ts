@@ -2,6 +2,7 @@ import { GameObjects, Scene } from 'phaser';
 import { Player } from '../../entities/Player';
 import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED } from '../../constants';
 import { UiScene } from '../UiScene';
+import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers';
 import { IncomingMessage } from 'http';
 
 export class DockingScene extends Scene {
@@ -17,6 +18,10 @@ export class DockingScene extends Scene {
   private goalStageMessage!: Phaser.Physics.Matter.Sprite;
   private continueButton!: GameObjects.Image;
   private closeButton!: GameObjects.Image;
+
+  private gameEndPopup!: GameObjects.Image;
+  private gameEndBtn!: GameObjects.Image;
+
   constructor() {
     super('docking-scene');
   }
@@ -79,8 +84,8 @@ export class DockingScene extends Scene {
       finishGame3: JSON.stringify({
         win: false,
         lose: true,
-        crashCount: 3,
-        aimTries: 3,
+        crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+        aimTries: 0,
       }),
     });
   }
@@ -154,6 +159,8 @@ export class DockingScene extends Scene {
         this.goalStageMessage.setScale(0.7);
         this.goalStageMessage.setStatic(true);
         this.goalStageMessage.setSensor(true);
+        console.log(this.goalStageMessage.width);
+        console.log(this.goalStageMessage.height);
         this.continueButton = this.add
           .image(
             this.goalStageMessage.x,
@@ -165,12 +172,23 @@ export class DockingScene extends Scene {
           .on('pointerup', () => {
             this.goalStageMessage.destroy();
             this.continueButton.destroy();
+            this.closeButton.destroy();
             GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
             GAME_SPEEDS[ROTATION_SPEED] = 0.32;
           });
         this.continueButton.setScale(1);
         this.continueButton.setZ(2);
-
+        this.closeButton = this.add
+          .image(this.game.scale.width / 2 + 420, this.game.scale.height / 2 - 190, 'crossButton')
+          .setScrollFactor(0)
+          .setInteractive()
+          .on('pointerup', () => {
+            this.goalStageMessage.destroy();
+            this.continueButton.destroy();
+            this.closeButton.destroy();
+            GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
+            GAME_SPEEDS[ROTATION_SPEED] = 0.32;
+          });
         --this.goalStage;
 
         break;
@@ -207,6 +225,17 @@ export class DockingScene extends Scene {
           });
         this.continueButton.setScale(1);
         this.continueButton.setZ(2);
+        this.closeButton = this.add
+          .image(this.game.scale.width / 2 + 420, this.game.scale.height / 2 - 190, 'crossButton')
+          .setScrollFactor(0)
+          .setInteractive()
+          .on('pointerup', () => {
+            this.goalStageMessage.destroy();
+            this.continueButton.destroy();
+            this.closeButton.destroy();
+            GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
+            GAME_SPEEDS[ROTATION_SPEED] = 0.32;
+          });
 
         --this.goalStage;
         break;

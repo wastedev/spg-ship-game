@@ -68,9 +68,8 @@ export class PreloadScene extends Scene {
     this.load.image('crossButton', 'img/entities/ui/closeButton.svg');
     this.load.image('continueButton', 'img/entities/ui/continueButton.svg');
     this.load.image('topscenePopup', 'img/entities/ui/1scenepopup.jpg');
+    this.load.image('popupBg', 'img/entities/ui/popupBackground.png');
     //////new
-    this.load.image('dockingPopup', 'img/entities/ui/docking.png');
-    this.load.image('hookInfoPopup', 'img/entities/ui/hookInfo.png');
 
     //LOAD ROCKET ASSETS
     this.load.image('rocket', 'img/entities/images/rocket.png');

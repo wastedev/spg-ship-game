@@ -8,13 +8,13 @@ export class SideScene extends Scene {
   private backgroundSide!: GameObjects.Image;
   private playerSide!: Phaser.Physics.Matter.Sprite;
   private oilStationSide!: GameObjects.Sprite;
-  private sidePlayerHealth!: number;
   private rocketSound!: Sound.BaseSound;
   private rocketConfig!: Types.Sound.SoundConfig;
   private popUpInfo!: GameObjects.Image;
   private continueButton!: GameObjects.Image;
   private continueButtonClicked: boolean = false;
   //
+  private popupBG!: GameObjects.Image;
 
   private rocketBackgroundZone!: GameObjects.Image;
   private rocketZone!: GameObjects.Image;
@@ -94,6 +94,7 @@ export class SideScene extends Scene {
   }
 
   loadPopup(): void {
+    this.popupBG.visible = true;
     this.popUpInfo = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
@@ -114,6 +115,7 @@ export class SideScene extends Scene {
         this.rocketTargetZone.setDepth(1);
         this.rocketTargetZone.setBounce(0);
         this.continueButtonClicked = true;
+        this.popupBG.visible = false;
       });
 
     this.closeButton = this.add
@@ -130,6 +132,7 @@ export class SideScene extends Scene {
         this.rocketTargetZone.setDepth(1);
         this.rocketTargetZone.setBounce(0);
         this.continueButtonClicked = true;
+        this.popupBG.visible = false;
       });
     this.continueButton.setScale(1);
   }
@@ -139,7 +142,15 @@ export class SideScene extends Scene {
   }
 
   create(): void {
+    this.popupBG = this.add.image(
+      window.game.scale.width / 2,
+      window.game.scale.height / 2,
+      'popupBg',
+    );
+    this.popupBG.visible = false;
+    this.popupBG.setAlpha(0.7);
     this.loadPopup();
+
     this.rocketSound = this.sound.add('rocket');
     this.rocketConfig = {
       volume: 0.3,

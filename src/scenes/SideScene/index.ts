@@ -13,6 +13,7 @@ export class SideScene extends Scene {
   private popUpInfo!: GameObjects.Image;
   private continueButton!: GameObjects.Image;
   private continueButtonClicked: boolean = false;
+
   //
   private popupBG!: GameObjects.Image;
 
@@ -39,6 +40,7 @@ export class SideScene extends Scene {
   private closeButton!: GameObjects.Image;
 
   private gameStatus: boolean = true;
+  private getTarget: boolean = false;
 
   //functions for rocket shooting
   createRocket() {
@@ -57,14 +59,11 @@ export class SideScene extends Scene {
       this.newRocket.angle = this.rocketZone.angle;
       this.velX = -(this.input.activePointer.x - this.rocketZone.x) / 6;
       this.velY = -(this.input.activePointer.y - this.rocketZone.y) / 6;
-    } else {
-      const ui = this.getUI();
-      ui.setHealth(0);
     }
   }
 
   resetRocket() {
-    if (this.rocketShotAttempt != 1) {
+    if (this.rocketShotAttempt != 0) {
       --this.rocketShotAttempt;
       this.shot = false;
       this.rocket.x = this.rocketZone.x;
@@ -73,6 +72,9 @@ export class SideScene extends Scene {
       this.rocketY = this.oldRocketY = this.rocket.y;
       this.pointerDown = false;
       this.createRocket();
+    } else {
+      const ui = this.getUI();
+      ui.setHealth(0);
     }
   }
   //
@@ -243,10 +245,9 @@ export class SideScene extends Scene {
     const ui = this.getUI();
     ui.setHealth(this.rocketShotAttempt);
 
-    if (this.rocketShotAttempt <= 1) {
-      setTimeout(() => {
-        ui.restartGame(3);
-      }, 4000);
+    if (this.rocketShotAttempt < 1 && !this.getTarget && this.gameStatus) {
+      this.gameStatus = false;
+      ui.restartGame(3);
     }
 
     if (!this.shot) {
@@ -277,6 +278,7 @@ export class SideScene extends Scene {
 
       if (this.newRocket) {
         this.matter.overlap(this.rocketTargetZone, [this.newRocket], () => {
+          this.getTarget = true;
           this.gameStatus = false;
           this.resetRocket();
           ui.oilLoading();

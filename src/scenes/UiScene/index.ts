@@ -173,6 +173,7 @@ export class UiScene extends Scene {
             });
           });
       } else {
+        this.restartValue = true;
         this.restartGamePopup = this.add
           .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
           .setScrollFactor(0)

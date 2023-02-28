@@ -151,8 +151,8 @@ export class TopScene extends Scene {
 
   update(): void {
     if (this.player.getHealth() <= 0) {
+      this.gameStarted = false;
       const ui = this.getUI();
-      this.scene.stop();
       ui.restartGame(1);
     }
 
@@ -168,8 +168,8 @@ export class TopScene extends Scene {
 
     if (this.player.x >= this.goalZone.x) {
       // if you dont get the goalzone
+      this.gameStarted = false;
       const ui = this.getUI();
-      this.scene.stop();
       ui.restartGame(1);
     }
 

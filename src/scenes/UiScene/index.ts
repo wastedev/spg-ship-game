@@ -16,8 +16,12 @@ export class UiScene extends Scene {
   private health!: number;
   private popupBG!: GameObjects.Image;
 
+  private restartValue: boolean = false;
+
   private endGamePopup!: GameObjects.Image;
   private endGameBtn!: GameObjects.Image;
+
+  private restartGamePopup!: GameObjects.Image;
   constructor() {
     super('ui-scene');
   }
@@ -104,26 +108,88 @@ export class UiScene extends Scene {
   protected endGameEvent(): void {
     console.log('GAME_OVER');
     this.popupBG.visible = true;
+    this.popupBG.setDepth(50);
     this.endGamePopup = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
       'endPopup',
     );
-
+    this.endGamePopup.setDepth(51);
     this.endGameBtn = this.add
       .image(this.endGamePopup.x, this.endGamePopup.y - 30, 'endBtn')
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {
+        console.log('win next');
         window.windowProxy.post({
           finishGame3: JSON.stringify({
             win: true,
             lose: false,
             crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
-            aimTries: 3 - SCENE_HEALTH[SECOND_SCENE],
+            aimTries: 5 - SCENE_HEALTH[SECOND_SCENE],
           }),
         });
       });
+    this.endGameBtn.setDepth(51);
+  }
+
+  public hideUI(): void {
+    this.leftButton.visible = false;
+    this.rightButton.visible = false;
+    this.scoreText.visible = false;
+    this.healthScore.visible = false;
+    this.oilScore.visible = false;
+    this.healthText.visible = false;
+  }
+
+  public showUI(): void {
+    this.leftButton.visible = true;
+    this.rightButton.visible = true;
+    this.scoreText.visible = true;
+    this.healthScore.visible = true;
+    this.oilScore.visible = true;
+    this.healthText.visible = true;
+  }
+
+  public restartGame(sceneNumber: number): void {
+    this.hideUI();
+    if (!this.restartValue) {
+      this.restartValue = true;
+      console.log('restart');
+      if (sceneNumber === 1 || sceneNumber === 2) {
+        this.restartGamePopup = this.add
+          .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
+          .setScrollFactor(0)
+          .setInteractive()
+          .on('pointerup', () => {
+            console.log('work');
+            window.windowProxy.post({
+              finishGame3: JSON.stringify({
+                win: false,
+                lose: true,
+                crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+                aimTries: 0,
+              }),
+            });
+          });
+      } else {
+        this.restartGamePopup = this.add
+          .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
+          .setScrollFactor(0)
+          .setInteractive()
+          .on('pointerup', () => {
+            console.log('work');
+            window.windowProxy.post({
+              finishGame3: JSON.stringify({
+                win: false,
+                lose: true,
+                crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+                aimTries: 5 - SCENE_HEALTH[SECOND_SCENE],
+              }),
+            });
+          });
+      }
+    }
   }
 
   public oilLoading(): void {

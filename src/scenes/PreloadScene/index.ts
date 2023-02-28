@@ -59,6 +59,7 @@ export class PreloadScene extends Scene {
     //end
     this.load.image('endBtn', 'img/entities/ui/endGameBtn.svg');
     this.load.image('endPopup', 'img/entities/ui/endGamePopup.jpg');
+    this.load.image('gameOverPopup', 'img/entities/ui/gameOverPopup.png');
 
     // LOAD POPUP ASSETS
     this.load.image('docking-info', 'img/entities/ui/info.jpg');

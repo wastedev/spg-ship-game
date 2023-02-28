@@ -34,6 +34,7 @@ export class TopScene extends Scene {
       window.game.scale.height / 2,
       'docking-info',
     );
+    this.goalStageMessage.setDepth(51);
     this.goalStageMessage.setScale(0.7);
     this.goalStageMessage.setStatic(true);
     this.goalStageMessage.setSensor(true);
@@ -57,6 +58,7 @@ export class TopScene extends Scene {
       });
     this.continueButton.setScale(1);
     this.continueButton.setZ(2);
+    this.continueButton.setDepth(51);
     this.closeButton = this.add
       .image(this.game.scale.width / 2 + 420, this.game.scale.height / 2 - 190, 'crossButton')
       .setScrollFactor(0)
@@ -71,6 +73,7 @@ export class TopScene extends Scene {
         GAME_SPEEDS[ROTATION_SPEED] = 0.32;
         this.popupBG.visible = false;
       });
+    this.closeButton.setDepth(51);
     this.popupBG.visible = true;
   }
 
@@ -84,6 +87,7 @@ export class TopScene extends Scene {
     );
     this.popupBG.visible = false;
     this.popupBG.setAlpha(0.7);
+    this.popupBG.setDepth(50);
     this.initTarget();
     // CREATE PLAYER SPRITE
 
@@ -146,6 +150,12 @@ export class TopScene extends Scene {
   }
 
   update(): void {
+    if (this.player.getHealth() <= 0) {
+      const ui = this.getUI();
+      this.scene.stop();
+      ui.restartGame(1);
+    }
+
     if (this.gameStarted) {
       this.player.update();
       const ui = this.getUI();
@@ -158,15 +168,16 @@ export class TopScene extends Scene {
 
     if (this.player.x >= this.goalZone.x) {
       // if you dont get the goalzone
-      window.windowProxy.post({
-        finishGame3: JSON.stringify({
-          win: false,
-          lose: true,
-          crashCount: 3,
-          aimTries: 0,
-        }),
-      });
+      const ui = this.getUI();
+      this.scene.stop();
+      ui.restartGame(1);
     }
+
+    this.matter.overlap(this.player, [this.topBarrier, this.bottomBarrier], () => {
+      this.gameStarted = false;
+      const ui = this.getUI();
+      ui.restartGame(1);
+    });
   }
 
   sceneChange(): void {
@@ -209,13 +220,3 @@ export class TopScene extends Scene {
     this.bottomBarrier.isStatic = true;
   }
 }
-
-// if (this.goalZone.body) {
-//   if (
-//     this.player.x >= this.goalZone?.x - 50 &&
-//     (this.player.y >= this.goalZone?.y - 30 || this.player.y <= this.goalZone?.y + 30) &&
-//     !this.isBannerShowed
-//   ) {
-//     this.sceneChange();
-//   }
-// }

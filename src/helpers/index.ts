@@ -3,5 +3,5 @@ export const SECOND_SCENE = 'SECOND_SCENE_HEALTH';
 
 export const SCENE_HEALTH = {
   [FIRST_SCENE]: 3,
-  [SECOND_SCENE]: 3,
+  [SECOND_SCENE]: 5,
 };

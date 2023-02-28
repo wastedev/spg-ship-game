@@ -34,7 +34,7 @@ export class SideScene extends Scene {
   private angle!: number;
   private g: number = 0.25;
   private rocketAngle!: number;
-  private rocketShotAttempt: number = 3;
+  private rocketShotAttempt: number = 5;
   private pointerDown: boolean = false;
   private closeButton!: GameObjects.Image;
 
@@ -57,6 +57,9 @@ export class SideScene extends Scene {
       this.newRocket.angle = this.rocketZone.angle;
       this.velX = -(this.input.activePointer.x - this.rocketZone.x) / 6;
       this.velY = -(this.input.activePointer.y - this.rocketZone.y) / 6;
+    } else {
+      const ui = this.getUI();
+      ui.setHealth(0);
     }
   }
 
@@ -70,17 +73,6 @@ export class SideScene extends Scene {
       this.rocketY = this.oldRocketY = this.rocket.y;
       this.pointerDown = false;
       this.createRocket();
-    } else {
-      const ui = this.getUI();
-      ui.setHealth(0);
-      window.windowProxy.post({
-        finishGame3: JSON.stringify({
-          win: false,
-          lose: true,
-          crashCount: 3,
-          aimTries: 3,
-        }),
-      });
     }
   }
   //
@@ -95,12 +87,14 @@ export class SideScene extends Scene {
 
   loadPopup(): void {
     this.popupBG.visible = true;
+    this.popupBG.setDepth(50);
     this.popUpInfo = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
       '80meters',
     );
     this.popUpInfo.scale = 0.8;
+    this.popUpInfo.setDepth(51);
     this.continueButton = this.add
       .image(this.popUpInfo.x, this.popUpInfo.y + this.popUpInfo.y / 5, 'continueButton')
       .setScrollFactor(0)
@@ -118,6 +112,7 @@ export class SideScene extends Scene {
         this.popupBG.visible = false;
       });
 
+    this.continueButton.setDepth(51);
     this.closeButton = this.add
       .image(this.game.scale.width / 2 + 420, this.game.scale.height / 2 - 190, 'crossButton')
       .setScrollFactor(0)
@@ -135,6 +130,7 @@ export class SideScene extends Scene {
         this.popupBG.visible = false;
       });
     this.continueButton.setScale(1);
+    this.continueButton.setDepth(51);
   }
 
   protected getUI(): UiScene {
@@ -247,13 +243,19 @@ export class SideScene extends Scene {
     const ui = this.getUI();
     ui.setHealth(this.rocketShotAttempt);
 
+    if (this.rocketShotAttempt <= 1) {
+      setTimeout(() => {
+        ui.restartGame(3);
+      }, 4000);
+    }
+
     if (!this.shot) {
       if (this.pointerDown) {
         this.rocket.setAlpha(1);
         this.angle =
           Math.atan2(
-            this.input.mousePointer.x - this.rocketZone.x,
-            -(this.input.mousePointer.y - this.rocketZone.y),
+            this.input.activePointer.x - this.rocketZone.x,
+            -(this.input.activePointer.y - this.rocketZone.y),
           ) *
             (180 / Math.PI) -
           180;

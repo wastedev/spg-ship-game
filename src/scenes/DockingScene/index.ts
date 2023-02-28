@@ -4,6 +4,7 @@ import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED } from '../../constants';
 import { UiScene } from '../UiScene';
 import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers';
 import { IncomingMessage } from 'http';
+import { getuid } from 'process';
 
 export class DockingScene extends Scene {
   public player!: Player;
@@ -67,7 +68,7 @@ export class DockingScene extends Scene {
     this.popupBG.visible = false;
   }
 
-  protected getUI(): UiScene {
+  public getUI(): UiScene {
     return this.scene.get('ui-scene') as UiScene;
   }
 
@@ -90,15 +91,11 @@ export class DockingScene extends Scene {
   }
 
   zoneKnock() {
-    console.log('GAME_OVER');
-    window.windowProxy.post({
-      finishGame3: JSON.stringify({
-        win: false,
-        lose: true,
-        crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
-        aimTries: 0,
-      }),
-    });
+    GAME_SPEEDS[MOVEMENT_SPEED] = 0;
+    GAME_SPEEDS[ROTATION_SPEED] = 0;
+    console.log('врезался');
+    const ui = this.getUI();
+    ui.restartGame(2);
   }
 
   zonePing(pingDelay: number, state: number): void {
@@ -268,6 +265,8 @@ export class DockingScene extends Scene {
   update(time: number, delta: number): void {
     this.player.update();
     this.zonesStaging();
-    this.matter.overlap(this.player, [this.bottomBarrier, this.topBarrier], this.zoneKnock);
+    this.matter.overlap(this.player, [this.bottomBarrier, this.topBarrier], () => {
+      this.zoneKnock();
+    });
   }
 }

@@ -183,7 +183,7 @@ export class DockingScene extends Scene {
           window.game.scale.height / 2,
           '1000meters',
         );
-        this.goalStageMessage.setScale(0.7);
+        this.goalStageMessage.setScale(1);
         this.goalStageMessage.setStatic(true);
         this.goalStageMessage.setSensor(true);
         this.continueButton = this.add
@@ -204,7 +204,7 @@ export class DockingScene extends Scene {
         this.continueButton.setScale(1);
         this.continueButton.setZ(2);
         this.closeButton = this.add
-          .image(this.game.scale.width / 2 + 420, this.game.scale.height / 2 - 190, 'crossButton')
+          .image(this.game.scale.width / 2 + 380, this.game.scale.height / 2 - 170, 'crossButton')
           .setScrollFactor(0)
           .setInteractive()
           .on('pointerup', () => {
@@ -226,7 +226,7 @@ export class DockingScene extends Scene {
           '500meters',
         );
         this.popupBG.visible = true;
-        this.goalStageMessage.setScale(0.7);
+        this.goalStageMessage.setScale(1);
         this.goalStageMessage.setStatic(true);
         this.goalStageMessage.setSensor(true);
         this.continueButton = this.add
@@ -247,7 +247,7 @@ export class DockingScene extends Scene {
         this.continueButton.setScale(1);
         this.continueButton.setZ(2);
         this.closeButton = this.add
-          .image(this.game.scale.width / 2 + 420, this.game.scale.height / 2 - 190, 'crossButton')
+          .image(this.game.scale.width / 2 + 380, this.game.scale.height / 2 - 170, 'crossButton')
           .setScrollFactor(0)
           .setInteractive()
           .on('pointerup', () => {

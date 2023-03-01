@@ -95,7 +95,7 @@ export class SideScene extends Scene {
       window.game.scale.height / 2,
       '80meters',
     );
-    this.popUpInfo.scale = 0.8;
+    this.popUpInfo.scale = 1;
     this.popUpInfo.setDepth(51);
     this.continueButton = this.add
       .image(this.popUpInfo.x, this.popUpInfo.y + this.popUpInfo.y / 5, 'continueButton')
@@ -113,10 +113,10 @@ export class SideScene extends Scene {
         this.continueButtonClicked = true;
         this.popupBG.visible = false;
       });
-
     this.continueButton.setDepth(51);
+    this.continueButton.setScale(1);
     this.closeButton = this.add
-      .image(this.game.scale.width / 2 + 420, this.game.scale.height / 2 - 190, 'crossButton')
+      .image(this.game.scale.width / 2 + 380, this.game.scale.height / 2 - 170, 'crossButton')
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {
@@ -131,8 +131,7 @@ export class SideScene extends Scene {
         this.continueButtonClicked = true;
         this.popupBG.visible = false;
       });
-    this.continueButton.setScale(1);
-    this.continueButton.setDepth(51);
+    this.closeButton.setDepth(51);
   }
 
   protected getUI(): UiScene {

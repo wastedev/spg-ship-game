@@ -35,7 +35,7 @@ export class TopScene extends Scene {
       'docking-info',
     );
     this.goalStageMessage.setDepth(51);
-    this.goalStageMessage.setScale(0.7);
+    this.goalStageMessage.setScale(1);
     this.goalStageMessage.setStatic(true);
     this.goalStageMessage.setSensor(true);
     this.continueButton = this.add
@@ -60,7 +60,7 @@ export class TopScene extends Scene {
     this.continueButton.setZ(2);
     this.continueButton.setDepth(51);
     this.closeButton = this.add
-      .image(this.game.scale.width / 2 + 420, this.game.scale.height / 2 - 190, 'crossButton')
+      .image(this.game.scale.width / 2 + 380, this.game.scale.height / 2 - 170, 'crossButton')
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {

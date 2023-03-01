@@ -144,14 +144,8 @@ export class UiScene extends Scene {
     console.log('GAME_OVER');
     this.popupBG.visible = true;
     this.popupBG.setDepth(50);
-    this.endGamePopup = this.add.image(
-      window.game.scale.width / 2,
-      window.game.scale.height / 2,
-      'endPopup',
-    );
-    this.endGamePopup.setDepth(51);
-    this.endGameBtn = this.add
-      .image(this.endGamePopup.x, this.endGamePopup.y - 30, 'endBtn')
+    this.endGamePopup = this.add
+      .image(window.game.scale.width / 2, window.game.scale.height / 2, 'endPopup')
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {
@@ -165,7 +159,7 @@ export class UiScene extends Scene {
           }),
         });
       });
-    this.endGameBtn.setDepth(51);
+    this.endGamePopup.setDepth(51);
   }
 
   public hideUI(): void {

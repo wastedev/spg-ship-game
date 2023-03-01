@@ -2,7 +2,7 @@ import { Scene, Types } from 'phaser';
 import { threadId } from 'worker_threads';
 
 export class PreloadScene extends Scene {
-  private backgroundSound!: any;
+  // private backgroundSound!: any;
   // private loader!: any;
 
   constructor() {
@@ -91,19 +91,18 @@ export class PreloadScene extends Scene {
   }
 
   create(): void {
-    this.backgroundSound = this.sound.add('background');
-    const musicConfig: Types.Sound.SoundConfig = {
-      volume: 0.5,
-      loop: true,
-    };
-    this.backgroundSound.play(musicConfig);
+    // this.backgroundSound = this.sound.add('background');
+    // const musicConfig: Types.Sound.SoundConfig = {
+    //   volume: 0.5,
+    //   loop: true,
+    // };
+    // this.backgroundSound.play(musicConfig);
     this.scene.start('banner-scene');
 
     const loader = document.getElementById('ferretVideoWaitlay');
     if (loader) {
       loader.style.display = 'none';
     }
-    this.backgroundSound.play(musicConfig);
     this.scene.start('banner-scene');
   }
 }

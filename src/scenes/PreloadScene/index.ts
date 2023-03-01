@@ -55,6 +55,9 @@ export class PreloadScene extends Scene {
     this.load.image('healthScore', 'img/entities/images/healthScore.png');
     this.load.image('oilLoad', 'img/entities/ui/oilLoad.png');
     this.load.image('bannerStartBtn', 'img/entities/ui/startBannerButton.png');
+    //sound buttons
+    this.load.image('soundOn', 'img/entities/ui/sound.svg');
+    this.load.image('soundOff', 'img/entities/ui/muteSound.svg');
 
     //end
     this.load.image('endBtn', 'img/entities/ui/endGameBtn.svg');
@@ -93,6 +96,8 @@ export class PreloadScene extends Scene {
       volume: 0.5,
       loop: true,
     };
+    this.backgroundSound.play(musicConfig);
+    this.scene.start('banner-scene');
 
     const loader = document.getElementById('ferretVideoWaitlay');
     if (loader) {

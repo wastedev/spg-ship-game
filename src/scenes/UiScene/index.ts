@@ -1,5 +1,5 @@
 import { Direction, Player } from './../../entities/Player';
-import { GameObjects, Scene } from 'phaser';
+import { GameObjects, Scene, Types } from 'phaser';
 import { TopScene } from '../TopScene';
 import { DockingScene } from '../DockingScene';
 import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers';
@@ -20,6 +20,10 @@ export class UiScene extends Scene {
 
   private endGamePopup!: GameObjects.Image;
   private endGameBtn!: GameObjects.Image;
+
+  private soundOnBtn!: GameObjects.Image;
+  private soundOffBtn!: GameObjects.Image;
+  private backgroundSound!: any;
 
   private restartGamePopup!: GameObjects.Image;
   constructor() {
@@ -103,6 +107,37 @@ export class UiScene extends Scene {
         player.updateByTarget(Direction.None);
       });
     this.rightButton.setScale(0.7);
+
+    this.backgroundSound = this.sound.add('background');
+    const musicConfig: Types.Sound.SoundConfig = {
+      volume: 0.5,
+      loop: true,
+    };
+    this.backgroundSound.play(musicConfig);
+
+    this.soundOnBtn = this.add
+      .image(this.oilScore.x - 100, this.oilScore.y, 'soundOn')
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerup', () => {
+        console.log('work off');
+        this.soundOnBtn.visible = false;
+        this.soundOffBtn.visible = true;
+        window.game.sound.stopAll();
+      });
+    this.soundOnBtn.scale = 0.8;
+    this.soundOffBtn = this.add
+      .image(this.oilScore.x - 100, this.oilScore.y, 'soundOff')
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerup', () => {
+        console.log('work on');
+        this.soundOnBtn.visible = true;
+        this.soundOffBtn.visible = false;
+        this.backgroundSound.play(musicConfig);
+      });
+    this.soundOffBtn.scale = 0.8;
+    this.soundOffBtn.visible = false;
   }
 
   protected endGameEvent(): void {

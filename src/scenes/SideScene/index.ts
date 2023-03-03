@@ -246,7 +246,7 @@ export class SideScene extends Scene {
 
     if (this.rocketShotAttempt < 1 && !this.getTarget && this.gameStatus) {
       this.gameStatus = false;
-      ui.restartGame(3);
+      ui.gameLose();
     }
 
     if (!this.shot) {

@@ -17,27 +17,45 @@ export class TopScene extends Scene {
   private continueButton!: GameObjects.Image;
   private closeButton!: GameObjects.Image;
 
-  private gameStarted: boolean = false;
+  //game state
+  private gameStarted: boolean = true;
+  //game blur
   private popupBG!: GameObjects.Image;
 
   constructor() {
     super('top-scene');
   }
-
   protected getUI(): UiScene {
     return this.scene.get('ui-scene') as UiScene;
   }
 
-  initTarget(): void {
+  public getDamage(): void {
+    GAME_SPEEDS[MOVEMENT_SPEED] = 0;
+    GAME_SPEEDS[ROTATION_SPEED] = 0;
+  }
+
+  public continueGame(): void {
+    GAME_SPEEDS[MOVEMENT_SPEED] = 0.8;
+    GAME_SPEEDS[ROTATION_SPEED] = 0.35;
+  }
+
+  private nextScene(): void {
+    this.continueButton.destroy();
+    this.closeButton.destroy();
+    this.goalStageMessage.destroy();
+    this.sceneChange();
+  }
+
+  private loadTargetPopup(): void {
+    const ui = this.getUI();
+    ui.hideUI();
+    this.popupBG.visible = true;
     this.goalStageMessage = this.matter.add.sprite(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
-      'docking-info',
+      '1000meters',
     );
     this.goalStageMessage.setDepth(51);
-    this.goalStageMessage.setScale(1);
-    this.goalStageMessage.setStatic(true);
-    this.goalStageMessage.setSensor(true);
     this.continueButton = this.add
       .image(
         this.goalStageMessage.x,
@@ -46,40 +64,25 @@ export class TopScene extends Scene {
       )
       .setScrollFactor(0)
       .setInteractive()
-      .on('pointerup', () => {
-        this.goalStageMessage.destroy();
-        this.continueButton.destroy();
-        this.closeButton.destroy();
-        this.gameStarted = true;
-        this.initEnemies();
-        GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
-        GAME_SPEEDS[ROTATION_SPEED] = 0.32;
-        this.popupBG.visible = false;
+      .on('pointerdown', () => {
+        ui.showUI();
+        this.nextScene();
       });
-    this.continueButton.setScale(1);
-    this.continueButton.setZ(2);
     this.continueButton.setDepth(51);
     this.closeButton = this.add
-      .image(this.game.scale.width / 2 + 380, this.game.scale.height / 2 - 170, 'crossButton')
-      .setScrollFactor(0)
+      .image(this.goalStageMessage.x + 380, this.goalStageMessage.y - 170, 'crossButton')
       .setInteractive()
-      .on('pointerup', () => {
-        this.goalStageMessage.destroy();
-        this.continueButton.destroy();
-        this.closeButton.destroy();
-        this.gameStarted = true;
-        this.initEnemies();
-        GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
-        GAME_SPEEDS[ROTATION_SPEED] = 0.32;
-        this.popupBG.visible = false;
+      .setScrollFactor(0)
+      .on('pointerdown', () => {
+        ui.showUI();
+        this.nextScene();
       });
     this.closeButton.setDepth(51);
-    this.popupBG.visible = true;
   }
 
   create(): void {
-    GAME_SPEEDS[MOVEMENT_SPEED] = 0;
-    GAME_SPEEDS[ROTATION_SPEED] = 0;
+    //stop ship
+
     this.popupBG = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
@@ -88,7 +91,7 @@ export class TopScene extends Scene {
     this.popupBG.visible = false;
     this.popupBG.setAlpha(0.7);
     this.popupBG.setDepth(50);
-    this.initTarget();
+    // this.initTarget();//logic for start info popup
     // CREATE PLAYER SPRITE
 
     this.player = new Player(this.matter.world, 100, window.game.scale.height / 2, 'player-top');
@@ -110,10 +113,10 @@ export class TopScene extends Scene {
     this.goalZone = this.matter.add.sprite(
       window.game.scale.width - window.game.scale.width / 10,
       window.game.scale.height / 2,
-      'goal-zone',
+      'goal-distance',
     );
     this.goalZone.setScale(0.4);
-    this.goalZone.displayWidth = 210;
+    this.goalZone.setDisplaySize(220, 50);
     this.goalZone.setStatic(true);
     this.goalZone.setSensor(true);
     this.goalZone.setDepth(-1);
@@ -122,15 +125,15 @@ export class TopScene extends Scene {
       this.time.addEvent({
         delay: 1000,
         callback: () => {
-          GAME_SPEEDS[MOVEMENT_SPEED] -= 0.126;
-          GAME_SPEEDS[ROTATION_SPEED] -= 0.053;
-          console.log(GAME_SPEEDS[MOVEMENT_SPEED], GAME_SPEEDS[ROTATION_SPEED]);
+          GAME_SPEEDS[MOVEMENT_SPEED] -= 0.1;
+          GAME_SPEEDS[ROTATION_SPEED] -= 0.045;
         },
         repeat: 5,
         callbackScope: this,
       });
-
       setTimeout(() => {
+        GAME_SPEEDS[MOVEMENT_SPEED] = 0;
+        GAME_SPEEDS[ROTATION_SPEED] = 0;
         this.goalZone.visible = false;
       }, 7000);
       setTimeout(() => {
@@ -143,46 +146,15 @@ export class TopScene extends Scene {
         this.goalZone.visible = true;
       }, 10000);
       setTimeout(() => {
-        this.scene.stop();
-        this.sceneChange();
+        this.loadTargetPopup();
       }, 11000);
     });
-  }
-
-  update(): void {
-    if (this.player.getHealth() <= 0) {
-      this.gameStarted = false;
-      const ui = this.getUI();
-      ui.restartGame(1);
-    }
-
-    if (this.gameStarted) {
-      this.player.update();
-      const ui = this.getUI();
-      ui.setHealth(this.player.getHealth());
-
-      if (this.icebergs.every((iceberg) => iceberg instanceof Enemy)) {
-        this.icebergs.forEach((item) => item.update());
-      }
-    }
-
-    if (this.player.x >= this.goalZone.x) {
-      // if you dont get the goalzone
-      this.gameStarted = false;
-      const ui = this.getUI();
-      ui.restartGame(1);
-    }
-
-    this.matter.overlap(this.player, [this.topBarrier, this.bottomBarrier], () => {
-      this.gameStarted = false;
-      const ui = this.getUI();
-      ui.restartGame(1);
-    });
+    this.initEnemies();
   }
 
   sceneChange(): void {
-    this.scene.start('docking-scene');
     this.scene.stop();
+    this.scene.start('docking-scene');
   }
 
   initEnemies(): void {
@@ -219,4 +191,85 @@ export class TopScene extends Scene {
     );
     this.bottomBarrier.isStatic = true;
   }
+
+  update(): void {
+    if (this.player.getHealth() <= 0) {
+      this.gameStarted = false;
+      const ui = this.getUI();
+      ui.gameLose();
+    }
+
+    if (this.gameStarted) {
+      this.player.update();
+      const ui = this.getUI();
+      ui.setHealth(this.player.getHealth());
+
+      if (this.icebergs.every((iceberg) => iceberg instanceof Enemy)) {
+        this.icebergs.forEach((item) => item.update());
+      }
+    }
+
+    if (this.player.x >= this.goalZone.x) {
+      // if you dont get the goalzone
+      this.gameStarted = false;
+      const ui = this.getUI();
+      ui.gameLose();
+    }
+
+    this.matter.overlap(this.player, [this.topBarrier, this.bottomBarrier], () => {
+      this.gameStarted = false;
+      const ui = this.getUI();
+      ui.gameLose();
+    });
+  }
 }
+
+//starter banner
+// // initTarget(): void {
+//   this.goalStageMessage = this.matter.add.sprite(
+//     window.game.scale.width / 2,
+//     window.game.scale.height / 2,
+//     'docking-info',
+//   );
+//   this.goalStageMessage.setDepth(51);
+//   this.goalStageMessage.setScale(1);
+//   this.goalStageMessage.setStatic(true);
+//   this.goalStageMessage.setSensor(true);
+//   this.continueButton = this.add
+//     .image(
+//       this.goalStageMessage.x,
+//       this.goalStageMessage.y + this.goalStageMessage.y / 5,
+//       'continueButton',
+//     )
+//     .setScrollFactor(0)
+//     .setInteractive()
+//     .on('pointerup', () => {
+//       this.goalStageMessage.destroy();
+//       this.continueButton.destroy();
+//       this.closeButton.destroy();
+//       this.gameStarted = true;
+//       this.initEnemies();
+//       GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
+//       GAME_SPEEDS[ROTATION_SPEED] = 0.32;
+//       this.popupBG.visible = false;
+//     });
+//   this.continueButton.setScale(1);
+//   this.continueButton.setZ(2);
+//   this.continueButton.setDepth(51);
+//   this.closeButton = this.add
+//     .image(this.game.scale.width / 2 + 380, this.game.scale.height / 2 - 170, 'crossButton')
+//     .setScrollFactor(0)
+//     .setInteractive()
+//     .on('pointerup', () => {
+//       this.goalStageMessage.destroy();
+//       this.continueButton.destroy();
+//       this.closeButton.destroy();
+//       this.gameStarted = true;
+//       this.initEnemies();
+//       GAME_SPEEDS[MOVEMENT_SPEED] = 0.76;
+//       GAME_SPEEDS[ROTATION_SPEED] = 0.32;
+//       this.popupBG.visible = false;
+//     });
+//   this.closeButton.setDepth(51);
+//   this.popupBG.visible = true;
+// }

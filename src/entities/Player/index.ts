@@ -2,6 +2,7 @@ import { Input } from 'phaser';
 import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED } from '../../constants';
 import { Enemy } from '../Enemy';
 import { FIRST_SCENE, SCENE_HEALTH } from '../../helpers';
+import { TopScene, UiScene } from 'src/scenes';
 
 export enum Direction {
   Up = 'UP',
@@ -92,8 +93,19 @@ export class Player extends Phaser.Physics.Matter.Image {
     }
   }
 
+  protected getUI(): UiScene {
+    return window.game.scene.getScene('ui-scene') as UiScene;
+  }
+
+  protected getTop(): TopScene {
+    return window.game.scene.getScene('top-scene') as TopScene;
+  }
+
   public getDamage(): void {
     if (this.health > 1) {
+      const ui = this.getUI();
+      ui.getDamage();
+
       --this.health;
       --SCENE_HEALTH[FIRST_SCENE];
     } else {

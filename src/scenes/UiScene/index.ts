@@ -40,6 +40,7 @@ export class UiScene extends Scene {
       'popupBg',
     );
     this.popupBG.visible = false;
+    this.popupBG.scale = 3;
     this.popupBG.setAlpha(0.7);
     this.oil = 0;
     this.health = 3;

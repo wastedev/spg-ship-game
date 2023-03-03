@@ -146,6 +146,7 @@ export class SideScene extends Scene {
     );
     this.popupBG.visible = false;
     this.popupBG.setAlpha(0.7);
+    this.popupBG.scale = 3;
     this.loadPopup();
 
     this.rocketSound = this.sound.add('rocket');

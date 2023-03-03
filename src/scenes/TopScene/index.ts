@@ -132,7 +132,7 @@ export class TopScene extends Scene {
         this.playerInside = true;
         console.log('set on collide');
         this.time.addEvent({
-          delay: 800,
+          delay: 1000,
           callback: () => {
             console.log('event');
             GAME_SPEEDS[MOVEMENT_SPEED] -= 0.08;

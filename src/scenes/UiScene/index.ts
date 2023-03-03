@@ -144,6 +144,11 @@ export class UiScene extends Scene {
     this.soundOffBtn.visible = false;
   }
 
+  public hideButtons(): void {
+    this.leftButton.visible = false;
+    this.rightButton.visible = false;
+  }
+
   protected endGameEvent(): void {
     console.log('GAME_OVER');
     this.popupBG.visible = true;

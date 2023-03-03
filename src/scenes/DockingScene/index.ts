@@ -6,6 +6,7 @@ import { UiScene } from '../UiScene';
 import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers';
 import { IncomingMessage } from 'http';
 import { getuid } from 'process';
+import { IS_MOBILE } from '../../constants';
 
 export class DockingScene extends Scene {
   public player!: Player;
@@ -71,15 +72,17 @@ export class DockingScene extends Scene {
 
     //
 
-    let width = window.innerWidth;
-    let height = window.innerHeight;
     this.background = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
       'background-docking',
     );
     this.background.setOrigin(0.5);
-    this.background.setDisplaySize(width, height);
+    if (IS_MOBILE) {
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      this.background.setDisplaySize(width, height);
+    }
 
     this.player = new Player(
       this.matter.world,

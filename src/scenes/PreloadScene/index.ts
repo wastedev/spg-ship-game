@@ -55,24 +55,25 @@ export class PreloadScene extends Scene {
     this.load.image('healthScore', 'img/entities/images/healthScore.png');
     this.load.image('oilLoad', 'img/entities/ui/oilLoad.png');
     this.load.image('bannerStartBtn', 'img/entities/ui/startBannerButton.png');
+
     //sound buttons
     this.load.image('soundOn', 'img/entities/ui/sound.svg');
     this.load.image('soundOff', 'img/entities/ui/muteSound.svg');
 
     //end
     this.load.image('endBtn', 'img/entities/ui/endGameBtn.svg');
-    this.load.image('endPopup', 'img/entities/ui/endGamePopup.jpg');
     this.load.image('gameOverPopup', 'img/entities/ui/gameOverPopup.png');
 
     // LOAD POPUP ASSETS
-    this.load.image('docking-info', 'img/entities/ui/info.jpg');
-    this.load.image('1000meters', 'img/entities/ui/1000meters.jpg');
-    this.load.image('500meters', 'img/entities/ui/500meters.jpg');
-    this.load.image('80meters', 'img/entities/ui/80meters.jpg');
+    this.load.image('docking-info', 'img/entities/ui/popups/info.jpg');
+    this.load.image('1000meters', 'img/entities/ui/popups/1000meters.jpg');
+    this.load.image('500meters', 'img/entities/ui/popups/500meters.jpg');
+    this.load.image('80meters', 'img/entities/ui/popups/80meters.jpg');
+    this.load.image('popupBg', 'img/entities/ui/popups/popupBackground.png');
+    this.load.image('endPopup', 'img/entities/ui/popups/endGamePopup.jpg');
+    this.load.image('rocketInfo', 'img/entities/ui/popups/rocketInfo.png');
     this.load.image('crossButton', 'img/entities/ui/closeButton.svg');
     this.load.image('continueButton', 'img/entities/ui/continueButton.svg');
-    this.load.image('topscenePopup', 'img/entities/ui/1scenepopup.jpg');
-    this.load.image('popupBg', 'img/entities/ui/popupBackground.png');
     //////new
 
     //LOAD ROCKET ASSETS

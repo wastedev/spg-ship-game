@@ -95,6 +95,7 @@ export class TopScene extends Scene {
     // CREATE PLAYER SPRITE
 
     this.player = new Player(this.matter.world, 100, window.game.scale.height / 2, 'player-top');
+    this.player.setDepth(49);
 
     // CREATE BACKGROUND SPRITE
     this.backgroundIcebergs = this.add.sprite(
@@ -123,31 +124,32 @@ export class TopScene extends Scene {
 
     this.goalZone.setOnCollide((obj: Phaser.Types.Physics.Matter.MatterCollisionData) => {
       this.time.addEvent({
-        delay: 1000,
+        delay: 800,
         callback: () => {
-          GAME_SPEEDS[MOVEMENT_SPEED] -= 0.1;
-          GAME_SPEEDS[ROTATION_SPEED] -= 0.045;
+          console.log('event');
+          GAME_SPEEDS[MOVEMENT_SPEED] -= 0.08;
+          GAME_SPEEDS[ROTATION_SPEED] -= 0.05;
         },
-        repeat: 5,
+        repeatCount: 5,
         callbackScope: this,
       });
       setTimeout(() => {
         GAME_SPEEDS[MOVEMENT_SPEED] = 0;
         GAME_SPEEDS[ROTATION_SPEED] = 0;
         this.goalZone.visible = false;
+      }, 6000);
+      setTimeout(() => {
+        this.goalZone.visible = true;
       }, 7000);
       setTimeout(() => {
-        this.goalZone.visible = true;
+        this.goalZone.visible = false;
       }, 8000);
       setTimeout(() => {
-        this.goalZone.visible = false;
+        this.goalZone.visible = true;
       }, 9000);
       setTimeout(() => {
-        this.goalZone.visible = true;
-      }, 10000);
-      setTimeout(() => {
         this.loadTargetPopup();
-      }, 11000);
+      }, 10000);
     });
     this.initEnemies();
   }
@@ -209,7 +211,7 @@ export class TopScene extends Scene {
       }
     }
 
-    if (this.player.x >= this.goalZone.x) {
+    if (this.player.x >= this.goalZone.x + 100) {
       // if you dont get the goalzone
       this.gameStarted = false;
       const ui = this.getUI();

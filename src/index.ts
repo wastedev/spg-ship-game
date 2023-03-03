@@ -4,23 +4,20 @@ import * as Porthole from 'porthole-proxy';
 import { PreloadScene, TopScene, UiScene, SideScene, DockingScene } from './scenes';
 import { BannerScene } from './scenes/BannerScene';
 
-// const DEFAULT_WIDTH = 1920;
-// const DEFAULT_HEIGHT = 1080;
-
 const isMobile =
   /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(
     navigator.userAgent,
   );
 
-if (isMobile) {
-  alert('this is mobile');
-} else {
-  alert('not mobile');
-}
+let DEFAULT_WIDTH, DEFAULT_HEIGHT;
 
-let DEFAULT_WIDTH = window.innerWidth;
-let DEFAULT_HEIGHT = window.innerHeight;
-console.log(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+if (isMobile) {
+  DEFAULT_WIDTH = 1920;
+  DEFAULT_HEIGHT = 1080;
+} else {
+  DEFAULT_WIDTH = window.innerWidth;
+  DEFAULT_HEIGHT = window.innerHeight;
+}
 
 const gameConfig: Types.Core.GameConfig = {
   title: 'Игра - загрузка СПГ',

@@ -90,20 +90,13 @@ export class SideScene extends Scene {
   loadPopup(): void {
     this.popupBG.visible = true;
     this.popupBG.setDepth(50);
-    this.popUpInfo = this.add.image(
-      window.game.scale.width / 2,
-      window.game.scale.height / 2,
-      'rocketInfo',
-    );
-    this.popUpInfo.scale = 1;
-    this.popUpInfo.setDepth(51);
-    this.continueButton = this.add
-      .image(this.popUpInfo.x, this.popUpInfo.y + this.popUpInfo.y / 5, 'continueButton')
+    this.popUpInfo = this.add
+      .image(window.game.scale.width / 2, window.game.scale.height / 2, 'rocketInfo')
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {
         this.popUpInfo.destroy();
-        this.continueButton.destroy();
+        // this.continueButton.destroy();
         this.closeButton.destroy();
         this.playerSide.visible = true;
         this.playerSide.setDepth(1);
@@ -113,15 +106,34 @@ export class SideScene extends Scene {
         this.continueButtonClicked = true;
         this.popupBG.visible = false;
       });
-    this.continueButton.setDepth(51);
-    this.continueButton.setScale(1);
+
+    this.popUpInfo.scale = 1;
+    this.popUpInfo.setDepth(51);
+    // this.continueButton = this.add
+    //   .image(this.popUpInfo.x, this.popUpInfo.y + this.popUpInfo.y / 5, 'continueButton')
+    //   .setScrollFactor(0)
+    //   .setInteractive()
+    //   .on('pointerup', () => {
+    //     this.popUpInfo.destroy();
+    //     this.continueButton.destroy();
+    //     this.closeButton.destroy();
+    //     this.playerSide.visible = true;
+    //     this.playerSide.setDepth(1);
+    //     this.rocketTargetZone.visible = true;
+    //     this.rocketTargetZone.setDepth(1);
+    //     this.rocketTargetZone.setBounce(0);
+    //     this.continueButtonClicked = true;
+    //     this.popupBG.visible = false;
+    //   });
+    // this.continueButton.setDepth(51);
+    // this.continueButton.setScale(1);
     this.closeButton = this.add
       .image(this.game.scale.width / 2 + 380, this.game.scale.height / 2 - 170, 'crossButton')
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {
         this.popUpInfo.destroy();
-        this.continueButton.destroy();
+        // this.continueButton.destroy();
         this.closeButton.destroy();
         this.playerSide.visible = true;
         this.playerSide.setDepth(1);

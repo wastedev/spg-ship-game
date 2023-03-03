@@ -70,12 +70,16 @@ export class DockingScene extends Scene {
     //
 
     //
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
     this.background = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
       'background-docking',
     );
     this.background.setOrigin(0.5);
+    this.background.setDisplaySize(width, height);
 
     this.player = new Player(
       this.matter.world,

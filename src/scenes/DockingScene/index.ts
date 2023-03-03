@@ -82,6 +82,7 @@ export class DockingScene extends Scene {
       let width = window.innerWidth;
       let height = window.innerHeight;
       this.background.setDisplaySize(width, height);
+      this.background.scale = 1;
     }
 
     this.player = new Player(

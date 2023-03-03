@@ -22,9 +22,11 @@ export class BannerScene extends Scene {
       'banner-text',
     );
 
+    console.log(IS_MOBILE);
+
     this.bannerStartButton = this.add
       .image(
-        this.game.scale.width / 2 - this.game.scale.width / 3.15,
+        window.game.scale.width / 2 - window.game.scale.width / 3.15,
         window.game.scale.height / 3 + window.game.scale.height / 2,
         'bannerStartBtn',
       )
@@ -35,15 +37,16 @@ export class BannerScene extends Scene {
       });
 
     this.bannerStartButton.setScale(1);
-    console.log(IS_MOBILE);
     if (IS_MOBILE) {
       let width = window.innerWidth;
       let height = window.innerHeight;
       this.banner.setDisplaySize(width, height);
       this.bannerText.setDisplaySize(width / 2, height / 2);
       console.log(width, height);
+      this.bannerText.scale = 1;
+      this.banner.scale = 1;
+      this.bannerStartButton.y -= 150;
     }
-
     ///////////
 
     // this.animation = this.add.sprite(

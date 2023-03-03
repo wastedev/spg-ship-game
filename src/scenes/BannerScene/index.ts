@@ -11,14 +11,15 @@ export class BannerScene extends Scene {
   }
 
   create(): void {
-    this.bannerBackground = this.add.image(0, 0, 'background-image');
-    this.bannerBackground.setScale(1);
-    this.bannerBackground.setOrigin(0);
+    let width = window.innerWidth;
+    let height = window.innerHeight;
     this.banner = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
       'banner-image',
     );
+    this.banner.setDisplaySize(width, height);
+    console.log(width, height);
 
     this.bannerText = this.add.image(
       this.game.scale.width / 2 - 220,
@@ -26,10 +27,12 @@ export class BannerScene extends Scene {
       'banner-text',
     );
 
+    this.bannerText.setDisplaySize(width / 2, height / 2);
+
     this.bannerStartButton = this.add
       .image(
-        this.game.scale.width / 2 - 610,
-        window.game.scale.height / 3 + window.game.scale.height / 3,
+        this.game.scale.width / 2 - this.game.scale.width / 3.15,
+        window.game.scale.height / 3 + window.game.scale.height / 2,
         'bannerStartBtn',
       )
       .setInteractive()
@@ -37,6 +40,7 @@ export class BannerScene extends Scene {
         this.scene.start('top-scene');
         this.scene.start('ui-scene');
       });
+
     this.bannerStartButton.setScale(1);
 
     ///////////

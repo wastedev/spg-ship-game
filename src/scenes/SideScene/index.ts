@@ -93,7 +93,7 @@ export class SideScene extends Scene {
     this.popUpInfo = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
-      '80meters',
+      'rocketInfo',
     );
     this.popUpInfo.scale = 1;
     this.popUpInfo.setDepth(51);

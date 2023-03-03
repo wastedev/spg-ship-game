@@ -13,7 +13,7 @@ const gameConfig: Types.Core.GameConfig = {
   parent: 'game',
   backgroundColor: '#308CBA',
   scale: {
-    mode: Phaser.Scale.ScaleModes.FIT,
+    mode: Phaser.Scale.ScaleModes.RESIZE,
     autoCenter: Phaser.Scale.CENTER_BOTH,
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT,

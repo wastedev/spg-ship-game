@@ -25,7 +25,10 @@ export class UiScene extends Scene {
   private soundOffBtn!: GameObjects.Image;
   private backgroundSound!: any;
 
-  private restartGamePopup!: GameObjects.Image;
+  private getDamagePopup!: GameObjects.Image;
+  private getDamageContinue!: GameObjects.Image;
+  private getDamageClose!: GameObjects.Image;
+
   constructor() {
     super('ui-scene');
   }
@@ -162,6 +165,10 @@ export class UiScene extends Scene {
     this.endGamePopup.setDepth(51);
   }
 
+  protected getTop(): TopScene {
+    return window.game.scene.getScene('top-scene') as TopScene;
+  }
+
   public hideUI(): void {
     this.leftButton.visible = false;
     this.rightButton.visible = false;
@@ -180,47 +187,96 @@ export class UiScene extends Scene {
     this.healthText.visible = true;
   }
 
-  public restartGame(sceneNumber: number): void {
-    this.hideUI();
+  public gameLose() {
     if (!this.restartValue) {
       this.restartValue = true;
-      console.log('restart');
-      if (sceneNumber === 1 || sceneNumber === 2) {
-        this.restartGamePopup = this.add
-          .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
-          .setScrollFactor(0)
-          .setInteractive()
-          .on('pointerup', () => {
-            console.log('work');
-            window.windowProxy.post({
-              finishGame3: JSON.stringify({
-                win: false,
-                lose: true,
-                crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
-                aimTries: 0,
-              }),
-            });
-          });
-      } else {
-        this.restartValue = true;
-        this.restartGamePopup = this.add
-          .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
-          .setScrollFactor(0)
-          .setInteractive()
-          .on('pointerup', () => {
-            console.log('work');
-            window.windowProxy.post({
-              finishGame3: JSON.stringify({
-                win: false,
-                lose: true,
-                crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
-                aimTries: 5 - SCENE_HEALTH[SECOND_SCENE],
-              }),
-            });
-          });
-      }
+      console.log('lose');
+      window.windowProxy.post({
+        finishGame3: JSON.stringify({
+          win: false,
+          lose: true,
+          crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+          aimTries: 5 - SCENE_HEALTH[SECOND_SCENE],
+        }),
+      });
     }
   }
+
+  protected destroyGetDamagePopup(): void {
+    this.getDamagePopup.destroy();
+    this.getDamageClose.destroy();
+    this.getDamageContinue.destroy();
+    this.popupBG.visible = false;
+  }
+
+  public getDamage(): void {
+    this.popupBG.visible = true;
+    this.popupBG.setDepth(50);
+    const top = this.getTop();
+    top.getDamage();
+    this.getDamagePopup = this.add.image(
+      window.game.scale.width / 2,
+      window.game.scale.height / 2,
+      'docking-info',
+    );
+    this.getDamagePopup.setDepth(51);
+    this.getDamageContinue = this.add
+      .image(
+        this.getDamagePopup.x,
+        this.getDamagePopup.y + this.getDamagePopup.y / 5,
+        'continueButton',
+      )
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerdown', () => {
+        top.continueGame();
+        this.destroyGetDamagePopup();
+      });
+    this.getDamageContinue.setDepth(51);
+    this.getDamageClose = this.add
+      .image(this.getDamagePopup.x + 380, this.getDamagePopup.y - 170, 'crossButton')
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerdown', () => {
+        top.continueGame();
+        this.destroyGetDamagePopup();
+      });
+    this.getDamageClose.setDepth(51);
+  }
+
+  // public restartGame(sceneNumber: number): void {
+  //   this.hideUI();
+  //   if (!this.restartValue) {
+  //     this.restartValue = true;
+  //     console.log('restart');
+  //     if (sceneNumber === 1 || sceneNumber === 2) {
+  //       this.restartGamePopup = this.add
+  //         .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
+  //         .setScrollFactor(0)
+  //         .setInteractive()
+  //         .on('pointerup', () => {
+  //           console.log('work');
+  //         });
+  //     } else {
+  //       this.restartValue = true;
+  //       this.restartGamePopup = this.add
+  //         .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
+  //         .setScrollFactor(0)
+  //         .setInteractive()
+  //         .on('pointerup', () => {
+  //           console.log('work');
+  //           window.windowProxy.post({
+  //             finishGame3: JSON.stringify({
+  //               win: false,
+  //               lose: true,
+  //               crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+  //               aimTries: 5 - SCENE_HEALTH[SECOND_SCENE],
+  //             }),
+  //           });
+  //         });
+  //     }
+  //   }
+  // }
 
   public oilLoading(): void {
     this.time.addEvent({
@@ -268,3 +324,39 @@ export class UiScene extends Scene {
     }
   }
 }
+
+//restart game with popup using ui scene
+// public restartGame(sceneNumber: number): void {
+//   this.hideUI();
+//   if (!this.restartValue) {
+//     this.restartValue = true;
+//     console.log('restart');
+//     if (sceneNumber === 1 || sceneNumber === 2) {
+//       this.restartGamePopup = this.add
+//         .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
+//         .setScrollFactor(0)
+//         .setInteractive()
+//         .on('pointerup', () => {
+//           console.log('work');
+
+//         });
+//     } else {
+//       this.restartValue = true;
+//       this.restartGamePopup = this.add
+//         .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
+//         .setScrollFactor(0)
+//         .setInteractive()
+//         .on('pointerup', () => {
+//           console.log('work');
+//           window.windowProxy.post({
+//             finishGame3: JSON.stringify({
+//               win: false,
+//               lose: true,
+//               crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+//               aimTries: 5 - SCENE_HEALTH[SECOND_SCENE],
+//             }),
+//           });
+//         });
+//     }
+//   }
+// }

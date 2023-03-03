@@ -90,6 +90,7 @@ export class TopScene extends Scene {
     );
     this.popupBG.visible = false;
     this.popupBG.setAlpha(0.7);
+    this.popupBG.scale = 3;
     this.popupBG.setDepth(50);
     // this.initTarget();//logic for start info popup
     // CREATE PLAYER SPRITE

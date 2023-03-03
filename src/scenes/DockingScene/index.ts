@@ -99,6 +99,7 @@ export class DockingScene extends Scene {
       window.game.scale.height / 2,
       'popupBg',
     );
+    this.popupBG.scale = 3;
     this.station.setOnCollide((obj: Phaser.Types.Physics.Matter.MatterCollisionData) => {
       const ui = this.getUI();
       this.stopPlayer();

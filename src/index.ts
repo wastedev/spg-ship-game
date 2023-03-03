@@ -7,6 +7,17 @@ import { BannerScene } from './scenes/BannerScene';
 // const DEFAULT_WIDTH = 1920;
 // const DEFAULT_HEIGHT = 1080;
 
+const isMobile =
+  /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(
+    navigator.userAgent,
+  );
+
+if (isMobile) {
+  alert('this is mobile');
+} else {
+  alert('not mobile');
+}
+
 let DEFAULT_WIDTH = window.innerWidth;
 let DEFAULT_HEIGHT = window.innerHeight;
 console.log(DEFAULT_WIDTH, DEFAULT_HEIGHT);

@@ -78,11 +78,11 @@ export class DockingScene extends Scene {
       'background-docking',
     );
     this.background.setOrigin(0.5);
-    if (IS_MOBILE) {
+    if (!IS_MOBILE) {
       let width = window.innerWidth;
       let height = window.innerHeight;
       this.background.setDisplaySize(width, height);
-      this.background.scale = 1;
+      // this.background.scale = 1;
     }
 
     this.player = new Player(

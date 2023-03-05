@@ -136,8 +136,8 @@ export class TopScene extends Scene {
             delay: 1000,
             callback: () => {
               console.log('event');
-              GAME_SPEEDS[MOVEMENT_SPEED] -= 0.08;
-              GAME_SPEEDS[ROTATION_SPEED] -= 0.05;
+              GAME_SPEEDS[MOVEMENT_SPEED] -= 0.01;
+              GAME_SPEEDS[ROTATION_SPEED] -= 0.07;
             },
             repeatCount: 5,
             callbackScope: this,

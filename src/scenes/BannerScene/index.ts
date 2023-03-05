@@ -17,17 +17,16 @@ export class BannerScene extends Scene {
     );
 
     this.bannerText = this.add.image(
-      this.game.scale.width / 2 - 220,
-      this.game.scale.height / 2 - 80,
+      window.game.scale.width / 2 - window.game.scale.width / 5,
+      window.game.scale.height / 2 - window.game.scale.height / 15,
       'banner-text',
     );
-
-    console.log(IS_MOBILE);
+    this.bannerText.setOrigin(0.5);
 
     this.bannerStartButton = this.add
       .image(
-        window.game.scale.width / 2 - window.game.scale.width / 3.15,
-        window.game.scale.height / 3 + window.game.scale.height / 2,
+        this.bannerText.x - this.bannerText.x / 1.8,
+        this.bannerText.y + this.bannerText.y / 1.5,
         'bannerStartBtn',
       )
       .setInteractive()
@@ -36,17 +35,18 @@ export class BannerScene extends Scene {
         this.scene.start('ui-scene');
       });
 
-    this.bannerStartButton.setScale(1);
-    if (IS_MOBILE) {
+    // this.bannerStartButton.setScale(1);
+    if (!IS_MOBILE) {
+      console.log(IS_MOBILE);
+      console.log('im here');
       let width = window.innerWidth;
       let height = window.innerHeight;
-      this.banner.setDisplaySize(width, height);
-      this.bannerText.setDisplaySize(width / 2, height / 2);
       console.log(width, height);
-      this.bannerText.scale = 1;
-      this.banner.scale = 1;
-      this.bannerStartButton.y -= 150;
+      this.banner.setDisplaySize(width, height);
+      this.bannerText.setDisplaySize(width / 2.3, height / 2.3);
+      this.bannerStartButton.setDisplaySize(width / 10, height / 15);
     }
+
     ///////////
 
     // this.animation = this.add.sprite(

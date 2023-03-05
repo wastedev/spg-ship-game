@@ -128,38 +128,38 @@ export class TopScene extends Scene {
     this.goalZone.setDepth(-1);
 
     this.goalZone.setOnCollide((obj: Phaser.Types.Physics.Matter.MatterCollisionData) => {
-      console.log(obj);
-      console.log('event collide');
-      if (!this.playerInside) {
-        this.playerInside = true;
-        console.log('set on collide');
-        this.time.addEvent({
-          delay: 1000,
-          callback: () => {
-            console.log('event');
-            GAME_SPEEDS[MOVEMENT_SPEED] -= 0.08;
-            GAME_SPEEDS[ROTATION_SPEED] -= 0.05;
-          },
-          repeatCount: 5,
-          callbackScope: this,
-        });
-        setTimeout(() => {
-          GAME_SPEEDS[MOVEMENT_SPEED] = 0;
-          GAME_SPEEDS[ROTATION_SPEED] = 0;
-          this.goalZone.visible = false;
-        }, 6000);
-        setTimeout(() => {
-          this.goalZone.visible = true;
-        }, 7000);
-        setTimeout(() => {
-          this.goalZone.visible = false;
-        }, 8000);
-        setTimeout(() => {
-          this.goalZone.visible = true;
-        }, 9000);
-        setTimeout(() => {
-          this.loadTargetPopup();
-        }, 10000);
+      if (obj.bodyA.gameObject?.texture.key === 'player-top') {
+        if (!this.playerInside) {
+          this.playerInside = true;
+          console.log('set on collide');
+          this.time.addEvent({
+            delay: 1000,
+            callback: () => {
+              console.log('event');
+              GAME_SPEEDS[MOVEMENT_SPEED] -= 0.08;
+              GAME_SPEEDS[ROTATION_SPEED] -= 0.05;
+            },
+            repeatCount: 5,
+            callbackScope: this,
+          });
+          setTimeout(() => {
+            GAME_SPEEDS[MOVEMENT_SPEED] = 0;
+            GAME_SPEEDS[ROTATION_SPEED] = 0;
+            this.goalZone.visible = false;
+          }, 6000);
+          setTimeout(() => {
+            this.goalZone.visible = true;
+          }, 7000);
+          setTimeout(() => {
+            this.goalZone.visible = false;
+          }, 8000);
+          setTimeout(() => {
+            this.goalZone.visible = true;
+          }, 9000);
+          setTimeout(() => {
+            this.loadTargetPopup();
+          }, 10000);
+        }
       }
     });
     this.initEnemies();

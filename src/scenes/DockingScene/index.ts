@@ -100,8 +100,8 @@ export class DockingScene extends Scene {
       { isStatic: true },
     );
     this.station.scale = window.game.scale.height / window.game.scale.width;
-    this.station.setRectangle(400, window.game.scale.height);
     this.station.setStatic(true);
+    this.station.setRectangle(400, window.game.scale.height);
     this.popupBG = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,

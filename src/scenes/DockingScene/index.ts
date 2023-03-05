@@ -101,7 +101,8 @@ export class DockingScene extends Scene {
     );
     this.station.scale = window.game.scale.height / window.game.scale.width;
     this.station.setStatic(true);
-    this.station.setRectangle(400, window.game.scale.height);
+    this.station.setRectangle(window.game.scale.width / 4.5, window.game.scale.height);
+    this.station.setSensor(true);
     this.popupBG = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
@@ -109,9 +110,11 @@ export class DockingScene extends Scene {
     );
     this.popupBG.scale = 3;
     this.station.setOnCollide((obj: Phaser.Types.Physics.Matter.MatterCollisionData) => {
-      const ui = this.getUI();
-      this.stopPlayer();
-      ui.gameLose();
+      if (obj.bodyA.gameObject?.texture.key === 'player-top') {
+        const ui = this.getUI();
+        this.stopPlayer();
+        ui.gameLose();
+      }
     });
     this.popupBG.setAlpha(0.7);
     this.popupBG.visible = false;
@@ -143,6 +146,7 @@ export class DockingScene extends Scene {
   }
 
   public launchPlayer(): void {
+    console.log('launch');
     GAME_SPEEDS[MOVEMENT_SPEED] = 0.8;
     GAME_SPEEDS[ROTATION_SPEED] = 0.35;
   }

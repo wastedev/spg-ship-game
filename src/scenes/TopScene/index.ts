@@ -128,6 +128,7 @@ export class TopScene extends Scene {
     this.goalZone.setDepth(-1);
 
     this.goalZone.setOnCollide((obj: Phaser.Types.Physics.Matter.MatterCollisionData) => {
+      console.log(obj);
       console.log('event collide');
       if (!this.playerInside) {
         this.playerInside = true;

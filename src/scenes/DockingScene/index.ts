@@ -78,11 +78,11 @@ export class DockingScene extends Scene {
       'background-docking',
     );
     this.background.setOrigin(0.5);
-    if (IS_MOBILE) {
+    if (!IS_MOBILE) {
       let width = window.innerWidth;
       let height = window.innerHeight;
       this.background.setDisplaySize(width, height);
-      this.background.scale = 1;
+      // this.background.scale = 1;
     }
 
     this.player = new Player(
@@ -100,8 +100,8 @@ export class DockingScene extends Scene {
       { isStatic: true },
     );
     this.station.scale = window.game.scale.height / window.game.scale.width;
-    this.station.setRectangle(400, window.game.scale.height);
     this.station.setStatic(true);
+    this.station.setRectangle(400, window.game.scale.height);
     this.popupBG = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,

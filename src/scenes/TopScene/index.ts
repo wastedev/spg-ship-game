@@ -58,6 +58,7 @@ export class TopScene extends Scene {
       window.game.scale.height / 2,
       '1000meters',
     );
+    this.goalStageMessage.setSensor(true);
     this.goalStageMessage.setDepth(51);
     this.continueButton = this.add
       .image(

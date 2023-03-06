@@ -50,7 +50,6 @@ export class PreloadScene extends Scene {
     // LOAD UI
     this.load.image('leftButtonMove', 'img/entities/ui/leftButtonMove.png');
     this.load.image('rightButtonMove', 'img/entities/ui/rightButtonMove.png');
-    this.load.image('shotButton', 'img/entities/ui/shotButton.png');
     this.load.image('oilScore', 'img/entities/images/oilScore.png');
     this.load.image('healthScore', 'img/entities/images/healthScore.png');
     this.load.image('oilLoad', 'img/entities/ui/oilLoad.png');
@@ -62,7 +61,6 @@ export class PreloadScene extends Scene {
 
     //end
     this.load.image('endBtn', 'img/entities/ui/endGameBtn.svg');
-    this.load.image('gameOverPopup', 'img/entities/ui/gameOverPopup.png');
 
     // LOAD POPUP ASSETS
     this.load.image('docking-info', 'img/entities/ui/popups/info.jpg');

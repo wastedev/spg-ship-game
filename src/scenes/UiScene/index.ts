@@ -59,15 +59,6 @@ export class UiScene extends Scene {
     });
     this.healthScore.setScale(0.5);
 
-    this.loadOilButton = this.add.image(
-      window.game.scale.width / 2,
-      window.game.scale.height / 2,
-      'oilLoad',
-    );
-
-    this.loadOilButton.visible = false;
-    this.loadOilButton.setScale(0.6);
-
     this.leftButton = this.add
       .image(
         window.game.scale.width / 2 - window.game.scale.width / 4,

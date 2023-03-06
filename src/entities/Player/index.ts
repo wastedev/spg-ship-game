@@ -103,8 +103,10 @@ export class Player extends Phaser.Physics.Matter.Image {
 
   public getDamage(): void {
     if (this.health > 1) {
-      const ui = this.getUI();
-      ui.getDamage();
+      if (this.health === 2) {
+        const ui = this.getUI();
+        ui.getDamage();
+      }
 
       --this.health;
       --SCENE_HEALTH[FIRST_SCENE];

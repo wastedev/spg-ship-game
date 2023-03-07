@@ -61,23 +61,20 @@ window.onload = function () {
     'https://ferretvideo.com/projects/north/proxy/proxyGame3.html',
   );
 
+  window.windowProxy.addEventListener(function (event: any) {
+    if (typeof event.data['game_3_replay'] !== undefined) {
+      if (window.game.isRunning) {
+        const scenes: Scene[] = window.game.scene.getScenes();
+
+        scenes.forEach((scene: Scene) => {
+          scene.scene.stop();
+        });
+
+        window.game.scene.getScene('banner-scene').scene.start();
+
+        return;
+      }
+    }
+  });
   window.game = new Game(gameConfig);
-
-  // window.windowProxy.addEventListener(function (event: any) {
-  //   if (typeof event.data['startGame3'] !== undefined) {
-  //     if (window.game.isRunning) {
-  //       const scenes: Scene[] = window.game.scene.getScenes();
-
-  //       scenes.forEach((scene: Scene) => {
-  //         scene.scene.stop();
-  //       });
-
-  //       window.game.scene.getScene('banner-scene').scene.start();
-
-  //       return;
-  //     }
-
-  //     window.game = new Game(gameConfig);
-  //   }
-  // });
 };

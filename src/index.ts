@@ -67,7 +67,8 @@ window.onload = function () {
         const scenes: Scene[] = window.game.scene.getScenes();
 
         scenes.forEach((scene: Scene) => {
-          scene.scene.stop();
+          scene.registry.destroy();
+          scene.events.destroy();
           scene.scene.restart();
         });
 

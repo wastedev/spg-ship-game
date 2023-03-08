@@ -68,9 +68,10 @@ window.onload = function () {
 
         scenes.forEach((scene: Scene) => {
           scene.scene.stop();
+          scene.scene.restart();
         });
 
-        window.game.scene.getScene('banner-scene').scene.start();
+        window.game.scene.getScene('top-scene').scene.start();
 
         return;
       }

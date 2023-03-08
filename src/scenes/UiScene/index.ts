@@ -287,7 +287,6 @@ export class UiScene extends Scene {
       callbackScope: this,
       repeat: 7,
     });
-    this.loadOilButton.visible = false;
   }
 
   // public activateLoadButton(): void {

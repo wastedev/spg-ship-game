@@ -69,6 +69,7 @@ window.onload = function () {
         scenes.forEach((scene: Scene) => {
           scene.registry.destroy();
           scene.events.destroy();
+          scene.scene.stop();
           scene.scene.restart();
         });
 

@@ -62,7 +62,7 @@ window.onload = function () {
   );
 
   window.windowProxy.addEventListener(function (event: any) {
-    if (typeof event.data['game_3_replay'] !== undefined) {
+    if (typeof event.data?.game_3_replay !== 'undefined') {
       if (window.game.isRunning) {
         const scenes: Scene[] = window.game.scene.getScenes();
 
@@ -73,6 +73,7 @@ window.onload = function () {
         });
 
         window.game.scene.getScene('top-scene').scene.restart();
+        window.game.scene.getScene('ui-scene').scene.restart();
       }
     }
   });

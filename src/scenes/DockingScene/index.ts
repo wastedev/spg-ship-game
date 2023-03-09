@@ -146,7 +146,6 @@ export class DockingScene extends Scene {
   }
 
   public launchPlayer(): void {
-    console.log('launch');
     GAME_SPEEDS[MOVEMENT_SPEED] = 0.8;
     GAME_SPEEDS[ROTATION_SPEED] = 0.35;
   }
@@ -249,7 +248,6 @@ export class DockingScene extends Scene {
         this.player.y <= this.goalRect500?.y + 20
       ) {
         this.goalRect500Inside = true;
-        console.log('inside');
         this.stopPlayer();
         setTimeout(() => {
           this.goalRect500.visible = false;
@@ -280,7 +278,6 @@ export class DockingScene extends Scene {
         this.player.y <= this.goalRect80?.y + 20
       ) {
         this.goalRect80Inside = true;
-        console.log('inside');
         this.stopPlayer();
         setTimeout(() => {
           this.goalRect80.visible = false;

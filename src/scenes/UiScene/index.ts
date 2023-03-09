@@ -2,8 +2,7 @@ import { Direction, Player } from './../../entities/Player';
 import { GameObjects, Scene, Types } from 'phaser';
 import { TopScene } from '../TopScene';
 import { DockingScene } from '../DockingScene';
-import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers';
-
+import { SCENE_HEALTH, FIRST_SCENE, SECOND_SCENE } from '../../helpers/index';
 export class UiScene extends Scene {
   private leftButton!: GameObjects.Image;
   private rightButton!: GameObjects.Image;
@@ -115,7 +114,6 @@ export class UiScene extends Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {
-        console.log('work off');
         this.soundOnBtn.visible = false;
         this.soundOffBtn.visible = true;
         window.game.sound.stopAll();
@@ -126,7 +124,6 @@ export class UiScene extends Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {
-        console.log('work on');
         this.soundOnBtn.visible = true;
         this.soundOffBtn.visible = false;
         this.backgroundSound.play(musicConfig);
@@ -141,7 +138,6 @@ export class UiScene extends Scene {
   }
 
   protected endGameEvent(): void {
-    console.log('GAME_OVER');
     this.popupBG.visible = true;
     this.popupBG.setDepth(50);
     this.endGamePopup = this.add
@@ -149,7 +145,6 @@ export class UiScene extends Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {
-        console.log('win next');
         window.windowProxy.post({
           finishGame3: JSON.stringify({
             win: true,
@@ -187,7 +182,6 @@ export class UiScene extends Scene {
   public gameLose() {
     if (!this.restartValue) {
       this.restartValue = true;
-      console.log('lose');
       window.windowProxy.post({
         finishGame3: JSON.stringify({
           win: false,
@@ -241,40 +235,6 @@ export class UiScene extends Scene {
     this.getDamageClose.setDepth(51);
   }
 
-  // public restartGame(sceneNumber: number): void {
-  //   this.hideUI();
-  //   if (!this.restartValue) {
-  //     this.restartValue = true;
-  //     console.log('restart');
-  //     if (sceneNumber === 1 || sceneNumber === 2) {
-  //       this.restartGamePopup = this.add
-  //         .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
-  //         .setScrollFactor(0)
-  //         .setInteractive()
-  //         .on('pointerup', () => {
-  //           console.log('work');
-  //         });
-  //     } else {
-  //       this.restartValue = true;
-  //       this.restartGamePopup = this.add
-  //         .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
-  //         .setScrollFactor(0)
-  //         .setInteractive()
-  //         .on('pointerup', () => {
-  //           console.log('work');
-  //           window.windowProxy.post({
-  //             finishGame3: JSON.stringify({
-  //               win: false,
-  //               lose: true,
-  //               crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
-  //               aimTries: 5 - SCENE_HEALTH[SECOND_SCENE],
-  //             }),
-  //           });
-  //         });
-  //     }
-  //   }
-  // }
-
   public oilLoading(): void {
     this.time.addEvent({
       delay: 500,
@@ -288,13 +248,6 @@ export class UiScene extends Scene {
       repeat: 7,
     });
   }
-
-  // public activateLoadButton(): void {
-  //   this.loadOilButton.visible = true;
-  //   this.loadOilButton.setInteractive().on('pointerup', () => {
-  //     this.oilLoading();
-  //   });
-  // }
 
   public setHealth(value: number): void {
     this.health = value;
@@ -320,6 +273,47 @@ export class UiScene extends Scene {
     }
   }
 }
+
+// public activateLoadButton(): void {
+//   this.loadOilButton.visible = true;
+//   this.loadOilButton.setInteractive().on('pointerup', () => {
+//     this.oilLoading();
+//   });
+// }
+
+// public restartGame(sceneNumber: number): void {
+//   this.hideUI();
+//   if (!this.restartValue) {
+//     this.restartValue = true;
+//     console.log('restart');
+//     if (sceneNumber === 1 || sceneNumber === 2) {
+//       this.restartGamePopup = this.add
+//         .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
+//         .setScrollFactor(0)
+//         .setInteractive()
+//         .on('pointerup', () => {
+//           console.log('work');
+//         });
+//     } else {
+//       this.restartValue = true;
+//       this.restartGamePopup = this.add
+//         .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
+//         .setScrollFactor(0)
+//         .setInteractive()
+//         .on('pointerup', () => {
+//           console.log('work');
+//           window.windowProxy.post({
+//             finishGame3: JSON.stringify({
+//               win: false,
+//               lose: true,
+//               crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
+//               aimTries: 5 - SCENE_HEALTH[SECOND_SCENE],
+//             }),
+//           });
+//         });
+//     }
+//   }
+// }
 
 //restart game with popup using ui scene
 // public restartGame(sceneNumber: number): void {

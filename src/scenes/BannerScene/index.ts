@@ -35,13 +35,9 @@ export class BannerScene extends Scene {
         this.scene.start('ui-scene');
       });
 
-    // this.bannerStartButton.setScale(1);
     if (!IS_MOBILE) {
-      console.log(IS_MOBILE);
-      console.log('im here');
       let width = window.innerWidth;
       let height = window.innerHeight;
-      console.log(width, height);
       this.banner.setDisplaySize(width, height);
       this.bannerText.setDisplaySize(width / 2.3, height / 2.3);
       this.bannerStartButton.setDisplaySize(width / 10, height / 15);

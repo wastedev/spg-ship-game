@@ -3,6 +3,7 @@ import { Scene, GameObjects } from 'phaser';
 import { Enemy, Player } from '../../entities';
 import { UiScene } from '..';
 import { timingSafeEqual } from 'crypto';
+import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers/index';
 
 export class TopScene extends Scene {
   public player!: Player;
@@ -49,7 +50,6 @@ export class TopScene extends Scene {
   }
 
   private loadTargetPopup(): void {
-    console.log('banner');
     const ui = this.getUI();
     ui.hideUI();
     this.popupBG.visible = true;
@@ -85,8 +85,6 @@ export class TopScene extends Scene {
   }
 
   create(): void {
-    //stop ship
-
     this.popupBG = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
@@ -96,12 +94,12 @@ export class TopScene extends Scene {
     this.popupBG.setAlpha(0.7);
     this.popupBG.scale = 3;
     this.popupBG.setDepth(50);
-    // this.initTarget();//logic for start info popup
     // CREATE PLAYER SPRITE
 
     this.player = new Player(this.matter.world, 100, window.game.scale.height / 2, 'player-top');
     this.player.setDepth(49);
-
+    SCENE_HEALTH[FIRST_SCENE] = this.player.getHealth();
+    SCENE_HEALTH[SECOND_SCENE] = 5;
     // CREATE BACKGROUND SPRITE
     this.backgroundIcebergs = this.add.sprite(
       window.game.scale.width / 2,
@@ -131,11 +129,9 @@ export class TopScene extends Scene {
       if (obj.bodyA.gameObject?.texture.key === 'player-top') {
         if (!this.playerInside) {
           this.playerInside = true;
-          console.log('set on collide');
           this.time.addEvent({
             delay: 1000,
             callback: () => {
-              console.log('event');
               GAME_SPEEDS[MOVEMENT_SPEED] -= 0.1;
               GAME_SPEEDS[ROTATION_SPEED] -= 0.05;
             },
@@ -181,10 +177,6 @@ export class TopScene extends Scene {
         ),
       );
     }
-  }
-
-  logging() {
-    console.log('crush');
   }
 
   initInvisibleHitboxes() {

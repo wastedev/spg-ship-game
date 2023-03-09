@@ -56,7 +56,6 @@ export class Player extends Phaser.Physics.Matter.Image {
       }
 
       if (bodyB.gameObject instanceof Phaser.Physics.Matter.Image) {
-        console.log('GAME_OVER');
         window.windowProxy.post({
           finishGame3: JSON.stringify({
             win: false,
@@ -113,8 +112,6 @@ export class Player extends Phaser.Physics.Matter.Image {
     } else {
       --this.health;
       --SCENE_HEALTH[FIRST_SCENE];
-
-      console.log('GAME_OVER');
       window.windowProxy.post({
         finishGame3: JSON.stringify({
           win: false,

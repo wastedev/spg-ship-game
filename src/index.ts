@@ -73,10 +73,9 @@ window.onload = function () {
         });
 
         window.game.scene.getScene('top-scene').scene.restart();
-
-        return;
       }
     }
   });
+
   window.game = new Game(gameConfig);
 };

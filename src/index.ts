@@ -63,14 +63,15 @@ window.onload = function () {
 
   window.windowProxy.addEventListener(function (event: any) {
     if (typeof event.data !== 'undefined' && event?.data === 'game_3_replay') {
-      if (window.game.isRunning) {
+      if (window.game) {
         const scenes: Scene[] = window.game.scene.getScenes();
 
         scenes.forEach((scene: Scene) => {
           scene.registry.destroy();
           scene.events.destroy();
-          scene.scene.restart();
+          scene.scene.stop();
         });
+
         window.game.scene.getScene('top-scene').scene.start();
         window.game.scene.getScene('ui-scene').scene.start();
       }

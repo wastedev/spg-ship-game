@@ -62,7 +62,7 @@ window.onload = function () {
   );
 
   window.windowProxy.addEventListener(function (event: any) {
-    if (typeof event.data?.game_3_replay !== 'undefined') {
+    if (typeof event.data !== 'undefined' && event?.data === 'game_3_replay') {
       if (window.game.isRunning) {
         const scenes: Scene[] = window.game.scene.getScenes();
 

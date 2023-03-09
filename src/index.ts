@@ -69,11 +69,10 @@ window.onload = function () {
         scenes.forEach((scene: Scene) => {
           scene.registry.destroy();
           scene.events.destroy();
-          scene.scene.stop();
+          scene.scene.restart();
         });
-
-        window.game.scene.getScene('top-scene').scene.restart();
-        window.game.scene.getScene('ui-scene').scene.restart();
+        window.game.scene.getScene('top-scene').scene.start();
+        window.game.scene.getScene('ui-scene').scene.start();
       }
     }
   });

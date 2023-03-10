@@ -244,28 +244,34 @@ export class DockingScene extends Scene {
     if (!this.goalRect500Inside) {
       if (
         this.player.x >= this.goalRect500?.x &&
-        this.player.y >= this.goalRect500?.y - 20 &&
-        this.player.y <= this.goalRect500?.y + 20
+        this.player.y >= this.goalRect500?.y - 10 &&
+        this.player.y <= this.goalRect500?.y + 10
       ) {
-        this.goalRect500Inside = true;
-        this.stopPlayer();
-        setTimeout(() => {
-          this.goalRect500.visible = false;
-        }, 1000);
-
-        setTimeout(() => {
-          this.goalRect500.visible = true;
-        }, 2000);
-        setTimeout(() => {
+        if (this.player.angle <= 3 && this.player.angle >= -3) {
+          this.goalRect500Inside = true;
           this.stopPlayer();
-          this.goalRect500.visible = false;
-        }, 3000);
-        setTimeout(() => {
-          this.goalRect500.visible = true;
-        }, 4000);
-        setTimeout(() => {
-          this.loadTargetPopup(500);
-        }, 5000);
+
+          setTimeout(() => {
+            this.goalRect500.visible = false;
+          }, 1000);
+
+          setTimeout(() => {
+            this.goalRect500.visible = true;
+          }, 2000);
+
+          setTimeout(() => {
+            this.stopPlayer();
+            this.goalRect500.visible = false;
+          }, 3000);
+
+          setTimeout(() => {
+            this.goalRect500.visible = true;
+          }, 4000);
+
+          setTimeout(() => {
+            this.loadTargetPopup(500);
+          }, 5000);
+        }
       }
     }
   }
@@ -274,28 +280,34 @@ export class DockingScene extends Scene {
     if (!this.goalRect80Inside) {
       if (
         this.player.x >= this.goalRect80?.x &&
-        this.player.y >= this.goalRect80?.y - 20 &&
-        this.player.y <= this.goalRect80?.y + 20
+        this.player.y >= this.goalRect80?.y - 10 &&
+        this.player.y <= this.goalRect80?.y + 10
       ) {
-        this.goalRect80Inside = true;
-        this.stopPlayer();
-        setTimeout(() => {
-          this.goalRect80.visible = false;
-        }, 1000);
-
-        setTimeout(() => {
-          this.goalRect80.visible = true;
-        }, 2000);
-        setTimeout(() => {
+        if (this.player.angle <= 3 && this.player.angle >= -3) {
+          this.goalRect80Inside = true;
           this.stopPlayer();
-          this.goalRect80.visible = false;
-        }, 3000);
-        setTimeout(() => {
-          this.goalRect80.visible = true;
-        }, 4000);
-        setTimeout(() => {
-          this.loadTargetPopup(80);
-        }, 5000);
+
+          setTimeout(() => {
+            this.goalRect80.visible = false;
+          }, 1000);
+
+          setTimeout(() => {
+            this.goalRect80.visible = true;
+          }, 2000);
+
+          setTimeout(() => {
+            this.stopPlayer();
+            this.goalRect80.visible = false;
+          }, 3000);
+
+          setTimeout(() => {
+            this.goalRect80.visible = true;
+          }, 4000);
+
+          setTimeout(() => {
+            this.loadTargetPopup(80);
+          }, 5000);
+        }
       }
     }
   }

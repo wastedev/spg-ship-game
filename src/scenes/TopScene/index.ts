@@ -98,6 +98,7 @@ export class TopScene extends Scene {
 
     this.player = new Player(this.matter.world, 100, window.game.scale.height / 2, 'player-top');
     this.player.setDepth(49);
+
     SCENE_HEALTH[FIRST_SCENE] = this.player.getHealth();
     SCENE_HEALTH[SECOND_SCENE] = 5;
     // CREATE BACKGROUND SPRITE

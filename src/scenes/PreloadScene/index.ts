@@ -90,18 +90,15 @@ export class PreloadScene extends Scene {
   }
 
   create(): void {
-    // this.backgroundSound = this.sound.add('background');
-    // const musicConfig: Types.Sound.SoundConfig = {
-    //   volume: 0.5,
-    //   loop: true,
-    // };
-    // this.backgroundSound.play(musicConfig);
-    this.scene.start('banner-scene');
-
     const loader = document.getElementById('ferretVideoWaitlay');
     if (loader) {
       loader.style.display = 'none';
     }
-    this.scene.start('banner-scene');
+
+    if (window.game.scene.getScene('banner-scene') !== null) {
+      this.scene.start('banner-scene');
+    } else {
+      this.scene.start('top-scene');
+    }
   }
 }

@@ -1,6 +1,7 @@
 // @ts-ignore
 import { Game, NONE, Scene, Types } from 'phaser';
 import * as Porthole from 'porthole-proxy';
+import { CLIENT_RENEG_LIMIT } from 'tls';
 import { PreloadScene, TopScene, UiScene, SideScene, DockingScene } from './scenes';
 import { BannerScene } from './scenes/BannerScene';
 
@@ -56,27 +57,49 @@ const gameConfig: Types.Core.GameConfig = {
 
 // TEMP GAME INIT BEFORE porthole-proxy implementation
 // window.game = new Game(gameConfig);
+
 window.onload = function () {
-  window.windowProxy = new Porthole.WindowProxy(
-    'https://ferretvideo.com/projects/north/proxy/proxyGame3.html',
-  );
+  window.windowProxy = new Porthole.WindowProxy('http://localhost:5500/index.html');
 
   window.windowProxy.addEventListener(function (event: any) {
-    if (typeof event.data !== 'undefined' && event?.data === 'game_3_replay') {
-      if (window.game) {
-        // const scenes: Scene[] = window.game.scene.getScenes();
-
-        // scenes.forEach((scene: Scene) => {
-        //   scene.registry.destroy();
-        //   scene.events.destroy();
-        //   scene.scene.stop();
-        // });
-
-        window.game.scene.getScene('top-scene').scene.restart();
-        window.game.scene.getScene('ui-scene').scene.restart();
+    if (typeof event.data['pageEvent'] !== 'undefined') {
+      const eventData = JSON.parse(event.data['pageEvent']);
+      if (eventData?.data === 'game_3_replay' && window.game) {
+        location.reload();
       }
     }
   });
 
   window.game = new Game(gameConfig);
 };
+
+// const scenes: Scene[] = window.game.scene.getScenes();
+// scenes.forEach((scene) => {
+//   scene.scene.stop();
+// });
+// window.game.scene.getScene('ui-scene').scene.remove();
+// setTimeout(() => {
+//   window.game.scene.getScene('ui-scene').scene.restart();
+// }, 1000);
+// gameConfig.scene = [PreloadScene, TopScene, DockingScene, SideScene, UiScene];
+// location.reload();
+// scenes.forEach((scene) => {
+//   scene.scene.stop();
+//   scene.scene.remove();
+// });
+// window.game.scene.getScene('top-scene').scene.restart();
+// window.game.scene.getScene('ui-scene').scene.restart();
+// scenes.forEach((scene: Scene) => {
+//   scene.registry.destroy();
+//   scene.events.destroy();
+//   scene.scene.stop();
+// });
+// console.log(window.game.scene.isActive('top-scene'));
+// if (!window.game.isRunning) {
+//   console.log('dont run bitch');
+// }
+// window.game.destroy(true);
+// window.game = null;
+// if (!window.game) {
+//   window.game = new Game(gameConfig);
+// }

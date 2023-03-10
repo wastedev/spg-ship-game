@@ -182,6 +182,7 @@ export class UiScene extends Scene {
   public gameLose() {
     if (!this.restartValue) {
       this.restartValue = true;
+      window.game.sound.stopAll();
       window.windowProxy.post({
         finishGame3: JSON.stringify({
           win: false,

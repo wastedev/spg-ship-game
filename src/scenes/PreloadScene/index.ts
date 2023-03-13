@@ -48,12 +48,14 @@ export class PreloadScene extends Scene {
     this.load.image('bar-cursor', 'img/entities/images/barCursor.png');
 
     // LOAD UI
-    this.load.image('leftButtonMove', 'img/entities/ui/leftButtonMove.png');
-    this.load.image('rightButtonMove', 'img/entities/ui/rightButtonMove.png');
+    this.load.image('leftButtonMove', 'img/entities/ui/leftButtonMove.svg');
+    this.load.image('rightButtonMove', 'img/entities/ui/rightButtonMove.svg');
     this.load.image('oilScore', 'img/entities/images/oilScore.png');
     this.load.image('healthScore', 'img/entities/images/healthScore.png');
     this.load.image('oilLoad', 'img/entities/ui/oilLoad.png');
     this.load.image('bannerStartBtn', 'img/entities/ui/startBannerButton.png');
+    this.load.image('continueGame', 'img/entities/ui/continueGame.svg');
+    this.load.image('pauseGame', 'img/entities/ui/pauseGame.svg');
 
     //sound buttons
     this.load.image('soundOn', 'img/entities/ui/sound.svg');
@@ -90,18 +92,16 @@ export class PreloadScene extends Scene {
   }
 
   create(): void {
-    // this.backgroundSound = this.sound.add('background');
-    // const musicConfig: Types.Sound.SoundConfig = {
-    //   volume: 0.5,
-    //   loop: true,
-    // };
-    // this.backgroundSound.play(musicConfig);
-    this.scene.start('banner-scene');
-
     const loader = document.getElementById('ferretVideoWaitlay');
     if (loader) {
       loader.style.display = 'none';
     }
-    this.scene.start('banner-scene');
+
+    if (window.game.scene.getScene('banner-scene') !== null) {
+      this.scene.start('banner-scene');
+    } else {
+      this.scene.start('top-scene');
+      this.scene.start('ui-scene');
+    }
   }
 }

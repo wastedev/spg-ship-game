@@ -244,6 +244,68 @@
         font-style: normal;
       }
 
+      .loader {
+        width: 160px;
+        height: 185px;
+        background: #fff;
+        border-radius: 100px 100px 0 0;
+        z-index: 111112;
+        display: inline-block;
+        position: relative;
+      }
+      .loader:after {
+        content: '';
+        position: absolute;
+        width: 100px;
+        height: 125px;
+        left: 50%;
+        top: 25px;
+        transform: translateX(-50%);
+        background-image: radial-gradient(circle, #000 48%, transparent 55%),
+          radial-gradient(circle, #000 48%, transparent 55%),
+          radial-gradient(circle, #fff 30%, transparent 45%),
+          radial-gradient(circle, #000 48%, transparent 51%),
+          linear-gradient(#000 20px, transparent 0), linear-gradient(#cfecf9 60px, transparent 0),
+          radial-gradient(circle, #cfecf9 50%, transparent 51%),
+          radial-gradient(circle, #cfecf9 50%, transparent 51%);
+        background-repeat: no-repeat;
+        background-size: 16px 16px, 16px 16px, 10px 10px, 42px 42px, 12px 3px, 50px 25px, 70px 70px,
+          70px 70px;
+        background-position: 25px 10px, 55px 10px, 36px 44px, 50% 30px, 50% 85px, 50% 50px, 50% 22px,
+          50% 45px;
+        animation: faceLift 1.5s linear infinite alternate;
+      }
+      .loader:before {
+        content: '';
+        position: absolute;
+        width: 140%;
+        height: 125px;
+        left: -20%;
+        top: 0;
+        background-image: radial-gradient(circle, #fff 48%, transparent 50%),
+          radial-gradient(circle, #fff 48%, transparent 50%);
+        background-repeat: no-repeat;
+        background-size: 65px 65px;
+        background-position: 0px 12px, 145px 12px;
+        animation: earLift 1.5s linear infinite alternate;
+      }
+
+      @keyframes faceLift {
+        0% {
+          transform: translateX(-60%);
+        }
+        100% {
+          transform: translateX(-30%);
+        }
+      }
+      @keyframes earLift {
+        0% {
+          transform: translateX(10px);
+        }
+        100% {
+          transform: translateX(0px);
+        }
+      }
       #ferretVideoWaitlay {
         position: absolute;
         z-index: 111111;
@@ -252,124 +314,18 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: rgba(0, 0, 0, 0.75);
+        background: #01417af6;
+        top: 0;
       }
 
-      lds-roller-wrapper {
-        text-align: center;
-        color: white;
-        font-size: 5vw;
-      }
-
-      .lds-roller {
-        display: inline-block;
-        position: relative;
-        width: 64px;
-        height: 64px;
-      }
-      .lds-roller div {
-        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-        transform-origin: 32px 32px;
-      }
-      .lds-roller div:after {
-        content: ' ';
-        display: block;
-        position: absolute;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #fff;
-        margin: -3px 0 0 -3px;
-      }
-      .lds-roller div:nth-child(1) {
-        animation-delay: -0.036s;
-      }
-      .lds-roller div:nth-child(1):after {
-        top: 50px;
-        left: 50px;
-      }
-      .lds-roller div:nth-child(2) {
-        animation-delay: -0.072s;
-      }
-      .lds-roller div:nth-child(2):after {
-        top: 54px;
-        left: 45px;
-      }
-      .lds-roller div:nth-child(3) {
-        animation-delay: -0.108s;
-      }
-      .lds-roller div:nth-child(3):after {
-        top: 57px;
-        left: 39px;
-      }
-      .lds-roller div:nth-child(4) {
-        animation-delay: -0.144s;
-      }
-      .lds-roller div:nth-child(4):after {
-        top: 58px;
-        left: 32px;
-      }
-      .lds-roller div:nth-child(5) {
-        animation-delay: -0.18s;
-      }
-      .lds-roller div:nth-child(5):after {
-        top: 57px;
-        left: 25px;
-      }
-      .lds-roller div:nth-child(6) {
-        animation-delay: -0.216s;
-      }
-      .lds-roller div:nth-child(6):after {
-        top: 54px;
-        left: 19px;
-      }
-      .lds-roller div:nth-child(7) {
-        animation-delay: -0.252s;
-      }
-      .lds-roller div:nth-child(7):after {
-        top: 50px;
-        left: 14px;
-      }
-      .lds-roller div:nth-child(8) {
-        animation-delay: -0.288s;
-      }
-      .lds-roller div:nth-child(8):after {
-        top: 45px;
-        left: 10px;
-      }
-      @keyframes lds-roller {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-
-      .background {
-        background-color: black;
-      }
-      @media only screen and (max-width: 600px) {
-        #ferretVideoWaitlay h1 {
-          display: none;
-        }
+      .hidden {
+        display: none !important;
       }
     </style>
   </head>
   <body>
-    <div id="ferretVideoWaitlay" class="background">
-      <div class="lds-roller-wrapper">
-        <div class="lds-roller">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
+    <div id="ferretVideoWaitlay">
+      <span class="loader"></span>
     </div>
     <div id="game"></div>
   </body>

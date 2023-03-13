@@ -2,8 +2,7 @@
 import { Game, NONE, Scene, Types } from 'phaser';
 import * as Porthole from 'porthole-proxy';
 import { CLIENT_RENEG_LIMIT } from 'tls';
-import { PreloadScene, TopScene, UiScene, SideScene, DockingScene } from './scenes';
-import { BannerScene } from './scenes/BannerScene';
+import { PreloadScene, TopScene, UiScene, SideScene, DockingScene, BannerScene } from './scenes';
 
 const isMobile =
   /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(
@@ -19,6 +18,11 @@ if (isMobile) {
   DEFAULT_WIDTH = window.innerWidth;
   DEFAULT_HEIGHT = window.innerHeight;
 }
+
+const isRestart = location.href.split('?')[1];
+
+const scenes = [PreloadScene, BannerScene, TopScene, DockingScene, SideScene, UiScene];
+const restartScenes = [PreloadScene, TopScene, DockingScene, SideScene, UiScene];
 
 const gameConfig: Types.Core.GameConfig = {
   title: 'Игра - загрузка СПГ',
@@ -49,7 +53,7 @@ const gameConfig: Types.Core.GameConfig = {
   canvasStyle: `display: block; width: 100%; height: 100%;`,
   autoFocus: true,
   loader: { async: true },
-  scene: [PreloadScene, BannerScene, TopScene, DockingScene, SideScene, UiScene],
+  scene: isRestart ? restartScenes : scenes,
 };
 
 // window.sizeChanged = debouncedResize;
@@ -59,13 +63,15 @@ const gameConfig: Types.Core.GameConfig = {
 // window.game = new Game(gameConfig);
 
 window.onload = function () {
-  window.windowProxy = new Porthole.WindowProxy('http://localhost:5500/index.html');
+  window.windowProxy = new Porthole.WindowProxy(
+    'https://ferretvideo.com/projects/north/proxy/proxyGame3.html',
+  );
 
   window.windowProxy.addEventListener(function (event: any) {
     if (typeof event.data['pageEvent'] !== 'undefined') {
       const eventData = JSON.parse(event.data['pageEvent']);
       if (eventData?.data === 'game_3_replay' && window.game) {
-        location.reload();
+        location.href = `${location.origin}?isRestart`;
       }
     }
   });

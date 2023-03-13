@@ -6,7 +6,6 @@ import { SCENE_HEALTH, FIRST_SCENE, SECOND_SCENE } from '../../helpers/index';
 export class UiScene extends Scene {
   private leftButton!: GameObjects.Image;
   private rightButton!: GameObjects.Image;
-  private loadOilButton!: GameObjects.Image;
   private oilScore!: GameObjects.Image;
   public scoreText!: GameObjects.Text;
   private oil!: number;
@@ -18,7 +17,6 @@ export class UiScene extends Scene {
   private restartValue: boolean = false;
 
   private endGamePopup!: GameObjects.Image;
-  private endGameBtn!: GameObjects.Image;
 
   private soundOnBtn!: GameObjects.Image;
   private soundOffBtn!: GameObjects.Image;
@@ -28,8 +26,62 @@ export class UiScene extends Scene {
   private getDamageContinue!: GameObjects.Image;
   private getDamageClose!: GameObjects.Image;
 
+  private pauseGame!: GameObjects.Image;
+  private continueGame!: GameObjects.Image;
+
+  private activeScene: string = 'top-scene';
+
   constructor() {
     super('ui-scene');
+  }
+
+  public changeActiveScene(scene: number): void {
+    switch (scene) {
+      case 1:
+        this.activeScene = 'top-scene';
+        break;
+      case 2:
+        this.activeScene = 'docking-scene';
+        break;
+      case 3:
+        this.activeScene = 'side-scene';
+        break;
+    }
+  }
+
+  private initPause(): void {
+    this.pauseGame = this.add
+      .image(window.game.scale.width - 70, 50, 'pauseGame')
+      .on('pointerdown', () => {
+        window.game.scene.pause(this.activeScene);
+        this.pauseGame.visible = false;
+        this.continueGame.visible = true;
+      })
+      .setInteractive()
+      .setScrollFactor(0);
+    this.pauseGame.scale = 0.8;
+    this.pauseGame.setOrigin(0.5);
+
+    this.continueGame = this.add
+      .image(this.pauseGame.x, this.pauseGame.y, 'continueGame')
+      .on('pointerdown', () => {
+        window.game.scene.run(this.activeScene);
+        this.continueGame.visible = false;
+        this.pauseGame.visible = true;
+      })
+      .setInteractive()
+      .setScrollFactor(0);
+    this.continueGame.setOrigin(0.5);
+    this.continueGame.scale = 0.8;
+    this.continueGame.visible = false;
+  }
+
+  public stopScene(): void {
+    this.scene.stop(this.activeScene);
+  }
+
+  public startScene(): void {
+    this.scene.run(this.activeScene);
   }
 
   create(): void {
@@ -43,26 +95,39 @@ export class UiScene extends Scene {
     this.popupBG.setAlpha(0.7);
     this.oil = 0;
     this.health = 3;
-    this.oilScore = this.add.image(window.game.scale.width - 70, 40, 'oilScore');
-    this.oilScore.scale = 0.5;
-    this.scoreText = this.add.text(window.game.scale.width - 75, 25, this.oil.toString(), {
-      fontFamily: 'Arial',
-      fontSize: '25px',
-      color: '#0F6894',
-    });
-    this.healthScore = this.add.image(70, 40, 'healthScore');
-    this.healthText = this.add.text(75, 25, this.health.toString(), {
-      fontFamily: 'Arial',
-      fontSize: '25px',
-      color: '#0F6894',
-    });
+
+    this.healthScore = this.add.image(70, 50, 'healthScore');
+    this.healthScore.setOrigin(0.5);
+    this.healthText = this.add.text(
+      this.healthScore.x + 10,
+      this.healthScore.y,
+      this.health.toString(),
+      {
+        fontFamily: 'Arial',
+        fontSize: '25px',
+        color: '#0F6894',
+      },
+    );
+
     this.healthScore.setScale(0.5);
 
-    this.leftButton = this.add
+    this.oilScore = this.add.image(this.healthScore.x + 170, 50, 'oilScore');
+    this.oilScore.setOrigin(0.5);
+    this.oilScore.scale = 0.5;
+    this.scoreText = this.add.text(this.oilScore.x + 10, this.oilScore.y, this.oil.toString(), {
+      fontFamily: 'Arial',
+      fontSize: '25px',
+      color: '#0F6894',
+    });
+
+    this.healthText.setOrigin(0.6);
+    this.scoreText.setOrigin(0.6);
+
+    this.rightButton = this.add
       .image(
         window.game.scale.width / 2 - window.game.scale.width / 4,
         window.game.scale.height / 2 + window.game.scale.height / 3,
-        'leftButtonMove',
+        'rightButtonMove',
       )
       .setScrollFactor(0)
       .setInteractive()
@@ -78,13 +143,12 @@ export class UiScene extends Scene {
         const player: Player = this.getPlayer().player;
         player.updateByTarget(Direction.None);
       });
-    this.leftButton.setScale(0.7);
 
-    this.rightButton = this.add
+    this.leftButton = this.add
       .image(
         window.game.scale.width / 2 + window.game.scale.width / 4,
         window.game.scale.height / 2 + window.game.scale.height / 3,
-        'rightButtonMove',
+        'leftButtonMove',
       )
       .setScrollFactor(0)
       .setInteractive()
@@ -100,7 +164,6 @@ export class UiScene extends Scene {
         const player: Player = this.getPlayer().player;
         player.updateByTarget(Direction.None);
       });
-    this.rightButton.setScale(0.7);
 
     this.backgroundSound = this.sound.add('background');
     const musicConfig: Types.Sound.SoundConfig = {
@@ -109,8 +172,10 @@ export class UiScene extends Scene {
     };
     this.backgroundSound.play(musicConfig);
 
+    this.initPause();
+
     this.soundOnBtn = this.add
-      .image(this.oilScore.x - 100, this.oilScore.y, 'soundOn')
+      .image(this.pauseGame.x - 70, this.pauseGame.y, 'soundOn')
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {
@@ -120,7 +185,7 @@ export class UiScene extends Scene {
       });
     this.soundOnBtn.scale = 0.8;
     this.soundOffBtn = this.add
-      .image(this.oilScore.x - 100, this.oilScore.y, 'soundOff')
+      .image(this.soundOnBtn.x, this.soundOnBtn.y, 'soundOff')
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerup', () => {

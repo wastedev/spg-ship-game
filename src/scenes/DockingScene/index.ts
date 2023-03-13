@@ -19,6 +19,8 @@ export class DockingScene extends Scene {
   private goalRect500Pass: boolean = false;
   private goalRect500Inside: boolean = false;
   private goalRect80Inside: boolean = false;
+  private goalRect500Text!: Phaser.GameObjects.Text;
+  private goalRect80Text!: Phaser.GameObjects.Text;
 
   private goalStageMessage!: Phaser.Physics.Matter.Sprite;
   private continueButton!: GameObjects.Image;
@@ -30,12 +32,12 @@ export class DockingScene extends Scene {
   }
 
   protected initEnemies(): void {
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= 2; i++) {
       this.icebergs.push(
         new Enemy(
           this.matter.world,
-          (window.game.scale.width / 6) * 1.5 * (i / 1.1),
-          window.game.scale.height / 4 + Math.floor(Math.random() * (window.game.scale.height / 2)),
+          (window.game.scale.width / 6) * 1.2 * i,
+          window.game.scale.height / 5 + Math.floor(Math.random() * (window.game.scale.height / 2)),
           `icebergAnimation-${Math.floor(Math.random() * 3) + 1}`,
         ),
       );
@@ -53,6 +55,15 @@ export class DockingScene extends Scene {
     this.goalRect500.setStatic(true);
     this.goalRect500.setSensor(true);
 
+    this.goalRect500Text = this.add.text(this.goalRect500.x, this.goalRect500.y, '500', {
+      fontSize: '25px',
+      fontStyle: 'bold',
+      color: 'white',
+      fontFamily: 'Arial',
+    });
+    this.goalRect500Text.setOrigin(0.5);
+    this.goalRect500Text.setDepth(0);
+
     this.goalRect80 = this.matter.add.sprite(
       this.station.x - 350,
       window.game.scale.height / 2,
@@ -62,6 +73,16 @@ export class DockingScene extends Scene {
     this.goalRect80.setStatic(true);
     this.goalRect80.setSensor(true);
 
+    this.goalRect80Text = this.add.text(this.goalRect80.x, this.goalRect80.y, '80', {
+      fontSize: '25px',
+      fontStyle: 'bold',
+      color: 'white',
+      fontFamily: 'Arial',
+    });
+    this.goalRect80Text.setOrigin(0.5);
+    this.goalRect80Text.setDepth(1);
+
+    this.goalRect80Text.visible = false;
     this.goalRect80.visible = false;
   }
 
@@ -69,7 +90,8 @@ export class DockingScene extends Scene {
     //game start
     this.launchPlayer();
     //
-
+    const ui = this.getUI();
+    ui.changeActiveScene(2);
     //
 
     this.background = this.add.image(
@@ -82,7 +104,7 @@ export class DockingScene extends Scene {
       let width = window.innerWidth;
       let height = window.innerHeight;
       this.background.setDisplaySize(width, height);
-      // this.background.scale = 1;
+      this.background.setScale(1);
     }
 
     this.player = new Player(
@@ -91,6 +113,7 @@ export class DockingScene extends Scene {
       window.game.scale.height / 2,
       'player-top',
     );
+    this.player.setDepth(2);
 
     this.station = this.matter.add.image(
       window.game.scale.width - 100,
@@ -146,7 +169,7 @@ export class DockingScene extends Scene {
   }
 
   public launchPlayer(): void {
-    GAME_SPEEDS[MOVEMENT_SPEED] = 0.8;
+    GAME_SPEEDS[MOVEMENT_SPEED] = 1;
     GAME_SPEEDS[ROTATION_SPEED] = 0.35;
   }
 
@@ -181,8 +204,10 @@ export class DockingScene extends Scene {
           ui.showUI();
           this.goalRect500.destroy();
           this.goalRect500Pass = true;
+          this.goalRect500Text.visible = false;
           this.launchPlayer();
           this.destroyGoalStageMessage();
+          this.goalRect80Text.visible = true;
           this.goalRect80.visible = true;
         });
       this.continueButton.setDepth(51);
@@ -219,6 +244,8 @@ export class DockingScene extends Scene {
           ui.showUI();
           this.destroyGoalStageMessage();
           setTimeout(() => {
+            const ui = this.getUI();
+            ui.changeActiveScene(3);
             this.scene.stop();
             this.scene.start('side-scene');
           }, 1000);

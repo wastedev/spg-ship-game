@@ -18,6 +18,7 @@ export class TopScene extends Scene {
   private continueButton!: GameObjects.Image;
   private closeButton!: GameObjects.Image;
 
+  private goalText!: Phaser.GameObjects.Text;
   private playerInside: boolean = false;
 
   //game state
@@ -38,8 +39,13 @@ export class TopScene extends Scene {
   }
 
   public continueGame(): void {
-    GAME_SPEEDS[MOVEMENT_SPEED] = 0.8;
+    GAME_SPEEDS[MOVEMENT_SPEED] = 1;
     GAME_SPEEDS[ROTATION_SPEED] = 0.35;
+  }
+
+  private stopPlayer(): void {
+    GAME_SPEEDS[MOVEMENT_SPEED] = 0;
+    GAME_SPEEDS[ROTATION_SPEED] = 0;
   }
 
   private nextScene(): void {
@@ -126,39 +132,48 @@ export class TopScene extends Scene {
     this.goalZone.setSensor(true);
     this.goalZone.setDepth(-1);
 
-    this.goalZone.setOnCollide((obj: Phaser.Types.Physics.Matter.MatterCollisionData) => {
-      if (obj.bodyA.gameObject?.texture.key === 'player-top') {
-        if (!this.playerInside) {
-          this.playerInside = true;
-          this.time.addEvent({
-            delay: 1000,
-            callback: () => {
-              GAME_SPEEDS[MOVEMENT_SPEED] -= 0.1;
-              GAME_SPEEDS[ROTATION_SPEED] -= 0.05;
-            },
-            callbackScope: this,
-            repeat: 4,
-          });
-          setTimeout(() => {
-            GAME_SPEEDS[MOVEMENT_SPEED] = 0;
-            GAME_SPEEDS[ROTATION_SPEED] = 0;
-            this.goalZone.visible = false;
-          }, 6000);
-          setTimeout(() => {
-            this.goalZone.visible = true;
-          }, 7000);
-          setTimeout(() => {
-            this.goalZone.visible = false;
-          }, 8000);
-          setTimeout(() => {
-            this.goalZone.visible = true;
-          }, 9000);
-          setTimeout(() => {
-            this.loadTargetPopup();
-          }, 10000);
-        }
-      }
+    this.goalText = this.add.text(this.goalZone.x, this.goalZone.y, '1000', {
+      fontSize: '25px',
+      fontStyle: 'bold',
+      color: 'white',
+      fontFamily: 'Arial',
     });
+    this.goalText.setOrigin(0.5);
+    this.goalText.setDepth(0);
+
+    // this.goalZone.setOnCollide((obj: Phaser.Types.Physics.Matter.MatterCollisionData) => {
+    //   if (obj.bodyA.gameObject?.texture.key === 'player-top') {
+    //     if (!this.playerInside) {
+    //       this.playerInside = true;
+    //       this.time.addEvent({
+    //         delay: 1000,
+    //         callback: () => {
+    //           GAME_SPEEDS[MOVEMENT_SPEED] -= 0.15;
+    //           GAME_SPEEDS[ROTATION_SPEED] -= 0.05;
+    //         },
+    //         callbackScope: this,
+    //         repeat: 4,
+    //       });
+    //       setTimeout(() => {
+    //         GAME_SPEEDS[MOVEMENT_SPEED] = 0;
+    //         GAME_SPEEDS[ROTATION_SPEED] = 0;
+    //         this.goalZone.visible = false;
+    //       }, 6000);
+    //       setTimeout(() => {
+    //         this.goalZone.visible = true;
+    //       }, 7000);
+    //       setTimeout(() => {
+    //         this.goalZone.visible = false;
+    //       }, 8000);
+    //       setTimeout(() => {
+    //         this.goalZone.visible = true;
+    //       }, 9000);
+    //       setTimeout(() => {
+    //         this.loadTargetPopup();
+    //       }, 10000);
+    //     }
+    //   }
+    // });
     this.initEnemies();
   }
 
@@ -198,12 +213,53 @@ export class TopScene extends Scene {
     this.bottomBarrier.isStatic = true;
   }
 
+  private checkZone(): void {
+    if (!this.playerInside) {
+      if (
+        this.player.x >= this.goalZone?.x &&
+        this.player.y >= this.goalZone?.y - 10 &&
+        this.player.y <= this.goalZone?.y + 10
+      ) {
+        if (this.player.angle <= 3 && this.player.angle >= -3) {
+          this.playerInside = true;
+          this.stopPlayer();
+          setTimeout(() => {
+            this.goalZone.visible = false;
+          }, 1000);
+
+          setTimeout(() => {
+            this.goalZone.visible = true;
+          }, 2000);
+
+          setTimeout(() => {
+            this.stopPlayer();
+            this.goalZone.visible = false;
+          }, 3000);
+
+          setTimeout(() => {
+            this.goalZone.visible = true;
+          }, 4000);
+
+          setTimeout(() => {
+            this.loadTargetPopup();
+          }, 5000);
+        }
+      }
+    }
+  }
+
   update(): void {
     if (this.player.getHealth() <= 0) {
       this.gameStarted = false;
       const ui = this.getUI();
       ui.gameLose();
     }
+
+    if (this.player.x >= this.goalZone.x + 20) {
+      console.log('you lose');
+    }
+
+    this.checkZone();
 
     if (this.gameStarted) {
       this.player.update();

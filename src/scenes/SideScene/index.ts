@@ -4,6 +4,13 @@ import { Scene, GameObjects, Types, Sound } from 'phaser';
 import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers';
 import { UiScene } from '../UiScene';
 
+export interface IFingerAnimateTarget {
+  xTarget: number;
+  yTarget?: number;
+  xStart?: number;
+  yStart?: number;
+}
+
 export class SideScene extends Scene {
   private backgroundSide!: GameObjects.Image;
   private playerSide!: Phaser.Physics.Matter.Sprite;
@@ -41,6 +48,11 @@ export class SideScene extends Scene {
 
   private gameStatus: boolean = true;
   private getTarget: boolean = false;
+
+  private fingerGuide!: GameObjects.Image;
+  private fingerAnumateCount: number = 3;
+  private fingerAnimateTarget: Partial<IFingerAnimateTarget> = {};
+  private animationStart: boolean = false;
 
   //functions for rocket shooting
   createRocket() {
@@ -96,7 +108,6 @@ export class SideScene extends Scene {
       .setInteractive()
       .on('pointerup', () => {
         this.popUpInfo.destroy();
-        // this.continueButton.destroy();
         this.closeButton.destroy();
         this.playerSide.visible = true;
         this.playerSide.setDepth(1);
@@ -105,6 +116,7 @@ export class SideScene extends Scene {
         this.rocketTargetZone.setBounce(0);
         this.continueButtonClicked = true;
         this.popupBG.visible = false;
+        this.animationStart = true;
       });
 
     this.popUpInfo.scale = 1;
@@ -116,7 +128,6 @@ export class SideScene extends Scene {
       .setInteractive()
       .on('pointerup', () => {
         this.popUpInfo.destroy();
-        // this.continueButton.destroy();
         this.closeButton.destroy();
         this.playerSide.visible = true;
         this.playerSide.setDepth(1);
@@ -125,8 +136,22 @@ export class SideScene extends Scene {
         this.rocketTargetZone.setBounce(0);
         this.continueButtonClicked = true;
         this.popupBG.visible = false;
+        this.animationStart = true;
       });
     this.closeButton.setDepth(51);
+  }
+
+  loadFingerAnimation(): void {
+    this.fingerGuide = this.add.image(
+      this.oilStationSide.x + 200,
+      this.oilStationSide.y + 200,
+      'fingerGuide',
+    );
+
+    this.fingerAnimateTarget.xTarget = this.fingerGuide.x - 100;
+    this.fingerAnimateTarget.yTarget = this.fingerGuide.y - 100;
+    this.fingerAnimateTarget.xStart = this.fingerGuide.x;
+    this.fingerAnimateTarget.yStart = this.fingerGuide.y;
   }
 
   protected getUI(): UiScene {
@@ -214,6 +239,8 @@ export class SideScene extends Scene {
     this.rocket.angle = this.rocketZone.angle;
     this.rocketX = this.oldRocketX = this.rocket.x;
     this.rocketY = this.oldRocketY = this.rocket.y;
+
+    this.loadFingerAnimation();
   }
 
   rocketEventSettings(): void {
@@ -238,7 +265,29 @@ export class SideScene extends Scene {
     }
   }
 
+  fingerAnimation(): void {
+    if (this.fingerAnumateCount != 0) {
+      if (
+        this.fingerGuide.x != this.fingerAnimateTarget.xTarget &&
+        this.fingerGuide.y != this.fingerAnimateTarget.yTarget
+      ) {
+        this.fingerGuide.x -= 1;
+        this.fingerGuide.y += 1;
+      } else {
+        this.fingerGuide.x = this.fingerAnimateTarget.xStart ? this.fingerAnimateTarget.xStart : 0;
+        this.fingerGuide.y = this.fingerAnimateTarget.yStart ? this.fingerAnimateTarget.yStart : 0;
+        --this.fingerAnumateCount;
+        if (this.fingerAnumateCount === 0) this.fingerGuide.visible = false;
+      }
+    } else {
+      this.animationStart = false;
+      this.fingerGuide.visible = false;
+    }
+  }
+
   update(time: any, delta: any): void {
+    if (this.animationStart) this.fingerAnimation();
+
     this.rocketEventSettings();
     const ui = this.getUI();
     ui.setHealth(this.rocketShotAttempt);
@@ -297,130 +346,3 @@ export class SideScene extends Scene {
     }
   }
 }
-
-// this.continueButton = this.add
-//   .image(this.popUpInfo.x, this.popUpInfo.y + this.popUpInfo.y / 5, 'continueButton')
-//   .setScrollFactor(0)
-//   .setInteractive()
-//   .on('pointerup', () => {
-//     this.popUpInfo.destroy();
-//     this.continueButton.destroy();
-//     this.closeButton.destroy();
-//     this.playerSide.visible = true;
-//     this.playerSide.setDepth(1);
-//     this.rocketTargetZone.visible = true;
-//     this.rocketTargetZone.setDepth(1);
-//     this.rocketTargetZone.setBounce(0);
-//     this.continueButtonClicked = true;
-//     this.popupBG.visible = false;
-//   });
-// this.continueButton.setDepth(51);
-// this.continueButton.setScale(1);
-
-//from create function
-// this.bar = this.add.image(window.game.scale.width / 2, window.game.scale.height / 10, 'bar');
-// this.bar.scale = 0.5;
-
-// this.barCursor = this.matter.add.sprite(this.bar.x, this.bar.y - 35, 'bar-cursor');
-// this.barCursor.setScale(0.5);
-
-// this.graphics = this.add.graphics();//for drawing a line
-// this.line = new Phaser.Geom.Line(
-//   this.rocket.x,
-//   this.rocket.y,
-//   this.playerSide.x - 100,
-//   this.playerSide.y + 100,
-// );
-
-// this.points = this.getLinePoints(this.line);
-// this.points[1].y = this.points[1].y - 100;
-
-// this.curve = new Phaser.Curves.Spline(this.points);
-// this.graphics.lineStyle(1, 0x00000, 0);
-// this.curve.draw(this.graphics, 64);
-
-// this.pointerMove();//from update function
-
-// pointerMove(): void {//function for pointer
-//   if (this.barCursor.x <= this.bar.x - 120) {
-//     this.barCursor.setVelocityX(8);
-//   } else if (this.barCursor.x >= this.bar.x + 120) {
-//     this.barCursor.setVelocityX(-8);
-//   }
-// }
-
-// private shotButton!: GameObjects.Image;//unused variables
-
-// this.t = -1;// from rocket fly logics from create function
-
-// shot(): void { //shot button logic
-//   if (this.sidePlayerHealth != 0) {
-//     if (this.barCursor.x >= this.bar.x + 40) {
-//       this.rocketSound.play(this.rocketConfig);
-//       // this.t = 0; //from rocket fly logics
-//       this.barCursor.setVelocityX(0);
-//       this.shotButton.removeAllListeners();
-//     } else {
-//       --this.sidePlayerHealth;
-//       --SCENE_HEALTH[SECOND_SCENE];
-//     }
-//     if (this.sidePlayerHealth === 0) {
-//       console.log('GAME_OVER');
-
-//       window.windowProxy.post({
-//         finishGame3: JSON.stringify({
-//           win: false,
-//           lose: true,
-//           crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
-//           aimTries: 3 - SCENE_HEALTH[SECOND_SCENE],
-//         }),
-//       });
-
-//       this.barCursor.setVelocityX(0);
-//       this.shotButton.removeAllListeners();
-//     }
-//   }
-// }
-
-// this.shotButton = this.add//shot button visual from create function
-//   .image(this.bar.x + 200, this.bar.y, 'shotButton')
-//   .setScrollFactor(0)
-//   .setInteractive()
-//   .on('pointerup', () => {
-//     this.shot();
-//   });
-// this.shotButton.scale = 0.35;
-
-// this.rocketOnPoint = false;//from create method
-// this.duration = 1500;
-
-// private t!: number; //variables
-// private duration!: number;
-// private rocketOnPoint!: boolean;
-
-// if (this.t === -1) { // rocket logic
-//   return;
-// }
-// this.t += delta;
-// if (this.t >= this.duration) {
-//   this.rocket.setVelocity(0, 0);
-// } else {
-//   this.rocket.angle += 1;
-//   var d = this.t / this.duration;
-//   var p = this.curve.getPoint(d);
-//   this.rocket.setPosition(p.x, p.y);
-// }
-
-// if (this.rocketOnPoint === false) {
-//   if (this.rocket.x >= this.points[2].x - 5) {
-//     this.rocketOnPoint = true;
-//     this.oilStationSide.destroy();
-//     this.oilStationSide = this.add.sprite(
-//       window.game.scale.width / 5,
-//       window.game.scale.height / 2 - 60,
-//       'station-side-connected',
-//     );
-//     const ui = this.getUI();
-//     ui.activateLoadButton();
-//   }
-// }

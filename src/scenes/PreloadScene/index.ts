@@ -44,8 +44,6 @@ export class PreloadScene extends Scene {
     });
 
     // LOAD BAR ASSETS
-    this.load.image('bar', 'img/entities/images/bar.png');
-    this.load.image('bar-cursor', 'img/entities/images/barCursor.png');
 
     // LOAD UI
     this.load.image('leftButtonMove', 'img/entities/ui/leftButtonMove.svg');
@@ -63,6 +61,8 @@ export class PreloadScene extends Scene {
 
     //end
     this.load.image('endBtn', 'img/entities/ui/endGameBtn.svg');
+
+    this.load.image('fingerGuide', 'img/entities/ui/fingerGuide.svg');
 
     // LOAD POPUP ASSETS
     this.load.image('docking-info', 'img/entities/ui/popups/info.jpg');

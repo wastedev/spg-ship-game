@@ -126,6 +126,7 @@ export class DockingScene extends Scene {
     this.station.setStatic(true);
     this.station.setRectangle(window.game.scale.width / 4.5, window.game.scale.height);
     this.station.setSensor(true);
+    this.station.setDepth(100);
     this.popupBG = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
@@ -219,8 +220,10 @@ export class DockingScene extends Scene {
           ui.showUI();
           this.goalRect500.destroy();
           this.goalRect500Pass = true;
+          this.goalRect500Text.visible = false;
           this.launchPlayer();
           this.destroyGoalStageMessage();
+          this.goalRect80Text.visible = true;
           this.goalRect80.visible = true;
         });
       this.closeButton.setDepth(51);

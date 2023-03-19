@@ -53,13 +53,23 @@ export class SideScene extends Scene {
   private fingerAnumateCount: number = 3;
   private fingerAnimateTarget: Partial<IFingerAnimateTarget> = {};
   private animationStart: boolean = false;
+  private rocketVector!: GameObjects.Image;
 
   //functions for rocket shooting
   createRocket() {
     this.rocketCreated = true;
   }
 
-  rocketShot() {
+  initRocketVector(): void {
+    this.rocketVector = this.add.image(this.rocket.x + 100, this.rocket.y, 'rocketVector');
+    let vectorLength = this.rocketTargetZone.x - this.rocket.x;
+    console.log(vectorLength);
+    this.rocketVector.setDisplaySize(vectorLength - 150, window.game.scale.height / 5);
+    this.rocketVector.setOrigin(0, 0.5);
+    this.rocketVector.setAlpha(0.8);
+  }
+
+  rocketShot(): void {
     if (!this.shot) {
       this.shot = true;
       this.newRocket = this.matter.add
@@ -241,6 +251,12 @@ export class SideScene extends Scene {
     this.rocketY = this.oldRocketY = this.rocket.y;
 
     this.loadFingerAnimation();
+    //
+    this.initRocketVector();
+    console.log(`Ракета \n x =  ${this.rocket.x} \n y =  ${this.rocket.y}`);
+    console.log(
+      `Зона попадания \n x =  ${this.rocketTargetZone.x} \n y =  ${this.rocketTargetZone.y}`,
+    );
   }
 
   rocketEventSettings(): void {
@@ -299,6 +315,7 @@ export class SideScene extends Scene {
 
     if (!this.shot) {
       if (this.pointerDown) {
+        this.rocketVector.visible = false;
         this.rocket.setAlpha(1);
         this.angle =
           Math.atan2(

@@ -63,7 +63,7 @@ export class PreloadScene extends Scene {
     this.load.image('endBtn', 'img/entities/ui/endGameBtn.svg');
 
     this.load.image('fingerGuide', 'img/entities/ui/fingerGuide.svg');
-
+    this.load.image('rocketVector', 'img/entities/ui/rocketVector.svg');
     // LOAD POPUP ASSETS
     this.load.image('docking-info', 'img/entities/ui/popups/info.jpg');
     this.load.image('1000meters', 'img/entities/ui/popups/1000meters.jpg');

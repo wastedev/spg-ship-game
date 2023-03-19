@@ -15,6 +15,7 @@ export class BannerScene extends Scene {
       window.game.scale.height / 2,
       'banner-image',
     );
+    this.banner.setDisplaySize(window.game.scale.width, window.game.scale.height);
 
     this.bannerText = this.add.image(
       window.game.scale.width / 2 - window.game.scale.width / 5,

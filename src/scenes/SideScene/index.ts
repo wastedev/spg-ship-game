@@ -122,6 +122,7 @@ export class SideScene extends Scene {
         this.playerSide.visible = true;
         this.playerSide.setDepth(1);
         this.rocketTargetZone.visible = true;
+        this.rocketTargetZone.setSensor(true);
         this.rocketTargetZone.setDepth(1);
         this.rocketTargetZone.setBounce(0);
         this.continueButtonClicked = true;
@@ -339,6 +340,7 @@ export class SideScene extends Scene {
         (180 / Math.PI);
       this.newRocket.angle = this.rocketAngle;
       this.newRocket.setDepth(1);
+      this.newRocket.setBounce(0);
 
       if (this.newRocket) {
         this.matter.overlap(this.rocketTargetZone, [this.newRocket], () => {

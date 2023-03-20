@@ -12,8 +12,10 @@ const isMobile =
 let DEFAULT_WIDTH, DEFAULT_HEIGHT;
 
 if (isMobile) {
-  DEFAULT_WIDTH = 1920;
-  DEFAULT_HEIGHT = 1080;
+  // DEFAULT_WIDTH = 1920;
+  // DEFAULT_HEIGHT = 1080;
+  DEFAULT_WIDTH = window.innerWidth * window.devicePixelRatio;
+  DEFAULT_HEIGHT = window.innerHeight * window.devicePixelRatio;
 } else {
   DEFAULT_WIDTH = window.innerWidth;
   DEFAULT_HEIGHT = window.innerHeight;
@@ -45,7 +47,7 @@ const gameConfig: Types.Core.GameConfig = {
   physics: {
     default: 'matter',
     matter: {
-      // debug: true,
+      debug: true,
       setBounds: true,
       gravity: { y: 0 },
     },

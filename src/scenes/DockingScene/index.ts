@@ -100,11 +100,15 @@ export class DockingScene extends Scene {
       'background-docking',
     );
     this.background.setOrigin(0.5);
+
     if (!IS_MOBILE) {
       let width = window.innerWidth;
       let height = window.innerHeight;
       this.background.setDisplaySize(width, height);
-      // this.background.setScale(1);
+    } else {
+      let width = window.innerWidth * window.devicePixelRatio;
+      let height = window.innerHeight * window.devicePixelRatio;
+      this.background.setDisplaySize(width, height);
     }
 
     this.player = new Player(
@@ -124,7 +128,7 @@ export class DockingScene extends Scene {
     );
     this.station.scale = window.game.scale.height / window.game.scale.width;
     this.station.setStatic(true);
-    this.station.setRectangle(window.game.scale.width / 4.5, window.game.scale.height);
+    this.station.setRectangle(window.game.scale.width / 6, window.game.scale.height);
     this.station.setSensor(true);
     this.station.setDepth(100);
     this.popupBG = this.add.image(

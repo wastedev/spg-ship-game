@@ -12,8 +12,6 @@ const isMobile =
 let DEFAULT_WIDTH, DEFAULT_HEIGHT;
 
 if (isMobile) {
-  // DEFAULT_WIDTH = 1920;
-  // DEFAULT_HEIGHT = 1080;
   DEFAULT_WIDTH = window.innerWidth * window.devicePixelRatio;
   DEFAULT_HEIGHT = window.innerHeight * window.devicePixelRatio;
 } else {
@@ -21,11 +19,12 @@ if (isMobile) {
   DEFAULT_HEIGHT = window.innerHeight;
 }
 
-const isRestart = location.href.split('?')[1];
+const isRestart = location.href.split('?')[1] === 'isRestart' ?? false;
 
 const scenes = [PreloadScene, BannerScene, TopScene, DockingScene, SideScene, UiScene];
 const restartScenes = [PreloadScene, TopScene, DockingScene, SideScene, UiScene];
 
+console.log(isRestart);
 const gameConfig: Types.Core.GameConfig = {
   title: 'Игра - загрузка СПГ',
   type: Phaser.AUTO,
@@ -64,12 +63,12 @@ const gameConfig: Types.Core.GameConfig = {
 // TEMP GAME INIT BEFORE porthole-proxy implementation
 // window.game = new Game(gameConfig);
 
-window.onload = function () {
-  window.windowProxy = new Porthole.WindowProxy(
+window.onload = () => {
+  window.game = new Game(gameConfig);
+  const windowProxy = new Porthole.WindowProxy(
     'https://ferretvideo.com/projects/north/proxy/proxyGame3.html',
   );
-
-  window.windowProxy.addEventListener(function (event: any) {
+  windowProxy.addEventListener((event: any) => {
     if (typeof event.data['pageEvent'] !== 'undefined') {
       const eventData = JSON.parse(event.data['pageEvent']);
       if (eventData?.data === 'game_3_replay' && window.game) {
@@ -78,7 +77,7 @@ window.onload = function () {
     }
   });
 
-  window.game = new Game(gameConfig);
+  window.windowProxy = windowProxy;
 };
 
 // const scenes: Scene[] = window.game.scene.getScenes();

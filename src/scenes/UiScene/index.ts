@@ -17,6 +17,7 @@ export class UiScene extends Scene {
   private restartValue: boolean = false;
 
   private endGamePopup!: GameObjects.Image;
+  private endGamePopupBtn!: GameObjects.Image;
 
   private soundOnBtn!: GameObjects.Image;
   private soundOffBtn!: GameObjects.Image;
@@ -51,15 +52,22 @@ export class UiScene extends Scene {
 
   private initPause(): void {
     this.pauseGame = this.add
-      .image(window.game.scale.width - 70, 50, 'pauseGame')
+      .image(window.game.scale.width - 250, 50, 'pauseGame')
       .on('pointerdown', () => {
         window.game.scene.pause(this.activeScene);
         this.pauseGame.visible = false;
         this.continueGame.visible = true;
       })
-      .setInteractive()
-      .setScrollFactor(0);
+      .setInteractive({ cursor: 'pointer' })
+      .setScrollFactor(0)
+      .on('pointerout', () => {
+        this.pauseGame.setScale(0.8);
+      })
+      .on('pointerover', () => {
+        this.pauseGame.setScale(0.9);
+      });
     this.pauseGame.scale = 0.8;
+    this.pauseGame.setPosition(window.game.scale.width - 200 - this.pauseGame.width / 2, 50);
     this.pauseGame.setOrigin(0.5);
 
     this.continueGame = this.add
@@ -69,8 +77,14 @@ export class UiScene extends Scene {
         this.continueGame.visible = false;
         this.pauseGame.visible = true;
       })
-      .setInteractive()
-      .setScrollFactor(0);
+      .setInteractive({ cursor: 'pointer' })
+      .setScrollFactor(0)
+      .on('pointerout', () => {
+        this.continueGame.setScale(0.8);
+      })
+      .on('pointerover', () => {
+        this.continueGame.setScale(0.9);
+      });
     this.continueGame.setOrigin(0.5);
     this.continueGame.scale = 0.8;
     this.continueGame.visible = false;
@@ -96,8 +110,11 @@ export class UiScene extends Scene {
     this.oil = 0;
     this.health = 3;
 
-    this.healthScore = this.add.image(70, 50, 'healthScore');
+    this.healthScore = this.add.image(200, 50, 'healthScore');
     this.healthScore.setOrigin(0.5);
+    this.healthScore.setScale(0.5);
+    this.healthScore.setPosition(200 + this.healthScore.width / 4, 50);
+
     this.healthText = this.add.text(
       this.healthScore.x + 10,
       this.healthScore.y,
@@ -109,9 +126,11 @@ export class UiScene extends Scene {
       },
     );
 
-    this.healthScore.setScale(0.5);
-
-    this.oilScore = this.add.image(this.healthScore.x + 170, 50, 'oilScore');
+    this.oilScore = this.add.image(
+      this.healthScore.x + this.healthScore.width / 2 - 8,
+      50,
+      'oilScore',
+    );
     this.oilScore.setOrigin(0.5);
     this.oilScore.scale = 0.5;
     this.scoreText = this.add.text(this.oilScore.x + 10, this.oilScore.y, this.oil.toString(), {
@@ -130,7 +149,7 @@ export class UiScene extends Scene {
         'rightButtonMove',
       )
       .setScrollFactor(0)
-      .setInteractive()
+      .setInteractive({ cursor: 'pointer' })
       .on('pointerdown', () => {
         const player: Player = this.getPlayer().player;
         player.updateByTarget(Direction.Up);
@@ -151,7 +170,7 @@ export class UiScene extends Scene {
         'leftButtonMove',
       )
       .setScrollFactor(0)
-      .setInteractive()
+      .setInteractive({ cursor: 'pointer' })
       .on('pointerdown', () => {
         const player: Player = this.getPlayer().player;
         player.updateByTarget(Direction.Down);
@@ -177,21 +196,33 @@ export class UiScene extends Scene {
     this.soundOnBtn = this.add
       .image(this.pauseGame.x - 70, this.pauseGame.y, 'soundOn')
       .setScrollFactor(0)
-      .setInteractive()
+      .setInteractive({ cursor: 'pointer' })
       .on('pointerup', () => {
         this.soundOnBtn.visible = false;
         this.soundOffBtn.visible = true;
         window.game.sound.stopAll();
+      })
+      .on('pointerover', () => {
+        this.soundOnBtn.setScale(0.9);
+      })
+      .on('pointerout', () => {
+        this.soundOnBtn.setScale(0.8);
       });
     this.soundOnBtn.scale = 0.8;
     this.soundOffBtn = this.add
       .image(this.soundOnBtn.x, this.soundOnBtn.y, 'soundOff')
       .setScrollFactor(0)
-      .setInteractive()
+      .setInteractive({ cursor: 'pointer' })
       .on('pointerup', () => {
         this.soundOnBtn.visible = true;
         this.soundOffBtn.visible = false;
         this.backgroundSound.play(musicConfig);
+      })
+      .on('pointerover', () => {
+        this.soundOffBtn.setScale(0.9);
+      })
+      .on('pointerout', () => {
+        this.soundOffBtn.setScale(0.8);
       });
     this.soundOffBtn.scale = 0.8;
     this.soundOffBtn.visible = false;
@@ -208,7 +239,12 @@ export class UiScene extends Scene {
     this.endGamePopup = this.add
       .image(window.game.scale.width / 2, window.game.scale.height / 2, 'endPopup')
       .setScrollFactor(0)
-      .setInteractive()
+      .setInteractive();
+    this.endGamePopup.setDepth(51);
+    this.endGamePopupBtn = this.add
+      .image(this.endGamePopup.x, this.endGamePopup.y - this.endGamePopup.y / 7, 'endBtn')
+      .setInteractive({ cursor: 'pointer' })
+      .setScrollFactor(0)
       .on('pointerup', () => {
         window.windowProxy.post({
           finishGame3: JSON.stringify({
@@ -218,8 +254,14 @@ export class UiScene extends Scene {
             aimTries: 5 - SCENE_HEALTH[SECOND_SCENE],
           }),
         });
+      })
+      .on('pointerover', () => {
+        this.endGamePopupBtn.setTexture('endBtnHover');
+      })
+      .on('pointerout', () => {
+        this.endGamePopupBtn.setTexture('endBtn');
       });
-    this.endGamePopup.setDepth(51);
+    this.endGamePopupBtn.setDepth(51);
   }
 
   protected getTop(): TopScene {
@@ -284,16 +326,22 @@ export class UiScene extends Scene {
         'continueButton',
       )
       .setScrollFactor(0)
-      .setInteractive()
+      .setInteractive({ cursor: 'pointer' })
       .on('pointerdown', () => {
         top.continueGame();
         this.destroyGetDamagePopup();
+      })
+      .on('pointerover', () => {
+        this.getDamageContinue.setTexture('continueButtonHover');
+      })
+      .on('pointerout', () => {
+        this.getDamageContinue.setTexture('continueButton');
       });
     this.getDamageContinue.setDepth(51);
     this.getDamageClose = this.add
       .image(this.getDamagePopup.x + 380, this.getDamagePopup.y - 170, 'crossButton')
       .setScrollFactor(0)
-      .setInteractive()
+      .setInteractive({ cursor: 'pointer' })
       .on('pointerdown', () => {
         top.continueGame();
         this.destroyGetDamagePopup();
@@ -302,16 +350,27 @@ export class UiScene extends Scene {
   }
 
   public oilLoading(): void {
+    this.oilScore.setPosition(window.game.scale.width / 2, window.game.scale.height / 2);
+    this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
+    let scoreSize = 25;
     this.time.addEvent({
-      delay: 500,
+      delay: 60,
       callback: () => {
-        this.oil += 10;
+        this.oil += 1;
+        this.oilScore.scale += 0.005;
+        this.scoreText.setFontSize((scoreSize += 0.099));
         if (this.oil === 80) {
-          this.endGameEvent();
+          setTimeout(() => {
+            this.oilScore.setPosition(this.healthScore.x + 170, 50);
+            this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
+            this.oilScore.scale = 0.5;
+            this.scoreText.setFontSize(25);
+            this.endGameEvent();
+          }, 500);
         }
       },
       callbackScope: this,
-      repeat: 7,
+      repeat: 79,
     });
   }
 

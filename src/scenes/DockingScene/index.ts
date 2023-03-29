@@ -27,6 +27,13 @@ export class DockingScene extends Scene {
   private closeButton!: GameObjects.Image;
   private popupBG!: GameObjects.Image;
 
+  // .on('pointerover', () => {
+  //   this.getDamageContinue.setTexture('continueButtonHover');
+  // })
+  // .on('pointerout', () => {
+  //   this.getDamageContinue.setTexture('continueButton');
+  // });
+
   constructor() {
     super('docking-scene');
   }
@@ -204,7 +211,7 @@ export class DockingScene extends Scene {
           'continueButton',
         )
         .setScrollFactor(0)
-        .setInteractive()
+        .setInteractive({ cursor: 'pointer' })
         .on('pointerdown', () => {
           ui.showUI();
           this.goalRect500.destroy();
@@ -214,11 +221,17 @@ export class DockingScene extends Scene {
           this.destroyGoalStageMessage();
           this.goalRect80Text.visible = true;
           this.goalRect80.visible = true;
+        })
+        .on('pointerover', () => {
+          this.continueButton.setTexture('continueButtonHover');
+        })
+        .on('pointerout', () => {
+          this.continueButton.setTexture('continueButton');
         });
       this.continueButton.setDepth(51);
       this.closeButton = this.add
         .image(this.goalStageMessage.x + 380, this.goalStageMessage.y - 170, 'crossButton')
-        .setInteractive()
+        .setInteractive({ cursor: 'pointer' })
         .setScrollFactor(0)
         .on('pointerdown', () => {
           ui.showUI();
@@ -246,7 +259,7 @@ export class DockingScene extends Scene {
           'continueButton',
         )
         .setScrollFactor(0)
-        .setInteractive()
+        .setInteractive({ cursor: 'pointer' })
         .on('pointerdown', () => {
           ui.showUI();
           this.destroyGoalStageMessage();
@@ -256,11 +269,17 @@ export class DockingScene extends Scene {
             this.scene.stop();
             this.scene.start('side-scene');
           }, 1000);
+        })
+        .on('pointerover', () => {
+          this.continueButton.setTexture('continueButtonHover');
+        })
+        .on('pointerout', () => {
+          this.continueButton.setTexture('continueButton');
         });
       this.continueButton.setDepth(51);
       this.closeButton = this.add
         .image(this.goalStageMessage.x + 380, this.goalStageMessage.y - 170, 'crossButton')
-        .setInteractive()
+        .setInteractive({ cursor: 'pointer' })
         .setScrollFactor(0)
         .on('pointerdown', () => {
           ui.showUI();

@@ -73,15 +73,21 @@ export class TopScene extends Scene {
         'continueButton',
       )
       .setScrollFactor(0)
-      .setInteractive()
+      .setInteractive({ cursor: 'pointer' })
       .on('pointerdown', () => {
         ui.showUI();
         this.nextScene();
+      })
+      .on('pointerout', () => {
+        this.continueButton.setTexture('continueButton');
+      })
+      .on('pointerover', () => {
+        this.continueButton.setTexture('continueButtonHover');
       });
     this.continueButton.setDepth(51);
     this.closeButton = this.add
       .image(this.goalStageMessage.x + 380, this.goalStageMessage.y - 170, 'crossButton')
-      .setInteractive()
+      .setInteractive({ cursor: 'pointer' })
       .setScrollFactor(0)
       .on('pointerdown', () => {
         ui.showUI();

@@ -24,7 +24,6 @@ const isRestart = location.href.split('?')[1] === 'isRestart' ?? false;
 const scenes = [PreloadScene, BannerScene, TopScene, DockingScene, SideScene, UiScene];
 const restartScenes = [PreloadScene, TopScene, DockingScene, SideScene, UiScene];
 
-console.log(isRestart);
 const gameConfig: Types.Core.GameConfig = {
   title: 'Игра - загрузка СПГ',
   type: Phaser.AUTO,

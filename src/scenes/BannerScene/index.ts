@@ -30,10 +30,16 @@ export class BannerScene extends Scene {
         this.bannerText.y + this.bannerText.y / 1.5,
         'bannerStartBtn',
       )
-      .setInteractive()
+      .setInteractive({ cursor: 'pointer' })
       .on('pointerup', () => {
         this.scene.start('top-scene');
         this.scene.start('ui-scene');
+      })
+      .on('pointerover', () => {
+        this.bannerStartButton.setTexture('bannerStartBtnHover');
+      })
+      .on('pointerout', () => {
+        this.bannerStartButton.setTexture('bannerStartBtn');
       });
 
     if (!IS_MOBILE) {

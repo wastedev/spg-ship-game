@@ -63,7 +63,6 @@ export class SideScene extends Scene {
   initRocketVector(): void {
     this.rocketVector = this.add.image(this.rocket.x + 100, this.rocket.y, 'rocketVector');
     let vectorLength = this.rocketTargetZone.x - this.rocket.x;
-    console.log(vectorLength);
     this.rocketVector.setDisplaySize(vectorLength - 150, window.game.scale.height / 5);
     this.rocketVector.setOrigin(0, 0.5);
     this.rocketVector.setAlpha(0.8);
@@ -115,10 +114,18 @@ export class SideScene extends Scene {
     this.popUpInfo = this.add
       .image(window.game.scale.width / 2, window.game.scale.height / 2, 'rocketInfo')
       .setScrollFactor(0)
-      .setInteractive()
+      .setInteractive();
+    this.popUpInfo.scale = 1;
+    this.popUpInfo.setDepth(51);
+
+    this.continueButton = this.add
+      .image(this.popUpInfo.x, this.popUpInfo.y + this.popUpInfo.y / 5, 'continueButton')
+      .setScrollFactor(0)
+      .setInteractive({ cursor: 'pointer' })
       .on('pointerup', () => {
         this.popUpInfo.destroy();
         this.closeButton.destroy();
+        this.continueButton.destroy();
         this.playerSide.visible = true;
         this.playerSide.setDepth(1);
         this.rocketTargetZone.visible = true;
@@ -128,18 +135,23 @@ export class SideScene extends Scene {
         this.continueButtonClicked = true;
         this.popupBG.visible = false;
         this.animationStart = true;
+      })
+      .on('pointerover', () => {
+        this.continueButton.setTexture('continueButtonHover');
+      })
+      .on('pointerout', () => {
+        this.continueButton.setTexture('continueButton');
       });
-
-    this.popUpInfo.scale = 1;
-    this.popUpInfo.setDepth(51);
+    this.continueButton.setDepth(51);
 
     this.closeButton = this.add
       .image(this.game.scale.width / 2 + 380, this.game.scale.height / 2 - 170, 'crossButton')
       .setScrollFactor(0)
-      .setInteractive()
+      .setInteractive({ cursor: 'pointer' })
       .on('pointerup', () => {
         this.popUpInfo.destroy();
         this.closeButton.destroy();
+        this.continueButton.destroy();
         this.playerSide.visible = true;
         this.playerSide.setDepth(1);
         this.rocketTargetZone.visible = true;
@@ -254,10 +266,6 @@ export class SideScene extends Scene {
     this.loadFingerAnimation();
     //
     this.initRocketVector();
-    console.log(`Ракета \n x =  ${this.rocket.x} \n y =  ${this.rocket.y}`);
-    console.log(
-      `Зона попадания \n x =  ${this.rocketTargetZone.x} \n y =  ${this.rocketTargetZone.y}`,
-    );
   }
 
   rocketEventSettings(): void {

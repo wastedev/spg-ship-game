@@ -43,24 +43,30 @@ export class PreloadScene extends Scene {
       frameHeight: 180,
     });
 
-    // LOAD BAR ASSETS
-
     // LOAD UI
     this.load.image('leftButtonMove', 'img/entities/ui/leftButtonMove.svg');
     this.load.image('rightButtonMove', 'img/entities/ui/rightButtonMove.svg');
     this.load.image('oilScore', 'img/entities/images/oilScore.png');
     this.load.image('healthScore', 'img/entities/images/healthScore.png');
     this.load.image('oilLoad', 'img/entities/ui/oilLoad.png');
-    this.load.image('bannerStartBtn', 'img/entities/ui/startBannerButton.png');
+    this.load.image('bannerStartBtn', 'img/entities/ui/startBannerButton.svg');
     this.load.image('continueGame', 'img/entities/ui/continueGame.svg');
     this.load.image('pauseGame', 'img/entities/ui/pauseGame.svg');
+
+    //LOAD UI HOVER
+    this.load.image(
+      'bannerStartBtnHover',
+      'img/entities/ui/hoverButtons/startBannerButtonHover.svg',
+    );
+    this.load.image('continueButtonHover', 'img/entities/ui/hoverButtons/continueButtonHover.svg');
 
     //sound buttons
     this.load.image('soundOn', 'img/entities/ui/sound.svg');
     this.load.image('soundOff', 'img/entities/ui/muteSound.svg');
 
     //end
-    this.load.image('endBtn', 'img/entities/ui/endGameBtn.svg');
+    this.load.image('endBtn', 'img/entities/ui/endGameButton.svg');
+    this.load.image('endBtnHover', 'img/entities/ui/hoverButtons/endGameButtonHover.svg');
 
     this.load.image('fingerGuide', 'img/entities/ui/fingerGuide.svg');
     this.load.image('rocketVector', 'img/entities/ui/rocketVector.svg');

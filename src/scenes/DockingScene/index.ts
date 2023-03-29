@@ -43,7 +43,7 @@ export class DockingScene extends Scene {
       this.icebergs.push(
         new Enemy(
           this.matter.world,
-          (window.game.scale.width / 6) * 1.2 * i,
+          (window.game.scale.width / 6) * 1.5 * i,
           window.game.scale.height / 5 + Math.floor(Math.random() * (window.game.scale.height / 2)),
           `icebergAnimation-${Math.floor(Math.random() * 3) + 1}`,
         ),

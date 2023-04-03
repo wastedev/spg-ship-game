@@ -49,7 +49,6 @@ export class BannerScene extends Scene {
       this.banner.setDisplaySize(width, height);
       this.bannerText.setDisplaySize(width / 2.3, height / 2.3);
       this.bannerStartButton.setDisplaySize(width / 10, height / 15);
-      console.log('pc');
       this.bannerStartButton.setOrigin(2.2, -4);
       this.bannerStartButton.setPosition(this.bannerText.x, this.bannerText.y);
     }

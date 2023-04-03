@@ -277,7 +277,7 @@ export class TopScene extends Scene {
       }
     }
 
-    if (this.player.x >= this.goalZone.x + 100) {
+    if (this.player.x >= this.goalZone.x + 50) {
       // if you dont get the goalzone
       this.gameStarted = false;
       const ui = this.getUI();

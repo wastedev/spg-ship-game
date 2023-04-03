@@ -46,8 +46,8 @@ export class PreloadScene extends Scene {
     // LOAD UI
     this.load.image('leftButtonMove', 'img/entities/ui/leftButtonMove.svg');
     this.load.image('rightButtonMove', 'img/entities/ui/rightButtonMove.svg');
-    this.load.image('oilScore', 'img/entities/images/oilScore.png');
-    this.load.image('healthScore', 'img/entities/images/healthScore.png');
+    this.load.image('oilScore', 'img/entities/images/oilScore.svg');
+    this.load.image('healthScore', 'img/entities/images/healthScore.svg');
     this.load.image('oilLoad', 'img/entities/ui/oilLoad.png');
     this.load.image('bannerStartBtn', 'img/entities/ui/startBannerButton.svg');
     this.load.image('continueGame', 'img/entities/ui/continueGame.svg');

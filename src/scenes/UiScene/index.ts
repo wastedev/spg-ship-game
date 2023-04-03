@@ -112,7 +112,6 @@ export class UiScene extends Scene {
 
     this.healthScore = this.add.image(200, 50, 'healthScore');
     this.healthScore.setOrigin(0.5);
-    this.healthScore.setScale(0.5);
     this.healthScore.setPosition(200 + this.healthScore.width / 4, 50);
 
     this.healthText = this.add.text(
@@ -132,13 +131,14 @@ export class UiScene extends Scene {
       'oilScore',
     );
     this.oilScore.setOrigin(0.5);
-    this.oilScore.scale = 0.5;
     this.scoreText = this.add.text(this.oilScore.x + 10, this.oilScore.y, this.oil.toString(), {
       fontFamily: 'Arial',
       fontSize: '25px',
       color: '#0F6894',
     });
 
+    this.oilScore.setPosition(this.healthScore.x + 150, 50);
+    this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
     this.healthText.setOrigin(0.6);
     this.scoreText.setOrigin(0.6);
 
@@ -361,9 +361,9 @@ export class UiScene extends Scene {
         this.scoreText.setFontSize((scoreSize += 0.099));
         if (this.oil === 80) {
           setTimeout(() => {
-            this.oilScore.setPosition(this.healthScore.x + 170, 50);
+            this.oilScore.setPosition(this.healthScore.x + 150, 50);
             this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
-            this.oilScore.scale = 0.5;
+            this.oilScore.scale = 1;
             this.scoreText.setFontSize(25);
             this.endGameEvent();
           }, 500);

@@ -167,11 +167,16 @@ export class DockingScene extends Scene {
 
   protected checkPlayerState(): void {
     if (!this.goalRect500Pass) {
-      if (this.player.x >= this.goalRect500.x + 100 && this.goalRect500.visible === true) {
+      if (this.player.x >= this.goalRect500.x + 60 && this.goalRect500.visible === true) {
         const ui = this.getUI();
         this.stopPlayer();
         ui.gameLose();
       }
+    }
+    if (this.player.x >= this.goalRect80.x + 60 && this.goalRect80.visible === true) {
+      const ui = this.getUI();
+      this.stopPlayer();
+      ui.gameLose();
     }
   }
 

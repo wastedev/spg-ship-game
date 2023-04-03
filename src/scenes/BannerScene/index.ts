@@ -26,8 +26,8 @@ export class BannerScene extends Scene {
 
     this.bannerStartButton = this.add
       .image(
-        this.bannerText.x - this.bannerText.x / 1.8,
-        this.bannerText.y + this.bannerText.y / 1.5,
+        this.bannerText.x - this.bannerText.width / 2,
+        this.bannerText.y + this.bannerText.height / 2 + 30,
         'bannerStartBtn',
       )
       .setInteractive({ cursor: 'pointer' })
@@ -41,6 +41,7 @@ export class BannerScene extends Scene {
       .on('pointerout', () => {
         this.bannerStartButton.setTexture('bannerStartBtn');
       });
+    this.bannerStartButton.setOrigin(0);
 
     if (!IS_MOBILE) {
       let width = window.innerWidth;
@@ -48,6 +49,9 @@ export class BannerScene extends Scene {
       this.banner.setDisplaySize(width, height);
       this.bannerText.setDisplaySize(width / 2.3, height / 2.3);
       this.bannerStartButton.setDisplaySize(width / 10, height / 15);
+      console.log('pc');
+      this.bannerStartButton.setOrigin(2.2, -4);
+      this.bannerStartButton.setPosition(this.bannerText.x, this.bannerText.y);
     }
 
     ///////////

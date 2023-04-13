@@ -26,7 +26,9 @@ export class PreloadScene extends Scene {
     this.load.image('background-side', 'img/backgrounds/background-side.png');
     this.load.image('background-docking', 'img/backgrounds/background-docking.png');
     this.load.image('banner-image', 'img/backgrounds/banner-background.png');
+    this.load.image('banner-image-mobile', 'img/backgrounds/banner-background-mobile.png');
     this.load.image('banner-text', 'img/backgrounds/background-text.svg');
+    this.load.image('banner-text-mobile', 'img/backgrounds/background-text-mobile.svg');
     this.load.image('banner-landscape', 'img/backgrounds/banner-background-landscape.png');
 
     // LOAD ICEBERG ANIMATIONS ASSETS
@@ -50,6 +52,7 @@ export class PreloadScene extends Scene {
     this.load.image('healthScore', 'img/entities/images/healthScore.svg');
     this.load.image('oilLoad', 'img/entities/ui/oilLoad.png');
     this.load.image('bannerStartBtn', 'img/entities/ui/startBannerButton.svg');
+    this.load.image('bannerStartBtnMobile', 'img/entities/ui/startBannerButtonMobile.svg');
     this.load.image('continueGame', 'img/entities/ui/continueGame.svg');
     this.load.image('pauseGame', 'img/entities/ui/pauseGame.svg');
 
@@ -57,6 +60,10 @@ export class PreloadScene extends Scene {
     this.load.image(
       'bannerStartBtnHover',
       'img/entities/ui/hoverButtons/startBannerButtonHover.svg',
+    );
+    this.load.image(
+      'bannerStartBtnHoverMobile',
+      'img/entities/ui/hoverButtons/startBannerButtonHoverMobile.svg',
     );
     this.load.image('continueButtonHover', 'img/entities/ui/hoverButtons/continueButtonHover.svg');
 

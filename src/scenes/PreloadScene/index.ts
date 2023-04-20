@@ -113,12 +113,13 @@ export class PreloadScene extends Scene {
     if (loader) {
       loader.style.display = 'none';
     }
-
-    if (window.game.scene.getScene('banner-scene') !== null) {
-      this.scene.start('banner-scene');
-    } else {
-      this.scene.start('top-scene');
-      this.scene.start('ui-scene');
-    }
+    this.scene.start('top-scene');
+    this.scene.start('ui-scene');
   }
 }
+
+// if (window.game.scene.getScene('banner-scene') !== null) {
+//   this.scene.start('banner-scene');
+// } else {
+
+// }

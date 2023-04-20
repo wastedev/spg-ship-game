@@ -6,8 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
       html,
       body {
+        font-size: 20px;
+        font-family: 'Roboto' !important;
+        color: white;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -15,6 +20,7 @@
         width: 100vw;
         position: relative;
         background: #308cba;
+        overflow: hidden;
       }
 
       #game {
@@ -24,6 +30,35 @@
         bottom: 0;
         left: 0;
       }
+
+      .start-button {
+        margin-top: 5%;
+        cursor: pointer;
+        background-color: #d02430;
+        border-radius: 8px;
+        position: relative;
+        z-index: 100000;
+        color: #ffffff;
+        font-size: 0.9rem;
+        padding: 1vw 2vw;
+        width: fit-content;
+      }
+
+      .start-button:hover {
+        background-color: #821713;
+      }
+
+      /* h4 {
+        color: white;
+        margin: 0;
+        margin-top: 0px;
+        font-size: 0.9rem;
+        font-weight: 400;
+        left: 7%;
+        font-family: 'Roboto';
+        line-height: 140%;
+        margin-top: 3% !important;
+      } */
 
       @font-face {
         font-family: 'Neue Haas Unica';
@@ -321,12 +356,274 @@
       .hidden {
         display: none !important;
       }
+      .bannerContainer.modalContainer .start-img {
+        max-height: 90%;
+        max-width: 96%;
+        display: block;
+        margin: 3% 0 0 auto;
+      }
+      .bannerImgContainer {
+        width: 40%;
+        align-self: flex-start;
+        height: 100%;
+        padding-top: 5vw;
+      }
+      .textContainer {
+        width: 55%;
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+      }
+
+      .max-w {
+        margin: auto;
+        width: 100%;
+        max-width: 1750px;
+        max-height: 950px;
+        left: 0;
+      }
+
+      .modal {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+      }
+      .open {
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0s linear 0.1s, opacity 0.3s ease;
+      }
+      .banner {
+        z-index: 200;
+      }
+      .bannerContent {
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(#01417a, #0092d2);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position-y: 100%;
+        background-position-x: 100%;
+      }
+      .bannerContainer.modalContainer {
+        position: relative;
+        background: transparent;
+        box-sizing: content-box;
+        margin: 0 4vw 0 11vw;
+        padding: 0;
+        width: 85vw;
+        max-width: 96%;
+        height: 95vh;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      .modalContainer {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 22;
+        height: auto;
+        width: 45vw;
+        max-width: 820px;
+        top: 50%;
+        transform: translateY(-50%);
+        /* box-shadow: 0 0 10px #fff; */
+        margin: 0 auto;
+        padding: 30px 62px;
+        background-color: #fff;
+        text-align: center;
+        justify-content: space-between;
+      }
+      .bannerTextContainer {
+        /* padding-top: 5vw; */
+        width: 55%;
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        /* align-self: flex-start; */
+      }
+      .modalTextContainer {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        /* align-items: flex-start; */
+        /* overflow-y: scroll; */
+        width: 55vw;
+      }
+      .customScrollbar::-webkit-scrollbar {
+        width: 6px;
+        background-color: transparent;
+      }
+      h3 {
+        display: block;
+        font-size: 1.17em;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+      }
+      .bannerHeader {
+        font-family: 'Roboto';
+        font-style: normal;
+        color: #fff;
+        font-size: 2rem;
+        font-weight: 500;
+        line-height: 100%;
+        text-align: start;
+        margin: 0 0 4%;
+      }
+      .modalHeader {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 40px;
+        line-height: 120%;
+        margin-bottom: 10px;
+      }
+      bannerDescription {
+        font-size: 20px;
+        margin-bottom: 1.5em;
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        color: white;
+        text-align: left;
+        position: relative;
+      }
+      .bannerButtons {
+        margin-top: clamp(0.5em, 2vw, 2em);
+        text-align: left;
+      }
+
+      button {
+        cursor: pointer;
+        border: none;
+      }
+      .bannerOk {
+        background: #d02430;
+        font-weight: 400;
+        cursor: pointer;
+        border-radius: 8px;
+        position: relative;
+        color: #ffffff;
+        padding: 1vw 2vw;
+        width: fit-content;
+      }
+      .bannerOk:hover {
+        background: #821713;
+        transition: 0.4s all;
+      }
+      .open {
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0s linear 0.1s, opacity 0.3s ease;
+      }
+      .bannerDescription.modalText {
+        color: white;
+        margin-bottom: 1em;
+        text-align: left;
+        position: relative;
+      }
+
+      .modalText.rules {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 700;
+      }
+
+      #head {
+        font-size: clamp(1rem, 2.5vw, 3rem);
+        font-weight: 700;
+        line-height: 100%;
+        letter-spacing: 0em;
+        margin-bottom: 0.5em;
+      }
+      #first {
+        margin-top: 0.5em !important;
+        font-size: clamp(0.45rem, 1vw, 1rem);
+        line-height: 150%;
+        font-weight: 400;
+        letter-spacing: 0em;
+        margin-bottom: 0.1em;
+      }
+
+      #second {
+        margin-top: 0.5em !important;
+        font-size: clamp(0.45rem, 1vw, 1rem);
+        line-height: 150%;
+        font-weight: 400;
+        letter-spacing: 0em;
+        margin-bottom: 0.1em;
+      }
+      #third {
+        margin-top: 0.5em !important;
+        font-size: clamp(0.45rem, 1vw, 1rem);
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 0em;
+        margin-bottom: 0.5em;
+      }
+
+      #desc {
+        font-size: clamp(0.45rem, 1vw, 1rem);
+        font-weight: 700;
+        line-height: 150%;
+        letter-spacing: 0.07em;
+        margin-bottom: 0px;
+      }
+
+      #btn {
+        font-size: clamp(0.4rem, 1vw, 0.8rem);
+        margin-top: 0.1em;
+      }
+
+      .bearOff {
+        visibility: hidden;
+        display: none;
+      }
     </style>
   </head>
   <body>
-    <div id="ferretVideoWaitlay">
+    <div id="ferretVideoWaitlay" class="bearOff">
       <span class="loader"></span>
     </div>
+
+    <div class="bannerContent" id="gameBanner">
+      <div class="bannerContainer modalContainer">
+        <div class="bannerTextContainer modalTextContainer customScrollbar" style="color: white">
+          <h3 class="bannerHeader modalHeader" id="head">Отгрузи нефть на танкер</h3>
+          <p class="bannerDescription modalText" id="first">
+            «Приразломная» – единственная платформа на российском шельфе, отгружающая нефть сразу на
+            танкер. За безопасность процесса отвечают два комплекса устройств прямой отгрузки –
+            КУПОН.
+          </p>
+          <p class="bannerDescription modalText" id="second">
+            Передача нефти начинается только при единовременном соблюдении 30 условий, а на полную
+            остановку процесса требуется всего 7 секунд!
+          </p>
+          <p class="bannerDescription modalText" id="third">Ну что, начинаем отгрузку?!</p>
+          <p class="bannerDescription modalText rules addIcon" id="desc">
+            Управляй танкером, избегай льдин и швартуйся в зоне отгрузки. Для швартовки пройди три
+            зоны: 1000, 500 и 80 метров. Зафиксируй танкер в нужной отметке, получи разрешение на
+            дальнейшее движение. Для игры используй стрелки ↑ ↓
+          </p>
+          <div class="modalButtons bannerButtons">
+            <button class="jsModalContinue modalOk bannerOk" id="btn">ОТГРУЗИТЬ</button>
+          </div>
+        </div>
+        <div class="bannerImgContainer">
+          <img src="./assets/img/backgrounds/bg_img_desc.svg" alt="noimage" class="start-img" />
+        </div>
+      </div>
+    </div>
+
     <div id="game"></div>
   </body>
 </html>

@@ -30,6 +30,10 @@ export class PreloadScene extends Scene {
     this.load.image('banner-text', 'img/backgrounds/background-text.svg');
     this.load.image('banner-text-mobile', 'img/backgrounds/background-text-mobile.svg');
     this.load.image('banner-landscape', 'img/backgrounds/banner-background-landscape.png');
+    this.load.image('banner-gradient-mobile', 'img/backgrounds/bg_mobile_gradient.svg');
+    this.load.image('mobile-pic', 'img/backgrounds/bg_mobile_image.svg');
+    this.load.image('mobile-pic1', 'img/backgrounds/bg_mobile_image1.png');
+    this.load.image('desc-pic', 'img/backgrounds/bg_mobile_image.svg');
 
     // LOAD ICEBERG ANIMATIONS ASSETS
     this.load.spritesheet('sprIceberg-1', 'img/entities/icebergs/icebergAnimations1.png', {

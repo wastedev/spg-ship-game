@@ -2,6 +2,8 @@ import { GameObjects, Scene } from 'phaser';
 import { IS_MOBILE } from './../../constants/index';
 export class BannerScene extends Scene {
   private banner!: GameObjects.Image;
+  private bannerImgMobile!: GameObjects.Image;
+  private bannerImg!: GameObjects.Image;
   private bannerStartButton!: GameObjects.Image;
   private bannerText!: GameObjects.Image;
 
@@ -64,6 +66,13 @@ export class BannerScene extends Scene {
       );
       this.banner.setDisplaySize(window.game.scale.width, window.game.scale.height);
       //
+      // this.bannerImgMobile = this.add.image(
+      //   window.game.scale.width / 2,
+      //   window.game.scale.height / 2,
+      //   'mobile-pic1',
+      // );
+      // this.bannerImgMobile.setScale(3);
+      //
       this.bannerText.destroy();
       //
       this.bannerText = this.add.image(
@@ -79,20 +88,20 @@ export class BannerScene extends Scene {
       this.bannerStartButton.destroy();
       //
       this.bannerStartButton = this.add
-        .image(35, this.bannerText.y + this.bannerText.height / 2, 'bannerStartBtnMobile')
+        .image(35, this.bannerText.y + this.bannerText.height / 1.5, 'bannerStartBtn')
         .setInteractive({ cursor: 'pointer' })
         .on('pointerup', () => {
           this.scene.start('top-scene');
           this.scene.start('ui-scene');
         })
         .on('pointerover', () => {
-          this.bannerStartButton.setTexture('bannerStartBtnHoverMobile');
+          this.bannerStartButton.setTexture('bannerStartBtnHover');
         })
         .on('pointerout', () => {
-          this.bannerStartButton.setTexture('bannerStartBtnMobile');
+          this.bannerStartButton.setTexture('bannerStartBtn');
         });
-      this.bannerStartButton.setDisplaySize(width / 5, height / 8);
-      this.bannerStartButton.setOrigin(1);
+      this.bannerStartButton.setDisplaySize(width / 4, height / 6);
+      this.bannerStartButton.setOrigin(-0.35);
       //fix start button on mobile version of the game!!!
     }
 

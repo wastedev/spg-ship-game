@@ -29,6 +29,8 @@ window.onload = () => {
   let DEFAULT_WIDTH, DEFAULT_HEIGHT;
 
   if (isMobile) {
+    const bannerImage = document.getElementById('bannerIMG') as HTMLImageElement;
+    bannerImage.src = './assets/img/backgrounds/bg_mobile_image.svg';
     DEFAULT_WIDTH = window.innerWidth * window.devicePixelRatio;
     DEFAULT_HEIGHT = window.innerHeight * window.devicePixelRatio;
   } else {

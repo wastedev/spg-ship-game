@@ -362,11 +362,13 @@
         display: block;
         margin: 3% 0 0 auto;
       }
+
       .bannerImgContainer {
         width: 40%;
         align-self: flex-start;
         height: 100%;
         padding-top: 5vw;
+        margin-bottom: 1rem;
       }
       .textContainer {
         width: 55%;
@@ -442,19 +444,15 @@
         justify-content: space-between;
       }
       .bannerTextContainer {
-        /* padding-top: 5vw; */
         width: 55%;
         display: flex;
         flex-direction: column;
         align-self: center;
-        /* align-self: flex-start; */
       }
       .modalTextContainer {
         display: flex;
         flex-direction: column;
         align-self: center;
-        /* align-items: flex-start; */
-        /* overflow-y: scroll; */
         width: 45vw;
       }
       .customScrollbar::-webkit-scrollbar {
@@ -480,6 +478,7 @@
         text-align: start;
         margin: 0 0 4%;
       }
+
       .modalHeader {
         font-style: normal;
         font-weight: 600;
@@ -588,6 +587,13 @@
         visibility: hidden;
         display: none;
       }
+
+      @media only screen and (max-width< 1000px) {
+        .bannerContainer .modalContainer .start-img {
+          max-width: 81%;
+          max-height: 75%;
+        }
+      }
     </style>
   </head>
   <body>
@@ -619,7 +625,12 @@
           </div>
         </div>
         <div class="bannerImgContainer">
-          <img src="./assets/img/backgrounds/bg_img_desc.svg" alt="noimage" class="start-img" />
+          <img
+            src="./assets/img/backgrounds/bg_img_desc.svg"
+            alt="noimage"
+            class="start-img"
+            id="bannerIMG"
+          />
         </div>
       </div>
     </div>

@@ -5,10 +5,14 @@ import { CLIENT_RENEG_LIMIT } from 'tls';
 import { PreloadScene, TopScene, UiScene, SideScene, DockingScene, BannerScene } from './scenes';
 
 window.onload = () => {
+  const banner = document.getElementById('gameBanner') as HTMLElement;
+  const isRestart = location.href.split('?')[1] === 'isRestart' ?? false;
+  if (isRestart) {
+    banner.remove();
+  }
   const startButton = document.getElementById('btn') || '';
   if (startButton != '') {
     startButton.addEventListener('click', () => {
-      const banner = document.getElementById('gameBanner') as HTMLElement;
       banner.remove();
       const loader = document.querySelector('.bearOff') as HTMLElement;
       loader.classList.remove('bearOff');
@@ -32,10 +36,7 @@ window.onload = () => {
     DEFAULT_HEIGHT = window.innerHeight;
   }
 
-  const isRestart = location.href.split('?')[1] === 'isRestart' ?? false;
-
   const scenes = [PreloadScene, TopScene, DockingScene, SideScene, UiScene];
-  const restartScenes = [PreloadScene, TopScene, DockingScene, SideScene, UiScene];
 
   const gameConfig: Types.Core.GameConfig = {
     title: 'Игра - загрузка СПГ',
@@ -66,15 +67,13 @@ window.onload = () => {
     canvasStyle: `display: block; width: 100%; height: 100%;`,
     autoFocus: true,
     loader: { async: true },
-    scene: isRestart ? restartScenes : scenes,
+    scene: scenes,
   };
 
   // window.sizeChanged = debouncedResize;
   // window.onresize = () => window.sizeChanged();
 
   // TEMP GAME INIT BEFORE porthole-proxy implementation
-  // window.game = new Game(gameConfig);
-
   // window.game = new Game(gameConfig);
 
   const windowProxy = new Porthole.WindowProxy(

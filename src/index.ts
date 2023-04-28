@@ -6,6 +6,7 @@ import { PreloadScene, TopScene, UiScene, SideScene, DockingScene, BannerScene }
 
 window.onload = () => {
   const banner = document.getElementById('gameBanner') as HTMLElement;
+  console.log(banner);
   const isRestart = location.href.split('?')[1] === 'isRestart' ?? false;
   if (isRestart) {
     banner.remove();

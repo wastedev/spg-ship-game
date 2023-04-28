@@ -52,7 +52,7 @@ export class UiScene extends Scene {
 
   private initPause(): void {
     this.pauseGame = this.add
-      .image(window.game.scale.width - 250, 50, 'pauseGame')
+      .image(window.game.scale.width - 250, 110, 'pauseGame')
       .on('pointerdown', () => {
         window.game.scene.pause(this.activeScene);
         this.pauseGame.visible = false;
@@ -67,7 +67,7 @@ export class UiScene extends Scene {
         this.pauseGame.setScale(0.9);
       });
     this.pauseGame.scale = 0.8;
-    this.pauseGame.setPosition(window.game.scale.width - 200 - this.pauseGame.width / 2, 50);
+    this.pauseGame.setPosition(window.game.scale.width - 200 - this.pauseGame.width / 2, 110);
     this.pauseGame.setOrigin(0.5);
 
     this.continueGame = this.add
@@ -110,9 +110,9 @@ export class UiScene extends Scene {
     this.oil = 0;
     this.health = 3;
 
-    this.healthScore = this.add.image(200, 50, 'healthScore');
+    this.healthScore = this.add.image(200, 110, 'healthScore');
     this.healthScore.setOrigin(0.5);
-    this.healthScore.setPosition(200 + this.healthScore.width / 4, 50);
+    this.healthScore.setPosition(200 + this.healthScore.width / 4, 110);
 
     this.healthText = this.add.text(
       this.healthScore.x + 10,
@@ -127,7 +127,7 @@ export class UiScene extends Scene {
 
     this.oilScore = this.add.image(
       this.healthScore.x + this.healthScore.width / 2 - 8,
-      50,
+      110,
       'oilScore',
     );
     this.oilScore.setOrigin(0.5);
@@ -137,7 +137,7 @@ export class UiScene extends Scene {
       color: '#0F6894',
     });
 
-    this.oilScore.setPosition(this.healthScore.x + 150, 50);
+    this.oilScore.setPosition(this.healthScore.x + 150, 110);
     this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
     this.healthText.setOrigin(0.6);
     this.scoreText.setOrigin(0.6);
@@ -361,7 +361,7 @@ export class UiScene extends Scene {
         this.scoreText.setFontSize((scoreSize += 0.099));
         if (this.oil === 80) {
           setTimeout(() => {
-            this.oilScore.setPosition(this.healthScore.x + 150, 50);
+            this.oilScore.setPosition(this.healthScore.x + 150, 110);
             this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
             this.oilScore.scale = 1;
             this.scoreText.setFontSize(25);

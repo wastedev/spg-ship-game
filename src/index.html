@@ -10,14 +10,13 @@
 
       html,
       body {
-        font-size: 20px;
         font-family: 'Roboto' !important;
         color: white;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        height: 100vh;
-        width: 100vw;
+        height: 100%;
+        width: 100%;
         position: relative;
         background: #308cba;
         overflow: hidden;
@@ -31,254 +30,7 @@
         left: 0;
       }
 
-      .start-button {
-        margin-top: 5%;
-        cursor: pointer;
-        background-color: #d02430;
-        border-radius: 8px;
-        position: relative;
-        z-index: 100000;
-        color: #ffffff;
-        font-size: 0.9rem;
-        padding: 1vw 2vw;
-        width: fit-content;
-      }
-
-      .start-button:hover {
-        background-color: #821713;
-      }
-
-      /* h4 {
-        color: white;
-        margin: 0;
-        margin-top: 0px;
-        font-size: 0.9rem;
-        font-weight: 400;
-        left: 7%;
-        font-family: 'Roboto';
-        line-height: 140%;
-        margin-top: 3% !important;
-      } */
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-Black.eot');
-        src: local('Neue Haas Unica Black'), local('./assets/fonts/NeueHaasUnica-Black'),
-          url('./assets/fonts/NeueHaasUnica-Black.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-Black.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-Black.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-Black.ttf') format('truetype');
-        font-weight: 900;
-        font-style: normal;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-Medium.eot');
-        src: local('Neue Haas Unica Medium'), local('./assets/fonts/NeueHaasUnica-Medium'),
-          url('./assets/fonts/NeueHaasUnica-Medium.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-Medium.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-Medium.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-Medium.ttf') format('truetype');
-        font-weight: 500;
-        font-style: normal;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-BoldItalic.eot');
-        src: local('Neue Haas Unica Bold Italic'), local('./assets/fonts/NeueHaasUnica-BoldItalic'),
-          url('./assets/fonts/NeueHaasUnica-BoldItalic.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-BoldItalic.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-BoldItalic.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-BoldItalic.ttf') format('truetype');
-        font-weight: bold;
-        font-style: italic;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-ExtBlkIta.eot');
-        src: local('Neue Haas Unica ExtBlk Ita'), local('./assets/fonts/NeueHaasUnica-ExtBlkIta'),
-          url('./assets/fonts/NeueHaasUnica-ExtBlkIta.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-ExtBlkIta.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-ExtBlkIta.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-ExtBlkIta.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-ExtraBold.eot');
-        src: local('Neue Haas Unica Extra Bold'), local('./assets/fonts/NeueHaasUnica-ExtraBold'),
-          url('./assets/fonts/NeueHaasUnica-ExtraBold.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-ExtraBold.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-ExtraBold.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-ExtraBold.ttf') format('truetype');
-        font-weight: 800;
-        font-style: normal;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-MediumItalic.eot');
-        src: local('Neue Haas Unica Medium Italic'),
-          local('./assets/fonts/NeueHaasUnica-MediumItalic'),
-          url('./assets/fonts/NeueHaasUnica-MediumItalic.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-MediumItalic.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-MediumItalic.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-MediumItalic.ttf') format('truetype');
-        font-weight: 500;
-        font-style: italic;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-ExtraBoldItalic.eot');
-        src: local('Neue Haas Unica ExtBd Ita'),
-          local('./assets/fonts/NeueHaasUnica-ExtraBoldItalic'),
-          url('./assets/fonts/NeueHaasUnica-ExtraBoldItalic.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-ExtraBoldItalic.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-ExtraBoldItalic.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-ExtraBoldItalic.ttf') format('truetype');
-        font-weight: 800;
-        font-style: italic;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-Italic.eot');
-        src: local('Neue Haas Unica Italic'), local('./assets/fonts/NeueHaasUnica-Italic'),
-          url('./assets/fonts/NeueHaasUnica-Italic.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-Italic.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-Italic.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-Italic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-Light.eot');
-        src: local('Neue Haas Unica Light'), local('./assets/fonts/NeueHaasUnica-Light'),
-          url('./assets/fonts/NeueHaasUnica-Light.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-Light.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-Light.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-Light.ttf') format('truetype');
-        font-weight: 300;
-        font-style: normal;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-ExtLtIta.eot');
-        src: local('Neue Haas Unica ExtLt Ita'), local('./assets/fonts/NeueHaasUnica-ExtLtIta'),
-          url('./assets/fonts/NeueHaasUnica-ExtLtIta.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-ExtLtIta.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-ExtLtIta.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-ExtLtIta.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-Bold.eot');
-        src: local('Neue Haas Unica Bold'), local('./assets/fonts/NeueHaasUnica-Bold'),
-          url('./assets/fonts/NeueHaasUnica-Bold.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-Bold.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-Bold.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-Bold.ttf') format('truetype');
-        font-weight: bold;
-        font-style: normal;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-ThinItalic.eot');
-        src: local('Neue Haas Unica Thin Italic'), local('./assets/fonts/NeueHaasUnica-ThinItalic'),
-          url('./assets/fonts/NeueHaasUnica-ThinItalic.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-ThinItalic.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-ThinItalic.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-ThinItalic.ttf') format('truetype');
-        font-weight: 100;
-        font-style: italic;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-LightItalic.eot');
-        src: local('Neue Haas Unica Light Italic'),
-          local('./assets/fonts/NeueHaasUnica-LightItalic'),
-          url('./assets/fonts/NeueHaasUnica-LightItalic.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-LightItalic.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-LightItalic.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-LightItalic.ttf') format('truetype');
-        font-weight: 300;
-        font-style: italic;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-ExtraLight.eot');
-        src: local('Neue Haas Unica Extra Light'), local('./assets/fonts/NeueHaasUnica-ExtraLight'),
-          url('./assets/fonts/NeueHaasUnica-ExtraLight.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-ExtraLight.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-ExtraLight.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-ExtraLight.ttf') format('truetype');
-        font-weight: 200;
-        font-style: normal;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-Regular.eot');
-        src: local('Neue Haas Unica Regular'), local('./assets/fonts/NeueHaasUnica-Regular'),
-          url('./assets/fonts/NeueHaasUnica-Regular.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-Regular.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-Regular.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-Regular.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-ExtraBlack.eot');
-        src: local('Neue Haas Unica Extra Black'), local('./assets/fonts/NeueHaasUnica-ExtraBlack'),
-          url('./assets/fonts/NeueHaasUnica-ExtraBlack.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-ExtraBlack.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-ExtraBlack.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-ExtraBlack.ttf') format('truetype');
-        font-weight: 900;
-        font-style: normal;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-BoldItalic_1.eot');
-        src: local('Neue Haas Unica Bold Italic'), local('./assets/fonts/NeueHaasUnica-BoldItalic'),
-          url('./assets/fonts/NeueHaasUnica-BoldItalic_1.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-BoldItalic_1.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-BoldItalic_1.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-BoldItalic_1.ttf') format('truetype');
-        font-weight: bold;
-        font-style: italic;
-      }
-
-      @font-face {
-        font-family: 'Neue Haas Unica';
-        src: url('./assets/fonts/NeueHaasUnica-Thin.eot');
-        src: local('Neue Haas Unica Thin'), local('./assets/fonts/NeueHaasUnica-Thin'),
-          url('./assets/fonts/NeueHaasUnica-Thin.eot?#iefix') format('embedded-opentype'),
-          url('./assets/fonts/NeueHaasUnica-Thin.woff2') format('woff2'),
-          url('./assets/fonts/NeueHaasUnica-Thin.woff') format('woff'),
-          url('./assets/fonts/NeueHaasUnica-Thin.ttf') format('truetype');
-        font-weight: 100;
-        font-style: normal;
-      }
-
+      /* loader */
       .loader {
         width: 160px;
         height: 185px;
@@ -356,231 +108,101 @@
       .hidden {
         display: none !important;
       }
-      .bannerContainer.modalContainer .start-img {
+
+      /* loader */
+
+      /* new */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+      }
+
+      body {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+        background: linear-gradient(#01417a, #0092d2);
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        color: white;
+      }
+
+      .banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 6vw;
+        width: 100%;
+        height: 100%;
+        max-width: 1650px;
+        z-index: 200;
+      }
+
+      .banner__text {
+        height: 100%;
+        width: 60%;
+        padding-left: 5%;
+      }
+
+      .banner__text-title {
+        font-weight: 500;
+        font-size: 3rem;
+        line-height: 100%;
+        margin-bottom: 32px;
+      }
+
+      .banner__text-description {
+        margin-top: 20px;
+        font-weight: 400;
+        font-size: 0.9rem;
+        line-height: 140%;
+      }
+
+      .banner__text-rules {
+        margin-top: 20px;
+        font-weight: 700;
+        font-size: 1rem;
+        line-height: 140%;
+        font-variant: small-caps;
+      }
+
+      .banner__text-button {
+        margin-top: 4%;
+        outline: none;
+        border: none;
+        padding: 1vw 2vw;
+        background: #d02430;
+        color: white;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        line-height: 23px;
+        text-transform: uppercase;
+      }
+
+      .banner__text-button:hover {
+        cursor: pointer;
+        transition: all 0.3s;
+        background: #821713;
+      }
+
+      .banner__image {
+        width: 40%;
+        align-self: flex-start;
+        height: 100%;
+        box-sizing: border-box;
+      }
+
+      .banner__image img {
         max-height: 90%;
         max-width: 96%;
         display: block;
         margin: 3% 0 0 auto;
-      }
-
-      .bannerImgContainer {
-        width: 40%;
-        align-self: flex-start;
-        height: 100%;
-        padding-top: 5vw;
-        margin-bottom: 1rem;
-      }
-      .textContainer {
-        width: 55%;
-        display: flex;
-        flex-direction: column;
-        align-self: center;
-      }
-
-      .max-w {
-        margin: auto;
-        width: 100%;
-        max-width: 1750px;
-        max-height: 950px;
-        left: 0;
-      }
-
-      .modal {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 100;
-        width: 100%;
-        height: 100%;
-      }
-      .open {
-        visibility: visible;
-        opacity: 1;
-        transition: visibility 0s linear 0.1s, opacity 0.3s ease;
-      }
-      .banner {
-        z-index: 200;
-      }
-      .bannerContent {
-        height: 100%;
-        width: 100%;
-        background: linear-gradient(#01417a, #0092d2);
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position-y: 100%;
-        background-position-x: 100%;
-      }
-      .bannerContainer.modalContainer {
-        position: relative;
-        background: transparent;
-        box-sizing: content-box;
-        margin: 0 4vw 0 11vw;
-        padding: 0;
-        width: 85vw;
-        max-width: 96%;
-        height: 95vh;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-      }
-      .modalContainer {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        z-index: 22;
-        height: auto;
-        width: 45vw;
-        max-width: 820px;
-        top: 50%;
-        transform: translateY(-50%);
-        /* box-shadow: 0 0 10px #fff; */
-        margin: 0 auto;
-        padding: 30px 62px;
-        background-color: #fff;
-        text-align: center;
-        justify-content: space-between;
-      }
-      .bannerTextContainer {
-        width: 55%;
-        display: flex;
-        flex-direction: column;
-        align-self: center;
-      }
-      .modalTextContainer {
-        display: flex;
-        flex-direction: column;
-        align-self: center;
-        width: 45vw;
-      }
-      .customScrollbar::-webkit-scrollbar {
-        width: 6px;
-        background-color: transparent;
-      }
-      h3 {
-        display: block;
-        font-size: 1.17em;
-        margin-block-start: 1em;
-        margin-block-end: 1em;
-        margin-inline-start: 0px;
-        margin-inline-end: 0px;
-        font-weight: bold;
-      }
-      .bannerHeader {
-        font-family: 'Roboto';
-        font-style: normal;
-        color: #fff;
-        font-size: 2rem;
-        font-weight: 500;
-        line-height: 100%;
-        text-align: start;
-        margin: 0 0 4%;
-      }
-
-      .modalHeader {
-        font-style: normal;
-        font-weight: 600;
-        font-size: 40px;
-        line-height: 120%;
-        margin-bottom: 10px;
-      }
-      bannerDescription {
-        font-size: 20px;
-        margin-bottom: 1.5em;
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
-        color: white;
-        text-align: left;
-        position: relative;
-      }
-      .bannerButtons {
-        margin-top: clamp(0.5em, 2vw, 2em);
-        text-align: left;
-      }
-
-      button {
-        cursor: pointer;
-        border: none;
-      }
-      .bannerOk {
-        background: #d02430;
-        font-weight: 400;
-        cursor: pointer;
-        border-radius: 8px;
-        position: relative;
-        color: #ffffff;
-        padding: 1vw 2vw;
-        width: fit-content;
-      }
-      .bannerOk:hover {
-        background: #821713;
-        transition: 0.4s all;
-      }
-      .open {
-        visibility: visible;
-        opacity: 1;
-        transition: visibility 0s linear 0.1s, opacity 0.3s ease;
-      }
-      .bannerDescription.modalText {
-        color: white;
-        margin-bottom: 1em;
-        text-align: left;
-        position: relative;
-      }
-
-      .modalText.rules {
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 700;
-      }
-
-      #head {
-        font-size: clamp(1rem, 2.5vw, 3rem);
-        font-weight: 700;
-        line-height: 100%;
-        letter-spacing: 0em;
-        margin-bottom: 0.5em;
-      }
-      #first {
-        margin-top: 0.5em !important;
-        font-size: clamp(0.45rem, 1vw, 1rem);
-        line-height: 150%;
-        font-weight: 400;
-        letter-spacing: 0em;
-        margin-bottom: 0.1em;
-      }
-
-      #second {
-        margin-top: 0.5em !important;
-        font-size: clamp(0.45rem, 1vw, 1rem);
-        line-height: 150%;
-        font-weight: 400;
-        letter-spacing: 0em;
-        margin-bottom: 0.1em;
-      }
-      #third {
-        margin-top: 0.5em !important;
-        font-size: clamp(0.45rem, 1vw, 1rem);
-        font-weight: 400;
-        line-height: 150%;
-        letter-spacing: 0em;
-        margin-bottom: 0.5em;
-      }
-
-      #desc {
-        font-size: clamp(0.45rem, 1vw, 1rem);
-        font-weight: 700;
-        line-height: 150%;
-        letter-spacing: 0.07em;
-        margin-bottom: 0px;
-      }
-
-      #btn {
-        font-size: clamp(0.4rem, 1vw, 0.8rem);
-        margin-top: 0.1em;
       }
 
       .bearOff {
@@ -588,10 +210,63 @@
         display: none;
       }
 
-      @media only screen and (max-width< 1000px) {
-        .bannerContainer .modalContainer .start-img {
-          max-width: 81%;
-          max-height: 75%;
+      @media screen and (min-width: 1700px) {
+        .banner__text-button {
+          font-size: 20px;
+        }
+
+        .banner__text-description {
+          font-size: 20px;
+        }
+
+        .banner__text-rules {
+          font-size: 24px;
+        }
+      }
+
+      @media screen and (max-width: 1440px) {
+        .banner__text-title {
+          width: 100%;
+          font-size: 3rem;
+          margin-bottom: 4px;
+        }
+      }
+
+      @media screen and (max-width: 1000px) {
+        .banner__text {
+          width: 60%;
+        }
+
+        .banner {
+          max-width: 650px;
+        }
+
+        .banner__text-title {
+          width: 100%;
+          font-size: 32px;
+          margin-bottom: 4px;
+        }
+
+        .banner__text-description :first-child {
+          margin-top: 12px !important;
+          font-size: 9px;
+        }
+
+        .banner__text-description {
+          margin-top: 12px !important;
+          font-size: 9px;
+        }
+
+        .banner__text-rules {
+          margin-top: 12px;
+          font-size: 9px;
+        }
+
+        .banner__text-button {
+          padding: 9.4px 18px;
+          font-size: 9px;
+          margin-top: 22px;
+          line-height: 0px;
         }
       }
     </style>
@@ -601,7 +276,35 @@
       <span class="loader"></span>
     </div>
 
-    <div class="bannerContent" id="gameBanner">
+    <div class="banner" id="gameBanner">
+      <div class="banner__text">
+        <h1 class="banner__text-title">Отгрузи нефть на танкер</h1>
+        <p class="banner__text-description">
+          «Приразломная» – единственная платформа на российском шельфе, отгружающая нефть сразу на
+          танкер. За безопасность процесса отвечают два комплекса устройств прямой отгрузки – КУПОН.
+        </p>
+        <p class="banner__text-description">
+          Передача нефти начинается только при единовременном соблюдении 30 условий, а на полную
+          остановку процесса требуется всего 7 секунд!
+        </p>
+        <p class="banner__text-description">Ну что, начинаем отгрузку?!</p>
+        <p class="banner__text-rules">
+          Управляй танкером, избегай льдин и швартуйся в зоне отгрузки. Для швартовки пройди три
+          зоны: 1000, 500 и 80 метров. Зафиксируй танкер в нужной отметке, получи разрешение на
+          дальнейшее движение. Для игры используй стрелки: ↑ ↓
+        </p>
+        <button class="banner__text-button" id="btn">отгрузить</button>
+      </div>
+      <div class="banner__image">
+        <img src="./assets/img/backgrounds/bg_img_desc.svg" alt="noimage" />
+      </div>
+    </div>
+
+    <div id="game"></div>
+  </body>
+</html>
+
+<!-- <div class="bannerContent" id="gameBanner">
       <div class="bannerContainer modalContainer">
         <div class="bannerTextContainer modalTextContainer customScrollbar" style="color: white">
           <h3 class="bannerHeader modalHeader" id="head">Отгрузи нефть на танкер</h3>
@@ -633,8 +336,271 @@
           />
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div id="game"></div>
-  </body>
-</html>
+<!-- 
+.bannerContainer.modalContainer .start-img {
+  max-height: 90%;
+  max-width: 96%;
+  display: block;
+  margin: 3% 0 0 auto;
+}
+
+.bannerImgContainer {
+  width: 40%;
+  align-self: flex-start;
+  height: 100%;
+  padding-top: 5vw;
+  margin-bottom: 1rem;
+}
+.textContainer {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.max-w {
+  margin: auto;
+  width: 100%;
+  max-width: 1750px;
+  max-height: 950px;
+  left: 0;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+}
+.open {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0.1s, opacity 0.3s ease;
+}
+.banner {
+  z-index: 200;
+}
+.bannerContent {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(#01417a, #0092d2);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: 100%;
+  background-position-x: 100%;
+}
+.bannerContainer.modalContainer {
+  position: relative;
+  background: transparent;
+  box-sizing: content-box;
+  margin: 0 4vw 0 11vw;
+  padding: 0;
+  width: 85vw;
+  max-width: 96%;
+  height: 95vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.modalContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 22;
+  height: auto;
+  width: 45vw;
+  max-width: 820px;
+  top: 50%;
+  transform: translateY(-50%);
+  /* box-shadow: 0 0 10px #fff; */
+  margin: 0 auto;
+  padding: 30px 62px;
+  background-color: #fff;
+  text-align: center;
+  justify-content: space-between;
+}
+.bannerTextContainer {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+.modalTextContainer {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 45vw;
+}
+.customScrollbar::-webkit-scrollbar {
+  width: 6px;
+  background-color: transparent;
+}
+h3 {
+  display: block;
+  font-size: 1.17em;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+.bannerHeader {
+  font-style: normal;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 110%;
+  text-align: start;
+  margin: 0 0 4%;
+  width: 70%;
+}
+
+.modalHeader {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 120%;
+  margin-bottom: 10px;
+}
+
+.bannerDescription {
+  font-size: 1rem;
+  margin-bottom: 1.5em;
+  font-style: normal;
+  font-weight: 400;
+  color: white;
+  text-align: left;
+  position: relative;
+}
+.bannerButtons {
+  margin-top: clamp(0.5em, 2vw, 2em);
+  text-align: left;
+}
+
+.bannerOk {
+  background: #d02430;
+  font-weight: 400;
+  cursor: pointer;
+  border-radius: 8px;
+  position: relative;
+  color: #ffffff;
+  padding: 1vw 2vw;
+  width: fit-content;
+}
+.bannerOk:hover {
+  background: #821713;
+  transition: 0.4s all;
+}
+.open {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0.1s, opacity 0.3s ease;
+}
+.bannerDescription.modalText {
+  color: white;
+  margin-bottom: 1em;
+  text-align: left;
+  position: relative;
+}
+
+.modalText.rules {
+  font-style: normal;
+  font-weight: 700;
+}
+
+#head {
+  font-size: clamp(1rem, 2.5vw, 3rem);
+  font-weight: 700;
+  line-height: 100%;
+  letter-spacing: 0em;
+  margin-bottom: 0.5em;
+}
+#first {
+  margin-top: 0.5em !important;
+  font-size: clamp(0.45rem, 1vw, 1rem);
+  line-height: 150%;
+  font-weight: 400;
+  letter-spacing: 0em;
+  margin-bottom: 0.1em;
+}
+
+#second {
+  margin-top: 0.5em !important;
+  font-size: clamp(0.45rem, 1vw, 1rem);
+  line-height: 150%;
+  font-weight: 400;
+  letter-spacing: 0em;
+  margin-bottom: 0.1em;
+}
+#third {
+  margin-top: 0.5em !important;
+  font-size: clamp(0.45rem, 1vw, 1rem);
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: 0em;
+  margin-bottom: 0.5em;
+}
+
+#desc {
+  font-size: clamp(0.45rem, 1vw, 1rem);
+  font-weight: 700;
+  line-height: 150%;
+  letter-spacing: 0.07em;
+  margin-bottom: 0px;
+}
+
+#btn {
+  font-size: clamp(0.4rem, 1vw, 0.8rem);
+  margin-top: 0.1em;
+}
+
+@media only screen and (max-width< 1000px) {
+  .bannerContainer .modalContainer .start-img {
+    max-width: 81%;
+    max-height: 75%;
+  }
+}
+
+/* new styles */
+
+.start-button {
+  margin-top: 5%;
+  cursor: pointer;
+  background-color: #d02430;
+  border-radius: 8px;
+  position: relative;
+  z-index: 100000;
+  color: #ffffff;
+  font-size: 0.9rem;
+  padding: 1vw 2vw;
+  width: fit-content;
+}
+
+.start-button:hover {
+  background-color: #821713;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+
+.banner__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner__box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+} -->

@@ -22,6 +22,12 @@
         overflow: hidden;
       }
 
+      @media only screen and (min-width: 1200px) {
+        html {
+          font-size: calc(18px + 0.12vw + 0.12vh);
+        }
+      }
+
       #game {
         position: absolute;
         top: 0;
@@ -150,38 +156,49 @@
       }
 
       .banner__text-title {
-        font-weight: 500;
-        font-size: 3rem;
-        line-height: 100%;
         margin-bottom: 32px;
+        margin: 0 0 1% 0;
+        font-size: 2rem;
+        font-weight: 500;
+        line-height: 110%;
+        color: white;
+        font-family: 'Roboto';
+        width: 70%;
       }
 
       .banner__text-description {
-        margin-top: 20px;
-        font-weight: 400;
+        margin: 0;
         font-size: 0.9rem;
+        font-weight: 400;
+        left: 7%;
+        font-family: 'Roboto';
         line-height: 140%;
+        margin-top: 3% !important;
       }
 
       .banner__text-rules {
-        margin-top: 20px;
+        margin: 0;
+        font-size: 0.9rem;
         font-weight: 700;
-        font-size: 1rem;
+        font-style: bold;
+        left: 7%;
+        font-family: 'Roboto';
         line-height: 140%;
-        font-variant: small-caps;
+        margin-top: 3% !important;
       }
 
       .banner__text-button {
-        margin-top: 4%;
-        outline: none;
         border: none;
-        padding: 1vw 2vw;
-        background: #d02430;
-        color: white;
+        margin-top: 4%;
+        cursor: pointer;
+        background-color: #d02430;
         border-radius: 8px;
-        font-weight: 500;
+        position: relative;
+        z-index: 100000;
+        color: #ffffff;
         font-size: 0.9rem;
-        line-height: 23px;
+        padding: 1vw 2vw;
+        width: fit-content;
         text-transform: uppercase;
       }
 
@@ -210,63 +227,15 @@
         display: none;
       }
 
-      @media screen and (min-width: 1700px) {
-        .banner__text-button {
-          font-size: 20px;
-        }
-
-        .banner__text-description {
-          font-size: 20px;
-        }
-
-        .banner__text-rules {
-          font-size: 24px;
-        }
-      }
-
-      @media screen and (max-width: 1440px) {
-        .banner__text-title {
-          width: 100%;
-          font-size: 3rem;
-          margin-bottom: 4px;
-        }
-      }
-
-      @media screen and (max-width: 1000px) {
-        .banner__text {
-          width: 60%;
+      @media only screen and (max-width: 1000px) {
+        html {
+          font-size: 9px;
         }
 
         .banner {
+          margin: 0 auto;
+          width: 94vw;
           max-width: 650px;
-        }
-
-        .banner__text-title {
-          width: 100%;
-          font-size: 32px;
-          margin-bottom: 4px;
-        }
-
-        .banner__text-description :first-child {
-          margin-top: 12px !important;
-          font-size: 9px;
-        }
-
-        .banner__text-description {
-          margin-top: 12px !important;
-          font-size: 9px;
-        }
-
-        .banner__text-rules {
-          margin-top: 12px;
-          font-size: 9px;
-        }
-
-        .banner__text-button {
-          padding: 9.4px 18px;
-          font-size: 9px;
-          margin-top: 22px;
-          line-height: 0px;
         }
       }
     </style>

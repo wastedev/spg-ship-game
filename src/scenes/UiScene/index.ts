@@ -51,25 +51,46 @@ export class UiScene extends Scene {
   }
 
   public initStatBar(): void {
+    let scaleCaseValueStats = 1;
+
+    // if (window.game.scale.width >= 1800) {
+    //   scaleCaseValueStats = 1;
+    // } else if (window.game.scale.width <= 1500) {
+    //   scaleCaseValueStats = 0.9;
+    // } else if (window.game.scale.width <= 1000) {
+    //   scaleCaseValueStats = 0.75;
+    // } else {
+    //   scaleCaseValueStats = 0.6;
+    // }
     //HEALTH
 
     //OIL
     this.oilScore = this.add.image(0, 0, 'oilScore');
     this.oilScore.setOrigin(0.5);
+
+    ///setscale
+    this.oilScore.setScale(scaleCaseValueStats);
+    ///
     this.scoreText = this.add.text(this.oilScore.x + 10, this.oilScore.y, this.oil.toString(), {
       fontFamily: 'Arial',
       fontSize: '25px',
       color: '#0F6894',
     });
 
+    //position of oil stat
     this.oilScore.setPosition(
-      window.game.scale.width - 200 - this.oilScore.width / 2,
+      window.game.scale.width - window.game.scale.width * 0.1 - this.oilScore.width / 2,
       window.game.scale.height / 8.9,
     );
+    //settext
     this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
 
     this.healthScore = this.add.image(0, 0, 'healthScore');
     this.healthScore.setOrigin(0.5);
+
+    ///setscale
+    this.healthScore.setScale(scaleCaseValueStats);
+    ///
     this.healthScore.setPosition(
       this.oilScore.x - this.oilScore.width / 1.15,
       window.game.scale.height / 8.9,
@@ -118,7 +139,10 @@ export class UiScene extends Scene {
         this.soundOnBtn.setScale(0.8);
       });
     this.soundOnBtn.scale = 0.8;
-    this.soundOnBtn.setPosition(200 + this.soundOnBtn.width / 2, window.game.scale.height / 8.9);
+    this.soundOnBtn.setPosition(
+      window.game.scale.width * 0.1 + this.soundOnBtn.width / 2,
+      window.game.scale.height / 8.9,
+    );
 
     this.soundOffBtn = this.add
       .image(this.soundOnBtn.x, this.soundOnBtn.y, 'soundOff')
@@ -383,7 +407,10 @@ export class UiScene extends Scene {
         this.scoreText.setFontSize((scoreSize += 0.099));
         if (this.oil === 80) {
           setTimeout(() => {
-            this.oilScore.setPosition(this.healthScore.x + 150, 110);
+            this.oilScore.setPosition(
+              window.game.scale.width - window.game.scale.width * 0.1 - this.oilScore.width / 2,
+              window.game.scale.height / 8.9,
+            );
             this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
             this.oilScore.scale = 1;
             this.scoreText.setFontSize(25);

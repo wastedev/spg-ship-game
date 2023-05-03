@@ -50,9 +50,98 @@ export class UiScene extends Scene {
     }
   }
 
+  public initStatBar(): void {
+    //HEALTH
+
+    //OIL
+    this.oilScore = this.add.image(0, 0, 'oilScore');
+    this.oilScore.setOrigin(0.5);
+    this.scoreText = this.add.text(this.oilScore.x + 10, this.oilScore.y, this.oil.toString(), {
+      fontFamily: 'Arial',
+      fontSize: '25px',
+      color: '#0F6894',
+    });
+
+    this.oilScore.setPosition(
+      window.game.scale.width - 200 - this.oilScore.width / 2,
+      window.game.scale.height / 8.9,
+    );
+    this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
+
+    this.healthScore = this.add.image(0, 0, 'healthScore');
+    this.healthScore.setOrigin(0.5);
+    this.healthScore.setPosition(
+      this.oilScore.x - this.oilScore.width / 1.15,
+      window.game.scale.height / 8.9,
+    );
+
+    this.healthText = this.add.text(
+      this.healthScore.x + 10,
+      this.healthScore.y,
+      this.health.toString(),
+      {
+        fontFamily: 'Arial',
+        fontSize: '25px',
+        color: '#0F6894',
+      },
+    );
+
+    //SOME SETTINGS
+    this.healthText.setOrigin(0.6);
+    this.scoreText.setOrigin(0.6);
+
+    this.initSoundBtn();
+    this.initPause();
+  }
+
+  private initSoundBtn(): void {
+    this.backgroundSound = this.sound.add('background');
+    const musicConfig: Types.Sound.SoundConfig = {
+      volume: 0.5,
+      loop: true,
+    };
+    this.backgroundSound.play(musicConfig);
+
+    this.soundOnBtn = this.add
+      .image(0, 0, 'soundOn')
+      .setScrollFactor(0)
+      .setInteractive({ cursor: 'pointer' })
+      .on('pointerup', () => {
+        this.soundOnBtn.visible = false;
+        this.soundOffBtn.visible = true;
+        window.game.sound.stopAll();
+      })
+      .on('pointerover', () => {
+        this.soundOnBtn.setScale(0.9);
+      })
+      .on('pointerout', () => {
+        this.soundOnBtn.setScale(0.8);
+      });
+    this.soundOnBtn.scale = 0.8;
+    this.soundOnBtn.setPosition(200 + this.soundOnBtn.width / 2, window.game.scale.height / 8.9);
+
+    this.soundOffBtn = this.add
+      .image(this.soundOnBtn.x, this.soundOnBtn.y, 'soundOff')
+      .setScrollFactor(0)
+      .setInteractive({ cursor: 'pointer' })
+      .on('pointerup', () => {
+        this.soundOnBtn.visible = true;
+        this.soundOffBtn.visible = false;
+        this.backgroundSound.play(musicConfig);
+      })
+      .on('pointerover', () => {
+        this.soundOffBtn.setScale(0.9);
+      })
+      .on('pointerout', () => {
+        this.soundOffBtn.setScale(0.8);
+      });
+    this.soundOffBtn.scale = 0.8;
+    this.soundOffBtn.visible = false;
+  }
+
   private initPause(): void {
     this.pauseGame = this.add
-      .image(window.game.scale.width - 250, 110, 'pauseGame')
+      .image(0, 0, 'pauseGame')
       .on('pointerdown', () => {
         window.game.scene.pause(this.activeScene);
         this.pauseGame.visible = false;
@@ -67,9 +156,13 @@ export class UiScene extends Scene {
         this.pauseGame.setScale(0.9);
       });
     this.pauseGame.scale = 0.8;
-    this.pauseGame.setPosition(window.game.scale.width - 200 - this.pauseGame.width / 2, 110);
+    this.pauseGame.setPosition(
+      this.soundOnBtn.x + this.soundOnBtn.width / 1.5,
+      window.game.scale.height / 8.9,
+    );
     this.pauseGame.setOrigin(0.5);
 
+    //.image(this.pauseGame.x, this.pauseGame.y, 'continueGame')
     this.continueGame = this.add
       .image(this.pauseGame.x, this.pauseGame.y, 'continueGame')
       .on('pointerdown', () => {
@@ -109,38 +202,6 @@ export class UiScene extends Scene {
     this.popupBG.setAlpha(0.7);
     this.oil = 0;
     this.health = 3;
-
-    this.healthScore = this.add.image(200, 110, 'healthScore');
-    this.healthScore.setOrigin(0.5);
-    this.healthScore.setPosition(200 + this.healthScore.width / 4, 110);
-
-    this.healthText = this.add.text(
-      this.healthScore.x + 10,
-      this.healthScore.y,
-      this.health.toString(),
-      {
-        fontFamily: 'Arial',
-        fontSize: '25px',
-        color: '#0F6894',
-      },
-    );
-
-    this.oilScore = this.add.image(
-      this.healthScore.x + this.healthScore.width / 2 - 8,
-      110,
-      'oilScore',
-    );
-    this.oilScore.setOrigin(0.5);
-    this.scoreText = this.add.text(this.oilScore.x + 10, this.oilScore.y, this.oil.toString(), {
-      fontFamily: 'Arial',
-      fontSize: '25px',
-      color: '#0F6894',
-    });
-
-    this.oilScore.setPosition(this.healthScore.x + 150, 110);
-    this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
-    this.healthText.setOrigin(0.6);
-    this.scoreText.setOrigin(0.6);
 
     this.rightButton = this.add
       .image(
@@ -184,48 +245,11 @@ export class UiScene extends Scene {
         player.updateByTarget(Direction.None);
       });
 
-    this.backgroundSound = this.sound.add('background');
-    const musicConfig: Types.Sound.SoundConfig = {
-      volume: 0.5,
-      loop: true,
-    };
-    this.backgroundSound.play(musicConfig);
+    this.initStatBar();
+  }
 
-    this.initPause();
-
-    this.soundOnBtn = this.add
-      .image(this.pauseGame.x - 70, this.pauseGame.y, 'soundOn')
-      .setScrollFactor(0)
-      .setInteractive({ cursor: 'pointer' })
-      .on('pointerup', () => {
-        this.soundOnBtn.visible = false;
-        this.soundOffBtn.visible = true;
-        window.game.sound.stopAll();
-      })
-      .on('pointerover', () => {
-        this.soundOnBtn.setScale(0.9);
-      })
-      .on('pointerout', () => {
-        this.soundOnBtn.setScale(0.8);
-      });
-    this.soundOnBtn.scale = 0.8;
-    this.soundOffBtn = this.add
-      .image(this.soundOnBtn.x, this.soundOnBtn.y, 'soundOff')
-      .setScrollFactor(0)
-      .setInteractive({ cursor: 'pointer' })
-      .on('pointerup', () => {
-        this.soundOnBtn.visible = true;
-        this.soundOffBtn.visible = false;
-        this.backgroundSound.play(musicConfig);
-      })
-      .on('pointerover', () => {
-        this.soundOffBtn.setScale(0.9);
-      })
-      .on('pointerout', () => {
-        this.soundOffBtn.setScale(0.8);
-      });
-    this.soundOffBtn.scale = 0.8;
-    this.soundOffBtn.visible = false;
+  public updateStatsBar(): void {
+    console.log(window.game.scale.width, window.game.scale.height);
   }
 
   public hideButtons(): void {
@@ -386,6 +410,7 @@ export class UiScene extends Scene {
   update(): void {
     this.healthText.setText(this.health.toString());
     this.scoreText.setText(this.oil.toString());
+    this.updateStatsBar();
   }
 
   protected getPlayer(): TopScene | DockingScene {

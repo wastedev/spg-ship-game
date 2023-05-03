@@ -143,8 +143,8 @@
         align-items: center;
         justify-content: space-between;
         padding-top: 6vw;
-        width: 100%;
-        height: 100%;
+        width: 85vw;
+        height: 95vh;
         max-width: 1650px;
         z-index: 200;
       }
@@ -232,10 +232,34 @@
           font-size: 9px;
         }
 
+        .banner__image {
+          width: 50%;
+        }
+
+        .banner__image img {
+          width: 80%;
+        }
+
+        .banner__text-title {
+          width: 100%;
+        }
+
         .banner {
           margin: 0 auto;
           width: 94vw;
           max-width: 650px;
+        }
+      }
+
+      @media screen and (min-width: 1700px) {
+        .banner__text-title {
+          font-size: 3rem;
+        }
+
+        .banner {
+          width: 1550px;
+          margin: auto;
+          padding-left: 5%;
         }
       }
     </style>

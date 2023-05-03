@@ -248,9 +248,7 @@ export class UiScene extends Scene {
     this.initStatBar();
   }
 
-  public updateStatsBar(): void {
-    console.log(window.game.scale.width, window.game.scale.height);
-  }
+  public updateStatsBar(): void {}
 
   public hideButtons(): void {
     this.leftButton.visible = false;

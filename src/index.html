@@ -4,13 +4,16 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
       html,
       body {
-        font-family: 'Roboto' !important;
+        font-family: 'Roboto', sans-serif;
         color: white;
         margin: 0;
         padding: 0;
@@ -26,14 +29,10 @@
         html {
           font-size: calc(18px + 0.12vw + 0.12vh);
         }
-      }
 
-      #game {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
+        .banner {
+          padding-top: 5.7vw;
+        }
       }
 
       /* loader */
@@ -68,6 +67,7 @@
           50% 45px;
         animation: faceLift 1.5s linear infinite alternate;
       }
+
       .loader:before {
         content: '';
         position: absolute;
@@ -91,6 +91,7 @@
           transform: translateX(-30%);
         }
       }
+
       @keyframes earLift {
         0% {
           transform: translateX(10px);
@@ -142,17 +143,17 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding-top: 6vw;
+        padding-top: 5.6vw;
         width: 85vw;
         height: 95vh;
-        max-width: 1650px;
+        margin: 0 4vw 0 11vw;
         z-index: 200;
       }
 
       .banner__text {
         height: 100%;
         width: 60%;
-        padding-left: 5%;
+        /* padding-left: 5%; */
       }
 
       .banner__text-title {
@@ -162,7 +163,7 @@
         font-weight: 500;
         line-height: 110%;
         color: white;
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         width: 70%;
       }
 
@@ -171,7 +172,7 @@
         font-size: 0.9rem;
         font-weight: 400;
         left: 7%;
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         line-height: 140%;
         margin-top: 3% !important;
       }
@@ -182,7 +183,7 @@
         font-weight: 700;
         font-style: bold;
         left: 7%;
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         line-height: 140%;
         margin-top: 3% !important;
       }
@@ -216,10 +217,10 @@
       }
 
       .banner__image img {
-        max-height: 90%;
+        max-height: 92%;
         max-width: 96%;
         display: block;
-        margin: 3% 0 0 auto;
+        margin: 0 0 0 7%;
       }
 
       .bearOff {
@@ -227,9 +228,37 @@
         display: none;
       }
 
+      @media only screen and (max-height: 700px) {
+        .banner__image img {
+          margin: 1% 0 0 auto;
+        }
+      }
+
+      @media only screen and (max-width: 1600px) {
+        .banner {
+          padding-top: 6.5vw;
+        }
+      }
+
+      @media only screen and (max-width: 1366px) {
+        .banner {
+          padding-top: 6.5vw;
+        }
+      }
+
+      @media only screen and (max-width: 1280px) {
+        .banner {
+          padding-top: 6.5vw;
+        }
+      }
+
       @media only screen and (max-width: 1000px) {
         html {
           font-size: 9px;
+        }
+
+        #first {
+          margin-top: 3% !important;
         }
 
         .banner__image {
@@ -237,7 +266,7 @@
         }
 
         .banner__image img {
-          width: 80%;
+          margin: 1% 0 0 auto;
         }
 
         .banner__text-title {
@@ -245,9 +274,14 @@
         }
 
         .banner {
+          padding-top: 6vw;
           margin: 0 auto;
           width: 94vw;
           max-width: 650px;
+        }
+
+        .banner__text {
+          padding: 0px;
         }
       }
 
@@ -257,22 +291,47 @@
         }
 
         .banner {
-          width: 1550px;
+          width: 1650px;
           margin: auto;
           padding-left: 5%;
         }
+
+        .html {
+          font-size: 20px;
+        }
       }
+
+      #first {
+        margin-top: 2% !important;
+      }
+
+      #game {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+
+      /* @media screen and (min-width: 1800px) {
+        .banner__text {
+          padding-left: 5%;
+        }
+
+        .banner {
+          padding-left: 5%;
+        }
+      } */
     </style>
   </head>
   <body>
     <div id="ferretVideoWaitlay" class="bearOff">
       <span class="loader"></span>
     </div>
-
     <div class="banner" id="gameBanner">
       <div class="banner__text">
         <h1 class="banner__text-title">Отгрузи нефть на танкер</h1>
-        <p class="banner__text-description">
+        <p class="banner__text-description" id="first">
           «Приразломная» – единственная платформа на российском шельфе, отгружающая нефть сразу на
           танкер. За безопасность процесса отвечают два комплекса устройств прямой отгрузки – КУПОН.
         </p>
@@ -298,7 +357,7 @@
 </html>
 
 <!-- <div class="bannerContent" id="gameBanner">
-      <div class="bannerContainer modalContainer">
+    <div class="bannerContainer modalContainer">
         <div class="bannerTextContainer modalTextContainer customScrollbar" style="color: white">
           <h3 class="bannerHeader modalHeader" id="head">Отгрузи нефть на танкер</h3>
           <p class="bannerDescription modalText" id="first">

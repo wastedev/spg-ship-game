@@ -649,6 +649,10 @@ export class UiScene extends Scene {
   }
 
   public oilLoading(): void {
+    let scaleValue = this.checkInfoBarScale();
+    let marginRight = this.checkMarginRight(scaleValue);
+    let marginTop = this.checkMarginTopStats(scaleValue);
+
     this.oilScore.setPosition(window.game.scale.width / 2, window.game.scale.height / 2);
     this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
     let scoreSize = 25;
@@ -661,12 +665,14 @@ export class UiScene extends Scene {
         if (this.oil === 80) {
           setTimeout(() => {
             this.oilScore.setPosition(
-              window.game.scale.width - window.game.scale.width * 0.1 - this.oilScore.width / 2,
-              window.game.scale.height / 8.9,
+              window.game.scale.width -
+                window.game.scale.width * marginRight -
+                this.oilScore.width / 2,
+              window.game.scale.height / marginTop,
             );
             this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
-            this.oilScore.scale = 1;
-            this.scoreText.setFontSize(25);
+            this.oilScore.scale = scaleValue;
+            this.checkFont(scaleValue, this.scoreText);
             this.endGameEvent();
           }, 500);
         }

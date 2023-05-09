@@ -102,17 +102,6 @@ export class BannerScene extends Scene {
         });
       this.bannerStartButton.setDisplaySize(width / 4, height / 6);
       this.bannerStartButton.setOrigin(-0.35);
-      //fix start button on mobile version of the game!!!
     }
-
-    ///////////
-
-    // this.animation = this.add.sprite(
-    //   window.game.scale.width / 2,
-    //   window.game.scale.height / 2,
-    //   'sprIceberg-1',
-    // );
-    // this.animation.setScale(2);
-    // this.animation.play('icebergAnimation-2');
   }
 }

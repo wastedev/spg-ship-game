@@ -3,6 +3,8 @@ import { GameObjects, Scene, Types } from 'phaser';
 import { TopScene } from '../TopScene';
 import { DockingScene } from '../DockingScene';
 import { SCENE_HEALTH, FIRST_SCENE, SECOND_SCENE } from '../../helpers/index';
+import { IS_MOBILE } from '../../constants/index';
+import { CLIENT_RENEG_LIMIT } from 'tls';
 export class UiScene extends Scene {
   private leftButton!: GameObjects.Image;
   private rightButton!: GameObjects.Image;
@@ -50,26 +52,133 @@ export class UiScene extends Scene {
     }
   }
 
+  public checkInfoBarScale(): number {
+    const width = window.game.scale.width;
+    let scaleValue = 0;
+
+    if (!IS_MOBILE) {
+      if (width <= 1920 && width >= 1600) {
+        scaleValue = 1.07;
+      }
+      if (width <= 1600 && width >= 1366) {
+        scaleValue = 0.875;
+      }
+      if (width <= 1366 && width >= 1280) {
+        scaleValue = 0.75;
+      }
+      if (width <= 1280) {
+        scaleValue = 0.68;
+      }
+    } else {
+      scaleValue = 1;
+    }
+
+    console.log('scalevalueforhealthandoil', scaleValue);
+    return scaleValue;
+  }
+
+  public checkMarginTopStats(scaleValue: number): number {
+    let marginTop = 0;
+    if (!IS_MOBILE) {
+      if (scaleValue === 1.07) {
+        marginTop = 8.6;
+      } else if (scaleValue === 0.875) {
+        //1600
+        marginTop = 9.2;
+      } else if (scaleValue === 0.75) {
+        //1366
+        marginTop = 9.1;
+      } else {
+        //1280
+        marginTop = 9.2;
+      }
+    } else {
+      marginTop = 8.9;
+    }
+    return marginTop;
+  }
+
+  public checkMarginRight(scaleValue: number): number {
+    let marginRight = 0;
+    if (!IS_MOBILE) {
+      if (scaleValue === 1.07) {
+        marginRight = 0.065;
+      } else if (scaleValue === 0.875) {
+        //1600
+        marginRight = 0.056;
+      } else if (scaleValue === 0.75) {
+        //1366
+        marginRight = 0.049;
+      } else {
+        //1280
+        marginRight = 0.044;
+      }
+    } else {
+      marginRight = 1.1;
+    }
+    return marginRight;
+  }
+
+  public checkFont(scaleValue: number, fontSize: GameObjects.Text): void {
+    let size = 0;
+    if (!IS_MOBILE) {
+      if (scaleValue === 1.07) {
+        size = 25;
+        fontSize.setFontSize(size);
+      } else if (scaleValue === 0.875) {
+        //1600
+        size = 19.2;
+        fontSize.setFontSize(size);
+      } else if (scaleValue === 0.75) {
+        //1366
+        size = 17;
+        fontSize.setFontSize(size);
+        fontSize.setFontStyle('bold');
+      } else {
+        //1280
+        size = 16.5;
+        fontSize.setFontSize(size);
+        fontSize.setFontStyle('bold');
+      }
+    } else {
+      size = 25;
+      fontSize.setFontSize(size);
+      fontSize.setFontStyle('bold');
+    }
+  }
+
+  public checkInfoSpaceBetween(scaleValue: number): number {
+    let spaceBetween = 0;
+    if (!IS_MOBILE) {
+      if (scaleValue === 1.07) {
+        spaceBetween = 1.1;
+      } else if (scaleValue === 0.875) {
+        //1600
+        spaceBetween = 1.3;
+      } else if (scaleValue === 0.75) {
+        //1366
+        spaceBetween = 1.5;
+      } else {
+        //1280
+        spaceBetween = 1.65;
+      }
+    } else {
+      spaceBetween = 1.15;
+    }
+    return spaceBetween;
+  }
+
   public initStatBar(): void {
-    let scaleCaseValueStats = 1;
-
-    // if (window.game.scale.width >= 1800) {
-    //   scaleCaseValueStats = 1;
-    // } else if (window.game.scale.width <= 1500) {
-    //   scaleCaseValueStats = 0.9;
-    // } else if (window.game.scale.width <= 1000) {
-    //   scaleCaseValueStats = 0.75;
-    // } else {
-    //   scaleCaseValueStats = 0.6;
-    // }
-    //HEALTH
-
+    let scaleValue = this.checkInfoBarScale();
+    let marginTop = this.checkMarginTopStats(scaleValue);
+    let marginRight = this.checkMarginRight(scaleValue);
+    let spaceBetween = this.checkInfoSpaceBetween(scaleValue);
     //OIL
     this.oilScore = this.add.image(0, 0, 'oilScore');
     this.oilScore.setOrigin(0.5);
 
     ///setscale
-    this.oilScore.setScale(scaleCaseValueStats);
+    this.oilScore.setScale(scaleValue);
     ///
     this.scoreText = this.add.text(this.oilScore.x + 10, this.oilScore.y, this.oil.toString(), {
       fontFamily: 'Arial',
@@ -77,10 +186,12 @@ export class UiScene extends Scene {
       color: '#0F6894',
     });
 
+    this.checkFont(scaleValue, this.scoreText);
+
     //position of oil stat
     this.oilScore.setPosition(
-      window.game.scale.width - window.game.scale.width * 0.1 - this.oilScore.width / 2,
-      window.game.scale.height / 8.9,
+      window.game.scale.width - window.game.scale.width * marginRight - this.oilScore.width / 2,
+      window.game.scale.height / marginTop,
     );
     //settext
     this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
@@ -89,11 +200,11 @@ export class UiScene extends Scene {
     this.healthScore.setOrigin(0.5);
 
     ///setscale
-    this.healthScore.setScale(scaleCaseValueStats);
+    this.healthScore.setScale(scaleValue);
     ///
     this.healthScore.setPosition(
-      this.oilScore.x - this.oilScore.width / 1.15,
-      window.game.scale.height / 8.9,
+      this.oilScore.x - this.oilScore.width / spaceBetween,
+      window.game.scale.height / marginTop,
     );
 
     this.healthText = this.add.text(
@@ -107,6 +218,8 @@ export class UiScene extends Scene {
       },
     );
 
+    this.checkFont(scaleValue, this.healthText);
+
     //SOME SETTINGS
     this.healthText.setOrigin(0.6);
     this.scoreText.setOrigin(0.6);
@@ -115,7 +228,105 @@ export class UiScene extends Scene {
     this.initPause();
   }
 
+  private checkScaleValue(): number {
+    const width = window.game.scale.width;
+    let scaleValue = 0;
+
+    if (!IS_MOBILE) {
+      if (width <= 1920 && width >= 1600) {
+        scaleValue = 0.9;
+      }
+      if (width <= 1600 && width >= 1366) {
+        scaleValue = 0.78;
+      }
+      if (width <= 1366 && width >= 1280) {
+        scaleValue = 0.66;
+      }
+      if (width <= 1280) {
+        scaleValue = 0.61;
+      }
+    } else {
+      scaleValue = 0.8;
+    }
+
+    return scaleValue;
+  }
+
+  private checkLeftMargin(scaleValue: number): number {
+    let marginLeft = 0;
+
+    if (!IS_MOBILE) {
+      if (scaleValue === 0.9) {
+        //fhd
+        marginLeft = 0.093;
+      } else if (scaleValue === 0.78) {
+        //1600
+        marginLeft = 0.089;
+      } else if (scaleValue === 0.66) {
+        //1366
+        marginLeft = 0.0837;
+      } else {
+        //1280
+        marginLeft = 0.08;
+      }
+    } else {
+      marginLeft = 0.1;
+    }
+
+    return marginLeft;
+  }
+
+  private checkMarginTop(scaleValue: number): number {
+    let marginTop = 0;
+    if (!IS_MOBILE) {
+      if (scaleValue === 0.9) {
+        marginTop = 8.8;
+      } else if (scaleValue === 0.78) {
+        //1600
+        marginTop = 9.2;
+      } else if (scaleValue === 0.66) {
+        //1366
+        marginTop = 9.2;
+      } else {
+        //1280
+        marginTop = 9.2;
+      }
+    } else {
+      marginTop = 8.9;
+    }
+    return marginTop;
+  }
+
+  private checkSpaceBetween(scaleValue: number): number {
+    let spaceBetween = 0;
+
+    if (!IS_MOBILE) {
+      if (scaleValue === 0.9) {
+        spaceBetween = 1.25;
+      } else if (scaleValue === 0.78) {
+        //1600
+        spaceBetween = 1.45;
+      } else if (scaleValue === 0.66) {
+        //1366
+        spaceBetween = 1.6;
+      } else {
+        //1280
+        spaceBetween = 1.8;
+      }
+    } else {
+      spaceBetween = 1.25;
+    }
+    return spaceBetween;
+  }
+
   private initSoundBtn(): void {
+    let scaleValue = this.checkScaleValue();
+    let marginLeft = this.checkLeftMargin(scaleValue);
+    let marginTop = this.checkMarginTop(scaleValue);
+
+    console.log('ml', marginLeft);
+    console.log('mt', marginTop);
+
     this.backgroundSound = this.sound.add('background');
     const musicConfig: Types.Sound.SoundConfig = {
       volume: 0.5,
@@ -131,17 +342,20 @@ export class UiScene extends Scene {
         this.soundOnBtn.visible = false;
         this.soundOffBtn.visible = true;
         window.game.sound.stopAll();
-      })
+      });
+
+    this.soundOnBtn.scale = scaleValue;
+    this.soundOnBtn
       .on('pointerover', () => {
-        this.soundOnBtn.setScale(0.9);
+        this.soundOnBtn.setScale((scaleValue += 0.1));
       })
       .on('pointerout', () => {
-        this.soundOnBtn.setScale(0.8);
+        this.soundOnBtn.setScale((scaleValue -= 0.1));
       });
-    this.soundOnBtn.scale = 0.8;
+
     this.soundOnBtn.setPosition(
-      window.game.scale.width * 0.1 + this.soundOnBtn.width / 2,
-      window.game.scale.height / 8.9,
+      window.game.scale.width * marginLeft + this.soundOnBtn.width / 2,
+      window.game.scale.height / marginTop,
     );
 
     this.soundOffBtn = this.add
@@ -152,18 +366,28 @@ export class UiScene extends Scene {
         this.soundOnBtn.visible = true;
         this.soundOffBtn.visible = false;
         this.backgroundSound.play(musicConfig);
-      })
+      });
+
+    this.soundOffBtn.scale = scaleValue;
+
+    this.soundOffBtn
       .on('pointerover', () => {
-        this.soundOffBtn.setScale(0.9);
+        this.soundOffBtn.setScale((scaleValue += 0.1));
       })
       .on('pointerout', () => {
-        this.soundOffBtn.setScale(0.8);
+        this.soundOffBtn.setScale((scaleValue -= 0.1));
       });
-    this.soundOffBtn.scale = 0.8;
+
     this.soundOffBtn.visible = false;
   }
 
   private initPause(): void {
+    let scaleValue = this.checkScaleValue();
+
+    let marginTop = this.checkMarginTop(scaleValue);
+
+    let spaceBetween = this.checkSpaceBetween(scaleValue);
+
     this.pauseGame = this.add
       .image(0, 0, 'pauseGame')
       .on('pointerdown', () => {
@@ -172,21 +396,24 @@ export class UiScene extends Scene {
         this.continueGame.visible = true;
       })
       .setInteractive({ cursor: 'pointer' })
-      .setScrollFactor(0)
+      .setScrollFactor(0);
+
+    this.pauseGame.scale = scaleValue;
+
+    this.pauseGame
       .on('pointerout', () => {
-        this.pauseGame.setScale(0.8);
+        this.pauseGame.setScale((scaleValue -= 0.1));
       })
       .on('pointerover', () => {
-        this.pauseGame.setScale(0.9);
+        this.pauseGame.setScale((scaleValue += 0.1));
       });
-    this.pauseGame.scale = 0.8;
+
     this.pauseGame.setPosition(
-      this.soundOnBtn.x + this.soundOnBtn.width / 1.5,
-      window.game.scale.height / 8.9,
+      this.soundOnBtn.x + this.soundOnBtn.width / spaceBetween,
+      window.game.scale.height / marginTop,
     );
     this.pauseGame.setOrigin(0.5);
 
-    //.image(this.pauseGame.x, this.pauseGame.y, 'continueGame')
     this.continueGame = this.add
       .image(this.pauseGame.x, this.pauseGame.y, 'continueGame')
       .on('pointerdown', () => {
@@ -195,15 +422,17 @@ export class UiScene extends Scene {
         this.pauseGame.visible = true;
       })
       .setInteractive({ cursor: 'pointer' })
-      .setScrollFactor(0)
+      .setScrollFactor(0);
+
+    this.continueGame.scale = scaleValue;
+    this.continueGame
       .on('pointerout', () => {
-        this.continueGame.setScale(0.8);
+        this.continueGame.setScale((scaleValue -= 0.1));
       })
       .on('pointerover', () => {
-        this.continueGame.setScale(0.9);
+        this.continueGame.setScale((scaleValue += 0.1));
       });
     this.continueGame.setOrigin(0.5);
-    this.continueGame.scale = 0.8;
     this.continueGame.visible = false;
   }
 
@@ -215,7 +444,33 @@ export class UiScene extends Scene {
     this.scene.run(this.activeScene);
   }
 
+  private checkMoveButtonScale(): number {
+    const width = window.game.scale.width;
+    let scaleValue = 0;
+
+    if (!IS_MOBILE) {
+      if (width <= 1920 && width >= 1600) {
+        scaleValue = 1;
+      }
+      if (width <= 1600 && width >= 1366) {
+        scaleValue = 0.75;
+      }
+      if (width <= 1366 && width >= 1280) {
+        scaleValue = 0.66;
+      }
+      if (width <= 1280) {
+        scaleValue = 0.63;
+      }
+    } else {
+      scaleValue = 1;
+    }
+
+    return scaleValue;
+  }
+
   create(): void {
+    let scaleValue = this.checkMoveButtonScale();
+
     this.popupBG = this.add.image(
       window.game.scale.width / 2,
       window.game.scale.height / 2,
@@ -247,6 +502,7 @@ export class UiScene extends Scene {
         const player: Player = this.getPlayer().player;
         player.updateByTarget(Direction.None);
       });
+    this.rightButton.scale = scaleValue;
 
     this.leftButton = this.add
       .image(
@@ -269,10 +525,10 @@ export class UiScene extends Scene {
         player.updateByTarget(Direction.None);
       });
 
+    this.leftButton.scale = scaleValue;
+
     this.initStatBar();
   }
-
-  public updateStatsBar(): void {}
 
   public hideButtons(): void {
     this.leftButton.visible = false;
@@ -435,7 +691,6 @@ export class UiScene extends Scene {
   update(): void {
     this.healthText.setText(this.health.toString());
     this.scoreText.setText(this.oil.toString());
-    this.updateStatsBar();
   }
 
   protected getPlayer(): TopScene | DockingScene {
@@ -448,80 +703,3 @@ export class UiScene extends Scene {
     }
   }
 }
-
-// public activateLoadButton(): void {
-//   this.loadOilButton.visible = true;
-//   this.loadOilButton.setInteractive().on('pointerup', () => {
-//     this.oilLoading();
-//   });
-// }
-
-// public restartGame(sceneNumber: number): void {
-//   this.hideUI();
-//   if (!this.restartValue) {
-//     this.restartValue = true;
-//     console.log('restart');
-//     if (sceneNumber === 1 || sceneNumber === 2) {
-//       this.restartGamePopup = this.add
-//         .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
-//         .setScrollFactor(0)
-//         .setInteractive()
-//         .on('pointerup', () => {
-//           console.log('work');
-//         });
-//     } else {
-//       this.restartValue = true;
-//       this.restartGamePopup = this.add
-//         .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
-//         .setScrollFactor(0)
-//         .setInteractive()
-//         .on('pointerup', () => {
-//           console.log('work');
-//           window.windowProxy.post({
-//             finishGame3: JSON.stringify({
-//               win: false,
-//               lose: true,
-//               crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
-//               aimTries: 5 - SCENE_HEALTH[SECOND_SCENE],
-//             }),
-//           });
-//         });
-//     }
-//   }
-// }
-
-//restart game with popup using ui scene
-// public restartGame(sceneNumber: number): void {
-//   this.hideUI();
-//   if (!this.restartValue) {
-//     this.restartValue = true;
-//     console.log('restart');
-//     if (sceneNumber === 1 || sceneNumber === 2) {
-//       this.restartGamePopup = this.add
-//         .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
-//         .setScrollFactor(0)
-//         .setInteractive()
-//         .on('pointerup', () => {
-//           console.log('work');
-
-//         });
-//     } else {
-//       this.restartValue = true;
-//       this.restartGamePopup = this.add
-//         .image(window.game.scale.width / 2, window.game.scale.height / 2, 'gameOverPopup')
-//         .setScrollFactor(0)
-//         .setInteractive()
-//         .on('pointerup', () => {
-//           console.log('work');
-//           window.windowProxy.post({
-//             finishGame3: JSON.stringify({
-//               win: false,
-//               lose: true,
-//               crashCount: 3 - SCENE_HEALTH[FIRST_SCENE],
-//               aimTries: 5 - SCENE_HEALTH[SECOND_SCENE],
-//             }),
-//           });
-//         });
-//     }
-//   }
-// }

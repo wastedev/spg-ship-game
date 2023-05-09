@@ -72,8 +72,6 @@ export class UiScene extends Scene {
     } else {
       scaleValue = 1;
     }
-
-    console.log(scaleValue, 'scale stats');
     return scaleValue;
   }
 
@@ -96,7 +94,6 @@ export class UiScene extends Scene {
       marginTop = 8.9;
     }
 
-    console.log(marginTop, 'mt statbar');
     return marginTop;
   }
 
@@ -119,7 +116,6 @@ export class UiScene extends Scene {
       marginRight = 0.065;
     }
 
-    console.log(marginRight, 'mr statbar');
     return marginRight;
   }
 

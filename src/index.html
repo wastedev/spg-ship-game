@@ -157,7 +157,6 @@
       }
 
       .banner__text-title {
-        margin-bottom: 32px;
         margin: 0 0 1% 0;
         font-size: 2rem;
         font-weight: 500;
@@ -217,10 +216,10 @@
       }
 
       .banner__image img {
-        max-height: 92%;
+        max-height: 90%;
         max-width: 96%;
         display: block;
-        margin: 0 0 0 7%;
+        margin: 0 0 0 auto;
       }
 
       .bearOff {
@@ -234,9 +233,40 @@
         }
       }
 
-      @media only screen and (max-width: 1600px) {
+      @media screen and (max-width: 1600px) {
         .banner {
           padding-top: 6.5vw;
+        }
+
+        .banner__image img {
+          margin: 1% 0 0 auto;
+        }
+
+        .banner__text-title {
+          font-size: 1.55rem;
+        }
+
+        .banner__text-description {
+          font-size: 0.69rem;
+        }
+
+        .banner__text-rules {
+          font-size: 0.69rem;
+        }
+
+        .banner__text-button {
+          font-size: 0.69rem;
+        }
+      }
+
+      @media only screen and (max-width: 1440px) {
+        .banner {
+          padding-top: 6.5vw;
+        }
+
+        .banner__image img {
+          max-height: 92%;
+          margin: 1% 0 0 auto;
         }
       }
 
@@ -271,6 +301,19 @@
 
         .banner__text-title {
           width: 100%;
+          font-size: 2rem;
+        }
+
+        .banner__text-description {
+          font-size: 0.9rem;
+        }
+
+        .banner__text-rules {
+          font-size: 0.9rem;
+        }
+
+        .banner__text-button {
+          font-size: 0.9rem;
         }
 
         .banner {
@@ -301,9 +344,9 @@
         }
       }
 
-      #first {
+      /* #first {
         margin-top: 2% !important;
-      }
+      } */
 
       #game {
         position: absolute;
@@ -348,7 +391,7 @@
         <button class="banner__text-button" id="btn">отгрузить</button>
       </div>
       <div class="banner__image">
-        <img src="./assets/img/backgrounds/bg_img_desc.svg" alt="noimage" />
+        <img src="./assets/img/backgrounds/game__banner.png" alt="noimage" />
       </div>
     </div>
 

@@ -73,7 +73,7 @@ export class UiScene extends Scene {
       scaleValue = 1;
     }
 
-    console.log('scalevalueforhealthandoil', scaleValue);
+    console.log(scaleValue, 'scale stats');
     return scaleValue;
   }
 
@@ -95,6 +95,8 @@ export class UiScene extends Scene {
     } else {
       marginTop = 8.9;
     }
+
+    console.log(marginTop, 'mt statbar');
     return marginTop;
   }
 
@@ -114,8 +116,10 @@ export class UiScene extends Scene {
         marginRight = 0.044;
       }
     } else {
-      marginRight = 1.1;
+      marginRight = 0.065;
     }
+
+    console.log(marginRight, 'mr statbar');
     return marginRight;
   }
 
@@ -323,9 +327,6 @@ export class UiScene extends Scene {
     let scaleValue = this.checkScaleValue();
     let marginLeft = this.checkLeftMargin(scaleValue);
     let marginTop = this.checkMarginTop(scaleValue);
-
-    console.log('ml', marginLeft);
-    console.log('mt', marginTop);
 
     this.backgroundSound = this.sound.add('background');
     const musicConfig: Types.Sound.SoundConfig = {

@@ -662,7 +662,7 @@ export class UiScene extends Scene {
         this.oil += 1;
         this.oilScore.scale += 0.005;
         this.scoreText.setFontSize((scoreSize += 0.099));
-        if (this.oil === 80) {
+        if (this.oil === 70) {
           setTimeout(() => {
             this.oilScore.setPosition(
               window.game.scale.width -

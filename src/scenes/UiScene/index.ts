@@ -655,6 +655,8 @@ export class UiScene extends Scene {
 
     this.oilScore.setPosition(window.game.scale.width / 2, window.game.scale.height / 2);
     this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
+    this.checkFont(scaleValue, this.scoreText);
+
     let scoreSize = 25;
     this.time.addEvent({
       delay: 60,
@@ -678,7 +680,7 @@ export class UiScene extends Scene {
         }
       },
       callbackScope: this,
-      repeat: 79,
+      repeat: 69,
     });
   }
 

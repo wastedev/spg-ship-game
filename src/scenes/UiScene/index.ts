@@ -4,7 +4,6 @@ import { TopScene } from '../TopScene';
 import { DockingScene } from '../DockingScene';
 import { SCENE_HEALTH, FIRST_SCENE, SECOND_SCENE } from '../../helpers/index';
 import { IS_MOBILE } from '../../constants/index';
-import { CLIENT_RENEG_LIMIT } from 'tls';
 export class UiScene extends Scene {
   private leftButton!: GameObjects.Image;
   private rightButton!: GameObjects.Image;

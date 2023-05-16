@@ -10,10 +10,47 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
       rel="stylesheet"
     />
+
     <style>
+      @font-face {
+        font-weight: 100;
+        font-family: 'Roboto Thin';
+        src: url('./assets/fonts/Roboto-Thin.ttf');
+      }
+
+      @font-face {
+        font-weight: 300;
+        font-family: 'Roboto Light';
+        src: url('./assets/fonts/Roboto-Light.ttf');
+      }
+
+      @font-face {
+        font-weight: 400;
+        font-family: 'Roboto Regular';
+        src: url('./assets/fonts/Roboto-Regular.ttf');
+      }
+
+      @font-face {
+        font-weight: 500;
+        font-family: 'Roboto Medium';
+        src: url('./assets/fonts/Roboto-Medium.ttf');
+      }
+
+      @font-face {
+        font-weight: 700;
+        font-family: 'Roboto Bold';
+        src: url('./assets/fonts/Roboto-Bold.ttf');
+      }
+
+      @font-face {
+        font-weight: 900;
+        font-family: 'Roboto Black';
+        src: url('./assets/fonts/Roboto-Black.ttf');
+      }
+
       html,
       body {
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Roboto Regular', sans-serif;
         color: white;
         margin: 0;
         padding: 0;
@@ -123,7 +160,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Roboto Regular', sans-serif;
       }
 
       body {
@@ -157,12 +194,12 @@
       }
 
       .banner__text-title {
-        margin: 0 0 1% 0;
+        /* margin: 0 0 1% 0; */
         font-size: 2rem;
-        font-weight: 500;
+        font-weight: 700;
         line-height: 110%;
         color: white;
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Roboto Medium', sans-serif;
         width: 70%;
       }
 
@@ -171,7 +208,7 @@
         font-size: 0.9rem;
         font-weight: 400;
         left: 7%;
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Roboto Regular', sans-serif;
         line-height: 140%;
         margin-top: 3% !important;
       }
@@ -182,7 +219,7 @@
         font-weight: 700;
         font-style: bold;
         left: 7%;
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Roboto Regular', sans-serif;
         line-height: 140%;
         margin-top: 3% !important;
       }
@@ -268,11 +305,35 @@
           max-height: 92%;
           margin: 1% 0 0 auto;
         }
+
+        .banner__text-description {
+          font-size: 0.7rem;
+        }
+
+        .banner__text-rules {
+          font-size: 0.7rem;
+        }
+
+        .banner__text-button {
+          font-size: 0.7rem;
+        }
       }
 
       @media only screen and (max-width: 1366px) {
         .banner {
           padding-top: 6.5vw;
+        }
+
+        .banner__text-description {
+          font-size: 0.7rem;
+        }
+
+        .banner__text-rules {
+          font-size: 0.7rem;
+        }
+
+        .banner__text-button {
+          font-size: 0.7rem;
         }
       }
 
@@ -330,7 +391,15 @@
 
       @media screen and (min-width: 1700px) {
         .banner__text-title {
-          font-size: 3rem;
+          font-size: 2.8rem;
+        }
+
+        .banner__text-description {
+          margin-top: 20px !important;
+        }
+
+        .banner__text-rules {
+          margin-top: 20px !important;
         }
 
         .banner {
@@ -344,10 +413,6 @@
         }
       }
 
-      /* #first {
-        margin-top: 2% !important;
-      } */
-
       #game {
         position: absolute;
         top: 0;
@@ -355,16 +420,6 @@
         bottom: 0;
         left: 0;
       }
-
-      /* @media screen and (min-width: 1800px) {
-        .banner__text {
-          padding-left: 5%;
-        }
-
-        .banner {
-          padding-left: 5%;
-        }
-      } */
     </style>
   </head>
   <body>

@@ -1,12 +1,8 @@
 import { GameObjects, Scene } from 'phaser';
 import { Player } from '../../entities/Player';
 import { Enemy } from '../../entities/Enemy';
-import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED } from '../../constants';
+import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED, IS_MOBILE } from '../../constants';
 import { UiScene } from '../UiScene';
-import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers';
-import { IncomingMessage } from 'http';
-import { getuid } from 'process';
-import { IS_MOBILE } from '../../constants';
 
 export class DockingScene extends Scene {
   public player!: Player;

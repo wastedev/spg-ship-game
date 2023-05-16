@@ -1,7 +1,4 @@
-import { maxHeaderSize } from 'http';
-import { World } from 'matter';
 import { Scene, GameObjects, Types, Sound } from 'phaser';
-import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers';
 import { UiScene } from '../UiScene';
 
 export interface IFingerAnimateTarget {

@@ -70,6 +70,10 @@ export class Player extends Phaser.Physics.Matter.Image {
     this.world.scene.add.existing(this);
   }
 
+  public changePlayerHealthValue(value: number): void {
+    this.health = value;
+  }
+
   public getHealth(): number {
     return this.health;
   }

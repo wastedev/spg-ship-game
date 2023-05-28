@@ -116,7 +116,7 @@ export class SideScene extends Scene {
     this.popUpInfo.setDepth(51);
 
     this.continueButton = this.add
-      .image(this.popUpInfo.x, this.popUpInfo.y + this.popUpInfo.y / 5, 'continueButton')
+      .image(this.popUpInfo.x, this.popUpInfo.y + this.popUpInfo.y / 6.5, 'continueButton')
       .setScrollFactor(0)
       .setInteractive({ cursor: 'pointer' })
       .on('pointerup', () => {

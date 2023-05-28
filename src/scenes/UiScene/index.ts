@@ -44,6 +44,7 @@ export class UiScene extends Scene {
         break;
       case 2:
         this.activeScene = 'docking-scene';
+        this.setHealth(3);
         break;
       case 3:
         this.activeScene = 'side-scene';
@@ -476,7 +477,7 @@ export class UiScene extends Scene {
     this.popupBG.scale = 3;
     this.popupBG.setAlpha(0.7);
     this.oil = 0;
-    this.health = 3;
+    this.health = 2;
 
     this.rightButton = this.add
       .image(
@@ -620,7 +621,7 @@ export class UiScene extends Scene {
     this.getDamageContinue = this.add
       .image(
         this.getDamagePopup.x,
-        this.getDamagePopup.y + this.getDamagePopup.y / 5,
+        this.getDamagePopup.y + this.getDamagePopup.y / 6.5,
         'continueButton',
       )
       .setScrollFactor(0)

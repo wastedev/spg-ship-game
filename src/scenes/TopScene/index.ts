@@ -69,7 +69,7 @@ export class TopScene extends Scene {
     this.continueButton = this.add
       .image(
         this.goalStageMessage.x,
-        this.goalStageMessage.y + this.goalStageMessage.y / 5,
+        this.goalStageMessage.y + this.goalStageMessage.y / 6.5,
         'continueButton',
       )
       .setScrollFactor(0)
@@ -112,7 +112,7 @@ export class TopScene extends Scene {
     this.player.setDepth(49);
 
     SCENE_HEALTH[FIRST_SCENE] = this.player.getHealth();
-    SCENE_HEALTH[SECOND_SCENE] = 5;
+    SCENE_HEALTH[SECOND_SCENE] = 3;
     // CREATE BACKGROUND SPRITE
     this.backgroundIcebergs = this.add.sprite(
       window.game.scale.width / 2,

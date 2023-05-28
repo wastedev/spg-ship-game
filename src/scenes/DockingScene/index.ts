@@ -18,6 +18,8 @@ export class DockingScene extends Scene {
   private goalRect500Text!: Phaser.GameObjects.Text;
   private goalRect80Text!: Phaser.GameObjects.Text;
 
+  private healthChanged: boolean = false;
+
   private goalStageMessage!: Phaser.Physics.Matter.Sprite;
   private continueButton!: GameObjects.Image;
   private closeButton!: GameObjects.Image;
@@ -156,13 +158,13 @@ export class DockingScene extends Scene {
 
   protected checkPlayerState(): void {
     if (!this.goalRect500Pass) {
-      if (this.player.x >= this.goalRect500.x + 60 && this.goalRect500.visible === true) {
+      if (this.player.x >= this.goalRect500.x + 50 && this.goalRect500.visible === true) {
         const ui = this.getUI();
         this.stopPlayer();
         ui.gameLose();
       }
     }
-    if (this.player.x >= this.goalRect80.x + 60 && this.goalRect80.visible === true) {
+    if (this.player.x >= this.goalRect80.x + 50 && this.goalRect80.visible === true) {
       const ui = this.getUI();
       this.stopPlayer();
       ui.gameLose();
@@ -201,7 +203,7 @@ export class DockingScene extends Scene {
       this.continueButton = this.add
         .image(
           this.goalStageMessage.x,
-          this.goalStageMessage.y + this.goalStageMessage.y / 5,
+          this.goalStageMessage.y + this.goalStageMessage.y / 6.5,
           'continueButton',
         )
         .setScrollFactor(0)
@@ -249,7 +251,7 @@ export class DockingScene extends Scene {
       this.continueButton = this.add
         .image(
           this.goalStageMessage.x,
-          this.goalStageMessage.y + this.goalStageMessage.y / 5,
+          this.goalStageMessage.y + this.goalStageMessage.y / 6.5,
           'continueButton',
         )
         .setScrollFactor(0)
@@ -362,6 +364,10 @@ export class DockingScene extends Scene {
   update(time: number, delta: number): void {
     this.player.update();
     const ui = this.getUI();
+    if (!this.healthChanged) {
+      this.player.changePlayerHealthValue(3);
+      this.healthChanged = true;
+    }
     ui.setHealth(this.player.getHealth());
     this.checkPlayerState();
 

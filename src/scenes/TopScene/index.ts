@@ -193,7 +193,7 @@ export class TopScene extends Scene {
       this.icebergs.push(
         new Enemy(
           this.matter.world,
-          (window.game.scale.width / 9) * 1.3 * (i / 1.1),
+          window.game.scale.width / 10 + (window.game.scale.width / 11) * 1.3 * (i / 1.1),
           window.game.scale.height / 4 + Math.floor(Math.random() * (window.game.scale.height / 2)),
           `icebergAnimation-${Math.floor(Math.random() * 3) + 1}`,
         ),

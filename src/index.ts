@@ -25,7 +25,7 @@ window.onload = () => {
       navigator.userAgent,
     );
 
-  const appleDevice = /Mobile|iP(ad|od|hone)|Safari/i.test(navigator.userAgent);
+  const appleDevice = /Mobile|iP(ad|od|hone)|Mac|Safari/i.test(navigator.userAgent);
 
   const touchable = () => {
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0;

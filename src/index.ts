@@ -25,6 +25,8 @@ window.onload = () => {
       navigator.userAgent,
     );
 
+  const appleDevice = /Mobile|iP(ad|od|hone)|Safari/i.test(navigator.userAgent);
+
   const touchable = () => {
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   };
@@ -33,7 +35,7 @@ window.onload = () => {
 
   let DEFAULT_WIDTH, DEFAULT_HEIGHT;
 
-  if (isMobile || (isMobile && touchable())) {
+  if (isMobile || (appleDevice && touchable())) {
     DEFAULT_WIDTH = window.innerWidth * window.devicePixelRatio;
     DEFAULT_HEIGHT = window.innerHeight * window.devicePixelRatio;
   } else {

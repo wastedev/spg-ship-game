@@ -61,28 +61,28 @@ export class SideScene extends Scene {
     this.rocketCreated = true;
   }
 
-  isSafari(): any {
-    const agent = navigator.userAgent;
+  // isSafari(): any {
+  //   const agent = navigator.userAgent;
 
-    let endstr = ' ';
+  //   let endstr = ' ';
 
-    if (this.appleExpression.test(agent)) {
-      endstr += 'this is apple';
-    }
-    if (this.safariExpression.test(agent)) {
-      endstr += '\n this is safari';
-    }
-    if (this.platformExpression.test(agent)) {
-      endstr += ' \n this is ipad';
-    }
+  //   if (this.appleExpression.test(agent)) {
+  //     endstr += 'this is apple';
+  //   }
+  //   if (this.safariExpression.test(agent)) {
+  //     endstr += '\n this is safari';
+  //   }
+  //   if (this.platformExpression.test(agent)) {
+  //     endstr += ' \n this is ipad';
+  //   }
 
-    const ipad = navigator.platform.match(this.platformExpression);
-    alert(agent);
+  //   const ipad = navigator.platform.match(this.platformExpression);
+  //   alert(agent);
 
-    alert(ipad);
+  //   alert(ipad);
 
-    return alert(endstr);
-  }
+  //   return alert(endstr);
+  // }
 
   initRocketVector(): void {
     this.rocketVector = this.add.image(this.rocket.x + 100, this.rocket.y, 'rocketVector');
@@ -126,7 +126,7 @@ export class SideScene extends Scene {
 
   constructor() {
     super('side-scene');
-    this.isSafari();
+    // this.isSafari();
   }
 
   getLinePoints(line: any): Phaser.Math.Vector2[] {

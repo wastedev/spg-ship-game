@@ -25,11 +25,15 @@ window.onload = () => {
       navigator.userAgent,
     );
 
+  const touchable = () => {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  };
+
   alert(navigator.userAgent);
 
   let DEFAULT_WIDTH, DEFAULT_HEIGHT;
 
-  if (isMobile) {
+  if (isMobile || (isMobile && touchable())) {
     DEFAULT_WIDTH = window.innerWidth * window.devicePixelRatio;
     DEFAULT_HEIGHT = window.innerHeight * window.devicePixelRatio;
   } else {

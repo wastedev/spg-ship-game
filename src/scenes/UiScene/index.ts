@@ -31,6 +31,9 @@ export class UiScene extends Scene {
   private pauseGame!: GameObjects.Image;
   private continueGame!: GameObjects.Image;
 
+  private testLeft!: GameObjects.Image;
+  private testRight!: GameObjects.Image;
+
   private activeScene: string = 'top-scene';
 
   constructor() {
@@ -54,7 +57,7 @@ export class UiScene extends Scene {
 
   public checkInfoBarScale(): number {
     const width = window.game.scale.width;
-    let scaleValue = 0;
+    let scaleValue = 1;
 
     if (!IS_MOBILE) {
       if (width <= 1920 && width >= 1600) {
@@ -93,6 +96,7 @@ export class UiScene extends Scene {
     } else {
       marginTop = 8.9;
     }
+    console.log({ scaleValue, marginTop });
 
     return marginTop;
   }
@@ -230,7 +234,7 @@ export class UiScene extends Scene {
 
   private checkScaleValue(): number {
     const width = window.game.scale.width;
-    let scaleValue = 0;
+    let scaleValue = 1;
 
     if (!IS_MOBILE) {
       if (width <= 1920 && width >= 1600) {
@@ -443,7 +447,7 @@ export class UiScene extends Scene {
 
   private checkMoveButtonScale(): number {
     const width = window.game.scale.width;
-    let scaleValue = 0;
+    let scaleValue = 1;
 
     if (!IS_MOBILE) {
       if (width <= 1920 && width >= 1600) {
@@ -466,18 +470,23 @@ export class UiScene extends Scene {
   }
 
   create(): void {
+    alert(IS_MOBILE);
     let scaleValue = this.checkMoveButtonScale();
 
-    this.popupBG = this.add.image(
-      window.game.scale.width / 2,
-      window.game.scale.height / 2,
-      'popupBg',
-    );
-    this.popupBG.visible = false;
-    this.popupBG.scale = 3;
-    this.popupBG.setAlpha(0.7);
-    this.oil = 0;
-    this.health = 2;
+    // this.testLeft = this.add.image(
+    //   window.game.scale.width / 2 + window.game.scale.width / 4,
+    //   window.game.scale.height / 2 + window.game.scale.height / 3,
+    //   'leftButtonMove',
+    // );
+    // // this.testLeft.visible = false;
+
+    // this.testRight = this.add.image(
+    //   window.game.scale.width / 2 - window.game.scale.width / 4,
+    //   window.game.scale.height / 2 + window.game.scale.height / 3,
+    //   'rightButtonMove',
+    // );
+
+    // this.testRight.visible = false;
 
     this.rightButton = this.add
       .image(
@@ -524,7 +533,23 @@ export class UiScene extends Scene {
 
     this.leftButton.scale = scaleValue;
 
+    this.popupBG = this.add.image(
+      window.game.scale.width / 2,
+      window.game.scale.height / 2,
+      'popupBg',
+    );
+    this.popupBG.visible = false;
+    this.popupBG.scale = 3;
+    this.popupBG.setAlpha(0.7);
+    this.oil = 0;
+    this.health = 2;
+
     this.initStatBar();
+
+    ///test
+    // alert(window.game.scale.width + '\t|||||||||' + window.game.scale.height);
+    // alert(this.leftButton.x + '\t|||||||' + this.leftButton.y + ' \t - левая кнопка');
+    // alert(this.rightButton.x + '\t||||||' + this.rightButton.y + ' \t - правая кнопка');
   }
 
   public hideButtons(): void {

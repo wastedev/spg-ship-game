@@ -2,7 +2,7 @@
 import { Game, NONE, Scene, Types } from 'phaser';
 import * as Porthole from 'porthole-proxy';
 import { CLIENT_RENEG_LIMIT } from 'tls';
-import { PreloadScene, TopScene, UiScene, SideScene, DockingScene, BannerScene } from './scenes';
+import { PreloadScene, TopScene, UiScene, SideScene, DockingScene } from './scenes';
 
 window.onload = () => {
   const banner = document.getElementById('gameBanner') as HTMLElement;
@@ -21,7 +21,7 @@ window.onload = () => {
   }
 
   const isMobile =
-    /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(
+    /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)|Mac/i.test(
       navigator.userAgent,
     );
 
@@ -29,7 +29,11 @@ window.onload = () => {
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   };
 
-  alert(navigator.userAgent);
+  // alert(navigator.userAgent);
+  // alert('isMobile');
+
+  // alert(isMobile);
+  // alert(touchable());
 
   let DEFAULT_WIDTH, DEFAULT_HEIGHT;
 
@@ -64,7 +68,7 @@ window.onload = () => {
     physics: {
       default: 'matter',
       matter: {
-        // debug: true,
+        debug: true,
         setBounds: true,
         gravity: { y: 0 },
       },

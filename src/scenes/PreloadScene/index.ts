@@ -27,9 +27,7 @@ export class PreloadScene extends Scene {
     this.load.image('background-docking', 'img/backgrounds/background-docking.png');
     this.load.image('banner-image', 'img/backgrounds/banner-background.png');
     this.load.image('banner-image-mobile', 'img/backgrounds/banner-background-mobile.png');
-    this.load.image('banner-text', 'img/backgrounds/background-text.svg');
     this.load.image('banner-text-mobile', 'img/backgrounds/background-text-mobile.svg');
-    this.load.image('banner-landscape', 'img/backgrounds/banner-background-landscape.png');
     this.load.image('banner-gradient-mobile', 'img/backgrounds/bg_mobile_gradient.svg');
     this.load.image('mobile-pic', 'img/backgrounds/bg_mobile_image.svg');
     this.load.image('mobile-pic1', 'img/backgrounds/bg_mobile_image1.png');
@@ -54,7 +52,6 @@ export class PreloadScene extends Scene {
     this.load.image('rightButtonMove', 'img/entities/ui/rightButtonMove.svg');
     this.load.image('oilScore', 'img/entities/images/oilScore.svg');
     this.load.image('healthScore', 'img/entities/images/healthScore.svg');
-    this.load.image('oilLoad', 'img/entities/ui/oilLoad.png');
     this.load.image('bannerStartBtn', 'img/entities/ui/startBannerButton.svg');
     this.load.image('bannerStartBtnMobile', 'img/entities/ui/startBannerButtonMobile.svg');
     this.load.image('continueGame', 'img/entities/ui/continueGame.svg');

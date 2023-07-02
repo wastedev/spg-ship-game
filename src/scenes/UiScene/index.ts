@@ -96,7 +96,7 @@ export class UiScene extends Scene {
     } else {
       marginTop = 8.9;
     }
-
+    alert(navigator.userAgent);
     alert(scaleValue);
     alert(marginTop);
 

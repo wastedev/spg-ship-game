@@ -96,7 +96,9 @@ export class UiScene extends Scene {
     } else {
       marginTop = 8.9;
     }
-    console.log({ scaleValue, marginTop });
+
+    alert(scaleValue);
+    alert(marginTop);
 
     return marginTop;
   }

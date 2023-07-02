@@ -31,9 +31,6 @@ export class UiScene extends Scene {
   private pauseGame!: GameObjects.Image;
   private continueGame!: GameObjects.Image;
 
-  private testLeft!: GameObjects.Image;
-  private testRight!: GameObjects.Image;
-
   private activeScene: string = 'top-scene';
 
   constructor() {
@@ -60,6 +57,14 @@ export class UiScene extends Scene {
     let scaleValue = 1;
 
     if (!IS_MOBILE) {
+      // if (width <= 2560 && width >= 2048) {
+      //   console.log(`works 1 2560 ${scaleValue}`);
+      //   scaleValue = 1.15;
+      // }
+      // if (width <= 2048 && width >= 1920) {
+      //   console.log(`works 2 2048 ${scaleValue}`);
+      //   scaleValue = 1.1;
+      // }
       if (width <= 1920 && width >= 1600) {
         scaleValue = 1.07;
       }
@@ -73,13 +78,13 @@ export class UiScene extends Scene {
         scaleValue = 0.68;
       }
     } else {
-      scaleValue = 1;
+      scaleValue = 1.2;
     }
     return scaleValue;
   }
 
   public checkMarginTopStats(scaleValue: number): number {
-    let marginTop = 0;
+    let marginTop = 8.9;
     if (!IS_MOBILE) {
       if (scaleValue === 1.07) {
         marginTop = 8.6;
@@ -96,15 +101,12 @@ export class UiScene extends Scene {
     } else {
       marginTop = 8.9;
     }
-    alert(navigator.userAgent);
-    alert(scaleValue);
-    alert(marginTop);
 
     return marginTop;
   }
 
   public checkMarginRight(scaleValue: number): number {
-    let marginRight = 0;
+    let marginRight = 0.065;
     if (!IS_MOBILE) {
       if (scaleValue === 1.07) {
         marginRight = 0.065;
@@ -126,7 +128,7 @@ export class UiScene extends Scene {
   }
 
   public checkFont(scaleValue: number, fontSize: GameObjects.Text): void {
-    let size = 0;
+    let size = 25;
     if (!IS_MOBILE) {
       if (scaleValue === 1.07) {
         size = 25;
@@ -154,7 +156,7 @@ export class UiScene extends Scene {
   }
 
   public checkInfoSpaceBetween(scaleValue: number): number {
-    let spaceBetween = 0;
+    let spaceBetween = 1.15;
     if (!IS_MOBILE) {
       if (scaleValue === 1.07) {
         spaceBetween = 1.1;
@@ -199,6 +201,7 @@ export class UiScene extends Scene {
       window.game.scale.width - window.game.scale.width * marginRight - this.oilScore.width / 2,
       window.game.scale.height / marginTop,
     );
+
     //settext
     this.scoreText.setPosition(this.oilScore.x + 10, this.oilScore.y);
 
@@ -259,7 +262,7 @@ export class UiScene extends Scene {
   }
 
   private checkLeftMargin(scaleValue: number): number {
-    let marginLeft = 0;
+    let marginLeft = 0.1;
 
     if (!IS_MOBILE) {
       if (scaleValue === 0.9) {
@@ -283,7 +286,7 @@ export class UiScene extends Scene {
   }
 
   private checkMarginTop(scaleValue: number): number {
-    let marginTop = 0;
+    let marginTop = 8.9;
     if (!IS_MOBILE) {
       if (scaleValue === 0.9) {
         marginTop = 8.8;
@@ -304,7 +307,7 @@ export class UiScene extends Scene {
   }
 
   private checkSpaceBetween(scaleValue: number): number {
-    let spaceBetween = 0;
+    let spaceBetween = 1.25;
 
     if (!IS_MOBILE) {
       if (scaleValue === 0.9) {
@@ -472,23 +475,7 @@ export class UiScene extends Scene {
   }
 
   create(): void {
-    alert(IS_MOBILE);
     let scaleValue = this.checkMoveButtonScale();
-
-    // this.testLeft = this.add.image(
-    //   window.game.scale.width / 2 + window.game.scale.width / 4,
-    //   window.game.scale.height / 2 + window.game.scale.height / 3,
-    //   'leftButtonMove',
-    // );
-    // // this.testLeft.visible = false;
-
-    // this.testRight = this.add.image(
-    //   window.game.scale.width / 2 - window.game.scale.width / 4,
-    //   window.game.scale.height / 2 + window.game.scale.height / 3,
-    //   'rightButtonMove',
-    // );
-
-    // this.testRight.visible = false;
 
     this.rightButton = this.add
       .image(
@@ -547,11 +534,22 @@ export class UiScene extends Scene {
     this.health = 2;
 
     this.initStatBar();
+    this.positionCorrect();
+  }
 
-    ///test
-    // alert(window.game.scale.width + '\t|||||||||' + window.game.scale.height);
-    // alert(this.leftButton.x + '\t|||||||' + this.leftButton.y + ' \t - левая кнопка');
-    // alert(this.rightButton.x + '\t||||||' + this.rightButton.y + ' \t - правая кнопка');
+  public positionCorrect(): void {
+    let leftSideBetween = this.pauseGame.x - this.soundOffBtn.x;
+
+    if (leftSideBetween < 65) {
+      this.pauseGame.x += this.pauseGame.width / 3;
+      this.continueGame.x += this.continueGame.width / 3;
+    }
+    let rightSideBetween = this.oilScore.x - this.healthScore.x;
+
+    if (rightSideBetween < 130) {
+      this.healthScore.x -= this.healthScore.width / 3;
+      this.healthText.x = this.healthScore.x + 10;
+    }
   }
 
   public hideButtons(): void {

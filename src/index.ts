@@ -29,12 +29,6 @@ window.onload = () => {
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   };
 
-  // alert(navigator.userAgent);
-  // alert('isMobile');
-
-  // alert(isMobile);
-  // alert(touchable());
-
   let DEFAULT_WIDTH, DEFAULT_HEIGHT;
 
   if (isMobile && touchable()) {

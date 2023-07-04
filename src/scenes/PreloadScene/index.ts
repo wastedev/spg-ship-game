@@ -112,11 +112,9 @@ export class PreloadScene extends Scene {
     }
     this.scene.start('top-scene');
     this.scene.start('ui-scene');
+
+    setTimeout(() => {
+      this.scene.start('side-scene');
+    }, 300);
   }
 }
-
-// if (window.game.scene.getScene('banner-scene') !== null) {
-//   this.scene.start('banner-scene');
-// } else {
-
-// }

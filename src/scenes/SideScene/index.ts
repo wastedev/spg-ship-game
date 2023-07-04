@@ -52,9 +52,11 @@ export class SideScene extends Scene {
   private animationStart: boolean = false;
   private rocketVector!: GameObjects.Image;
 
-  private appleExpression: any = /Apple/i;
-  private safariExpression: any = /Safari/i;
-  private platformExpression: any = /iPad/i;
+  private graphics!: GameObjects.Graphics;
+  private trajectoryMath: any[] = [];
+  private rocketXVec: number = 0;
+  private rocketYVec: number = 0;
+  private curve!: Phaser.Curves.CubicBezier;
 
   //functions for rocket shooting
   createRocket() {
@@ -263,10 +265,14 @@ export class SideScene extends Scene {
     this.rocket.angle = this.rocketZone.angle;
     this.rocketX = this.oldRocketX = this.rocket.x;
     this.rocketY = this.oldRocketY = this.rocket.y;
+    this.rocketXVec = this.rocketX;
+    this.rocketYVec = this.rocketY;
 
     this.loadFingerAnimation();
     //
     this.initRocketVector();
+    //
+    this.graphics = this.add.graphics();
   }
 
   rocketEventSettings(): void {
@@ -335,6 +341,35 @@ export class SideScene extends Scene {
             (180 / Math.PI) -
           180;
         this.rocketZone.angle = this.rocket.angle = this.angle;
+
+        this.rocketXVec = -(this.input.activePointer.x - this.rocketZone.x) / 6;
+        this.rocketYVec = -(this.input.activePointer.y - this.rocketZone.y) / 6;
+
+        for (let i = 0; i <= 64; i++) {
+          if (i === 0) {
+            this.trajectoryMath[i] = new Phaser.Math.Vector2(this.rocket.x, this.rocket.y);
+          } else {
+            // this.rocketYVec += this.g;
+            this.trajectoryMath[i] = new Phaser.Math.Vector2(
+              this.rocketX + this.rocketXVec * i,
+              this.rocketY + this.rocketYVec * i + this.g,
+            );
+          }
+        }
+
+        console.log(this.g);
+
+        this.curve = new Phaser.Curves.CubicBezier(
+          this.trajectoryMath[0],
+          this.trajectoryMath[24],
+          this.trajectoryMath[48],
+          this.trajectoryMath[63],
+        );
+
+        this.graphics.lineStyle(3, 0xff00000, 0.7);
+
+        this.curve.draw(this.graphics, 10);
+        console.log(this.trajectoryMath);
       }
     } else {
       this.rocket.setAlpha(1);
@@ -342,6 +377,7 @@ export class SideScene extends Scene {
       this.rocketX += this.velX;
       this.rocketY += this.velY;
       this.velY += this.g;
+
       this.newRocket.x = this.rocketX;
       this.newRocket.y = this.rocketY;
       this.rocketAngle =

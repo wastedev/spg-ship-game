@@ -57,14 +57,6 @@ export class UiScene extends Scene {
     let scaleValue = 1;
 
     if (!IS_MOBILE) {
-      // if (width <= 2560 && width >= 2048) {
-      //   console.log(`works 1 2560 ${scaleValue}`);
-      //   scaleValue = 1.15;
-      // }
-      // if (width <= 2048 && width >= 1920) {
-      //   console.log(`works 2 2048 ${scaleValue}`);
-      //   scaleValue = 1.1;
-      // }
       if (width <= 1920 && width >= 1600) {
         scaleValue = 1.07;
       }

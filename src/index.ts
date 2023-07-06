@@ -62,7 +62,7 @@ window.onload = () => {
     physics: {
       default: 'matter',
       matter: {
-        debug: true,
+        // debug: true,
         setBounds: true,
         gravity: { y: 0 },
       },
@@ -72,12 +72,6 @@ window.onload = () => {
     loader: { async: true },
     scene: scenes,
   };
-
-  // window.sizeChanged = debouncedResize;
-  // window.onresize = () => window.sizeChanged();
-
-  // TEMP GAME INIT BEFORE porthole-proxy implementation
-  // window.game = new Game(gameConfig);
 
   const windowProxy = new Porthole.WindowProxy(
     'https://ferretvideo.com/projects/north/proxy/proxyGame3.html',
@@ -93,34 +87,3 @@ window.onload = () => {
 
   window.windowProxy = windowProxy;
 };
-
-// const scenes: Scene[] = window.game.scene.getScenes();
-// scenes.forEach((scene) => {
-//   scene.scene.stop();
-// });
-// window.game.scene.getScene('ui-scene').scene.remove();
-// setTimeout(() => {
-//   window.game.scene.getScene('ui-scene').scene.restart();
-// }, 1000);
-// gameConfig.scene = [PreloadScene, TopScene, DockingScene, SideScene, UiScene];
-// location.reload();
-// scenes.forEach((scene) => {
-//   scene.scene.stop();
-//   scene.scene.remove();
-// });
-// window.game.scene.getScene('top-scene').scene.restart();
-// window.game.scene.getScene('ui-scene').scene.restart();
-// scenes.forEach((scene: Scene) => {
-//   scene.registry.destroy();
-//   scene.events.destroy();
-//   scene.scene.stop();
-// });
-// console.log(window.game.scene.isActive('top-scene'));
-// if (!window.game.isRunning) {
-//   console.log('dont run bitch');
-// }
-// window.game.destroy(true);
-// window.game = null;
-// if (!window.game) {
-//   window.game = new Game(gameConfig);
-// }

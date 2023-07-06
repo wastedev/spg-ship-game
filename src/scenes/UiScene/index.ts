@@ -538,17 +538,19 @@ export class UiScene extends Scene {
   }
 
   public positionCorrect(): void {
-    let leftSideBetween = this.pauseGame.x - this.soundOffBtn.x;
+    if (window.game.scale.width > 1920) {
+      let leftSideBetween = this.pauseGame.x - this.soundOffBtn.x;
 
-    if (leftSideBetween < 65) {
-      this.pauseGame.x += this.pauseGame.width / 3;
-      this.continueGame.x += this.continueGame.width / 3;
-    }
-    let rightSideBetween = this.oilScore.x - this.healthScore.x;
+      if (leftSideBetween < 65) {
+        this.pauseGame.x += this.pauseGame.width / 3;
+        this.continueGame.x += this.continueGame.width / 3;
+      }
+      let rightSideBetween = this.oilScore.x - this.healthScore.x;
 
-    if (rightSideBetween < 130) {
-      this.healthScore.x -= this.healthScore.width / 3;
-      this.healthText.x = this.healthScore.x + 10;
+      if (rightSideBetween < 130) {
+        this.healthScore.x -= this.healthScore.width / 3;
+        this.healthText.x = this.healthScore.x + 10;
+      }
     }
   }
 

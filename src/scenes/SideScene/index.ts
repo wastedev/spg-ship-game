@@ -53,7 +53,7 @@ export class SideScene extends Scene {
   private rocketVector!: GameObjects.Image;
 
   private graphics!: GameObjects.Graphics;
-  private trajectoryMath: any[] = [];
+  private trajectoryMath: Phaser.Math.Vector2[] = [];
   private rocketXVec: number = 0;
   private rocketYVec: number = 0;
   private curve!: Phaser.Curves.CubicBezier;
@@ -272,7 +272,6 @@ export class SideScene extends Scene {
     //
     this.initRocketVector();
     //
-    this.graphics = this.add.graphics();
   }
 
   rocketEventSettings(): void {
@@ -342,34 +341,42 @@ export class SideScene extends Scene {
           180;
         this.rocketZone.angle = this.rocket.angle = this.angle;
 
+        let oldValues = [this.rocketXVec, this.rocketYVec];
+
         this.rocketXVec = -(this.input.activePointer.x - this.rocketZone.x) / 6;
         this.rocketYVec = -(this.input.activePointer.y - this.rocketZone.y) / 6;
 
-        for (let i = 0; i <= 64; i++) {
-          if (i === 0) {
-            this.trajectoryMath[i] = new Phaser.Math.Vector2(this.rocket.x, this.rocket.y);
-          } else {
-            // this.rocketYVec += this.g;
-            this.trajectoryMath[i] = new Phaser.Math.Vector2(
-              this.rocketX + this.rocketXVec * i,
-              this.rocketY + this.rocketYVec * i + this.g,
-            );
+        if (oldValues[0] != this.rocketXVec || oldValues[1] != this.rocketYVec) {
+          for (let i = 0; i <= 32; i++) {
+            if (i === 0) {
+              this.trajectoryMath[i] = new Phaser.Math.Vector2(this.rocket.x, this.rocket.y);
+            } else {
+              this.trajectoryMath[i] = new Phaser.Math.Vector2(
+                this.rocketX + this.rocketXVec * i,
+                this.rocketY + this.rocketYVec * i,
+              );
+            }
           }
+          if (this.graphics != null || this.graphics != undefined) {
+            this.graphics.destroy();
+          }
+          this.graphics = this.add.graphics();
+          this.graphics.lineStyle(4, 0xff00000, 0.7);
+
+          let p0 = new Phaser.Math.Vector2(this.trajectoryMath[4].x, this.trajectoryMath[4].y);
+          let p2 = new Phaser.Math.Vector2(
+            this.trajectoryMath[20].x,
+            this.trajectoryMath[20].y + 30,
+          );
+
+          let p3 = new Phaser.Math.Vector2(
+            this.trajectoryMath[30].x,
+            this.trajectoryMath[30].y + 110,
+          );
+
+          this.curve = new Phaser.Curves.CubicBezier(p0, this.trajectoryMath[14], p2, p3);
+          this.curve.draw(this.graphics, 20);
         }
-
-        console.log(this.g);
-
-        this.curve = new Phaser.Curves.CubicBezier(
-          this.trajectoryMath[0],
-          this.trajectoryMath[24],
-          this.trajectoryMath[48],
-          this.trajectoryMath[63],
-        );
-
-        this.graphics.lineStyle(3, 0xff00000, 0.7);
-
-        this.curve.draw(this.graphics, 10);
-        console.log(this.trajectoryMath);
       }
     } else {
       this.rocket.setAlpha(1);

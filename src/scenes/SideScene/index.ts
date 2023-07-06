@@ -69,6 +69,12 @@ export class SideScene extends Scene {
     this.rocketVector.setDisplaySize(vectorLength - 150, window.game.scale.height / 5);
     this.rocketVector.setOrigin(0, 0.5);
     this.rocketVector.setAlpha(0.8);
+
+    if (window.game.scale.width >= 3000) {
+      this.rocketVector.angle -= 5;
+    } else if (window.game.scale.width >= 2500 && window.game.scale.width <= 3000) {
+      this.rocketVector.angle -= 5;
+    }
   }
 
   rocketShot(): void {
@@ -146,6 +152,10 @@ export class SideScene extends Scene {
         this.continueButton.setTexture('continueButton');
       });
     this.continueButton.setDepth(51);
+
+    if (window.game.scale.width >= 3000) {
+      this.continueButton.setPosition(this.continueButton.x, this.continueButton.y - 80);
+    }
 
     this.closeButton = this.add
       .image(this.game.scale.width / 2 + 380, this.game.scale.height / 2 - 170, 'crossButton')
@@ -240,6 +250,13 @@ export class SideScene extends Scene {
     );
     this.oilStationSide.scale = 1;
     this.oilStationSide.setDepth(-1);
+    if (window.game.scale.width >= 3000) {
+      this.oilStationSide.scale = 1.5;
+      this.playerSide.scale = 1.5;
+      this.playerSide.setPosition(this.playerSide.x, this.playerSide.y + 100);
+      this.rocketTargetZone.scale = 0.85;
+      this.rocketTargetZone.setPosition(this.playerSide.x - 520, this.playerSide.y + 40);
+    }
 
     this.rocketBackgroundZone = this.add.image(
       this.oilStationSide.x + this.oilStationSide.x / 10,

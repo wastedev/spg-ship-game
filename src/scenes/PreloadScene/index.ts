@@ -113,8 +113,8 @@ export class PreloadScene extends Scene {
     this.scene.start('top-scene');
     this.scene.start('ui-scene');
 
-    // setTimeout(() => {
-    //   this.scene.start('side-scene');
-    // }, 300);
+    setTimeout(() => {
+      this.scene.start('side-scene');
+    }, 300);
   }
 }

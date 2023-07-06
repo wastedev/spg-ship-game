@@ -70,6 +70,9 @@ export class DockingScene extends Scene {
     this.goalRect80.setDisplaySize(250, 50);
     this.goalRect80.setStatic(true);
     this.goalRect80.setSensor(true);
+    if (window.game.scale.width >= 3000) {
+      this.goalRect80.setPosition(this.goalRect80.x - 150, this.goalRect80.y);
+    }
 
     this.goalRect80Text = this.add.text(this.goalRect80.x, this.goalRect80.y, '80', {
       fontSize: '25px',
@@ -225,6 +228,11 @@ export class DockingScene extends Scene {
           this.continueButton.setTexture('continueButton');
         });
       this.continueButton.setDepth(51);
+
+      if (window.game.scale.width >= 3000) {
+        this.continueButton.setPosition(this.continueButton.x, this.continueButton.y - 80);
+      }
+
       this.closeButton = this.add
         .image(this.goalStageMessage.x + 380, this.goalStageMessage.y - 170, 'crossButton')
         .setInteractive({ cursor: 'pointer' })
@@ -273,6 +281,10 @@ export class DockingScene extends Scene {
           this.continueButton.setTexture('continueButton');
         });
       this.continueButton.setDepth(51);
+
+      if (window.game.scale.width >= 3000) {
+        this.continueButton.setPosition(this.continueButton.x, this.continueButton.y - 80);
+      }
       this.closeButton = this.add
         .image(this.goalStageMessage.x + 380, this.goalStageMessage.y - 170, 'crossButton')
         .setInteractive({ cursor: 'pointer' })

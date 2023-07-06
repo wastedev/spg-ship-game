@@ -85,6 +85,9 @@ export class TopScene extends Scene {
         this.continueButton.setTexture('continueButtonHover');
       });
     this.continueButton.setDepth(51);
+    if (window.game.scale.width >= 3000) {
+      this.continueButton.setPosition(this.continueButton.x, this.continueButton.y - 80);
+    }
     this.closeButton = this.add
       .image(this.goalStageMessage.x + 380, this.goalStageMessage.y - 170, 'crossButton')
       .setInteractive({ cursor: 'pointer' })

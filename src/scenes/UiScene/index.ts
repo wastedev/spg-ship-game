@@ -588,6 +588,11 @@ export class UiScene extends Scene {
         this.endGamePopupBtn.setTexture('endBtn');
       });
     this.endGamePopupBtn.setDepth(51);
+    if (window.game.scale.width >= 3000) {
+      this.endGamePopupBtn.setPosition(this.endGamePopup.x, this.endGamePopup.y - 70);
+    } else if (window.game.scale.width >= 2500 && window.game.scale.width <= 3000) {
+      this.endGamePopupBtn.setPosition(this.endGamePopup.x, this.endGamePopup.y - 30);
+    }
   }
 
   protected getTop(): TopScene {
@@ -664,6 +669,10 @@ export class UiScene extends Scene {
         this.getDamageContinue.setTexture('continueButton');
       });
     this.getDamageContinue.setDepth(51);
+
+    if (window.game.scale.width >= 3000) {
+      this.getDamageContinue.setPosition(this.getDamageContinue.x, this.getDamageContinue.y - 80);
+    }
     this.getDamageClose = this.add
       .image(this.getDamagePopup.x + 380, this.getDamagePopup.y - 170, 'crossButton')
       .setScrollFactor(0)

@@ -1,9 +1,10 @@
-import { GAME_SPEEDS, MOVEMENT_SPEED, ROTATION_SPEED } from '../../constants';
+import { GAME_SPEEDS, IS_MOBILE, MOVEMENT_SPEED, ROTATION_SPEED } from '../../constants';
 import { Scene, GameObjects } from 'phaser';
 import { Enemy, Player } from '../../entities';
 import { UiScene } from '..';
 import { timingSafeEqual } from 'crypto';
 import { FIRST_SCENE, SCENE_HEALTH, SECOND_SCENE } from '../../helpers/index';
+import { countReset } from 'console';
 
 export class TopScene extends Scene {
   public player!: Player;
@@ -150,39 +151,6 @@ export class TopScene extends Scene {
     this.goalText.setOrigin(0.5);
     this.goalText.setDepth(0);
 
-    // this.goalZone.setOnCollide((obj: Phaser.Types.Physics.Matter.MatterCollisionData) => {
-    //   if (obj.bodyA.gameObject?.texture.key === 'player-top') {
-    //     if (!this.playerInside) {
-    //       this.playerInside = true;
-    //       this.time.addEvent({
-    //         delay: 1000,
-    //         callback: () => {
-    //           GAME_SPEEDS[MOVEMENT_SPEED] -= 0.15;
-    //           GAME_SPEEDS[ROTATION_SPEED] -= 0.05;
-    //         },
-    //         callbackScope: this,
-    //         repeat: 4,
-    //       });
-    //       setTimeout(() => {
-    //         GAME_SPEEDS[MOVEMENT_SPEED] = 0;
-    //         GAME_SPEEDS[ROTATION_SPEED] = 0;
-    //         this.goalZone.visible = false;
-    //       }, 6000);
-    //       setTimeout(() => {
-    //         this.goalZone.visible = true;
-    //       }, 7000);
-    //       setTimeout(() => {
-    //         this.goalZone.visible = false;
-    //       }, 8000);
-    //       setTimeout(() => {
-    //         this.goalZone.visible = true;
-    //       }, 9000);
-    //       setTimeout(() => {
-    //         this.loadTargetPopup();
-    //       }, 10000);
-    //     }
-    //   }
-    // });
     this.initEnemies();
   }
 
@@ -192,11 +160,30 @@ export class TopScene extends Scene {
   }
 
   initEnemies(): void {
-    for (let i = 1; i <= 6; i++) {
+    let count: number = 0;
+    let _width1: number = 0;
+    let _width2: number = 0;
+    let multipleVal: number = 0;
+    let iDivider: number = 0;
+    if (IS_MOBILE) {
+      count = 4;
+      _width1 = 15;
+      _width2 = 11;
+      multipleVal = 2;
+      iDivider = 1.1;
+    } else {
+      count = 6;
+      _width1 = 10;
+      _width2 = 11;
+      multipleVal = 1.3;
+      iDivider = 1.1;
+    }
+    for (let i = 1; i <= count; i++) {
       this.icebergs.push(
         new Enemy(
           this.matter.world,
-          window.game.scale.width / 10 + (window.game.scale.width / 11) * 1.3 * (i / 1.1),
+          window.game.scale.width / _width1 +
+            (window.game.scale.width / _width2) * multipleVal * (i / iDivider),
           window.game.scale.height / 4 + Math.floor(Math.random() * (window.game.scale.height / 2)),
           `icebergAnimation-${Math.floor(Math.random() * 3) + 1}`,
         ),

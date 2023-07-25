@@ -62,7 +62,7 @@ window.onload = () => {
     physics: {
       default: 'matter',
       matter: {
-        // debug: true,
+        debug: true,
         setBounds: true,
         gravity: { y: 0 },
       },

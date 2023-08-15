@@ -105,10 +105,11 @@ export class DockingScene extends Scene {
     if (!IS_MOBILE) {
       let width = window.innerWidth;
       let height = window.innerHeight;
-      this.background.setDisplaySize(width, height);
     } else {
-      let width = window.innerWidth * window.devicePixelRatio;
-      let height = window.innerHeight * window.devicePixelRatio;
+      // let width = window.innerWidth * window.devicePixelRatio;
+      // let height = window.innerHeight * window.devicePixelRatio;
+      let width = window.game.scale.width;
+      let height = window.game.scale.height;
       this.background.setDisplaySize(width, height);
     }
 
